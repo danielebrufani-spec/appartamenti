@@ -17,20 +17,20 @@ export const IMAGES = {
 
 export const APARTMENTS = [
   {
-    id: "dimora-subasio",
-    key: "subasio",
+    id: "appartamento-brufani",
+    key: "brufani",
     price: 135,
     guests: 4,
-    size: 75,
+    size: 65,
     main: IMAGES.subasioMain,
     gallery: [IMAGES.subasioMain, IMAGES.subasioLiving, IMAGES.subasioBedroom],
   },
   {
-    id: "dimora-minerva",
-    key: "minerva",
+    id: "appartamento-brufani-due",
+    key: "brufanidue",
     price: 115,
-    guests: 3,
-    size: 60,
+    guests: 2,
+    size: 40,
     main: IMAGES.minervaMain,
     gallery: [IMAGES.minervaMain, IMAGES.minervaLiving, IMAGES.minervaBedroom],
   },

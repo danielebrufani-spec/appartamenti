@@ -35,8 +35,8 @@ EMAIL_FROM_NAME = os.environ.get("EMAIL_FROM_NAME", "Residenza Assisi")
 OWNER_EMAIL = os.environ.get("OWNER_EMAIL")
 
 APARTMENTS = {
-    "dimora-subasio": {"name": "Dimora Subasio", "price": 135},
-    "dimora-minerva": {"name": "Dimora Minerva", "price": 115},
+    "appartamento-brufani": {"name": "Appartamento Brufani", "price": 135},
+    "appartamento-brufani-due": {"name": "Appartamento Brufani Due", "price": 115},
 }
 
 # ---------- Email guardrail gate (G2/G3) ----------

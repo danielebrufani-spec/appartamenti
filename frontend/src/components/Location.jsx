@@ -42,7 +42,7 @@ export default function Location() {
 
           <a
             data-testid="google-maps-link"
-            href="https://www.google.com/maps/search/?api=1&query=Via+San+Francesco+Assisi"
+            href="https://www.google.com/maps/search/?api=1&query=Via+Risorgimento+29+Santa+Maria+degli+Angeli+Assisi"
             target="_blank"
             rel="noopener noreferrer"
             className="mt-8 inline-flex items-center gap-2 rounded-full border border-cream/30 hover:bg-cream/10 text-cream font-semibold px-6 py-3 text-sm transition-colors duration-200"

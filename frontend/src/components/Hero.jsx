@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ShieldCheck, ArrowDown } from "lucide-react";
 import { useLanguage } from "@/i18n";
-import { IMAGES } from "@/data";
+import { IMAGES, APARTMENTS } from "@/data";
 
 const EASE = [0.22, 1, 0.36, 1];
 
@@ -14,7 +14,7 @@ export default function Hero() {
   const fade = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
   const lines = [t.hero.line1, t.hero.line2, t.hero.line3];
-  const ota = 135 * 3;
+  const ota = APARTMENTS[0].price * 3;
   const direct = Math.round(ota * 0.85);
 
   return (

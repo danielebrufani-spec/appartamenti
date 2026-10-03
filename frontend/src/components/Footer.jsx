@@ -24,21 +24,22 @@ export default function Footer() {
             </li>
             <li className="flex items-start gap-2.5">
               <Mail size={15} className="mt-0.5 shrink-0 text-cream/40" />
-              <span data-testid="footer-email">info@residenzaassisi.it</span>
+              <span data-testid="footer-email">info@appartamentibrufani.it</span>
             </li>
           </ul>
         </div>
         <div>
-          <h4 className="text-xs font-semibold tracking-[0.25em] uppercase text-gold mb-5">Residenza Assisi</h4>
+          <h4 className="text-xs font-semibold tracking-[0.25em] uppercase text-gold mb-5">Appartamenti Brufani</h4>
           <p className="text-sm text-cream/60 flex items-start gap-2.5">
             <RefreshCw size={15} className="mt-0.5 shrink-0 text-cream/40" />
             {f.syncNote}
           </p>
+          <p className="mt-4 text-xs text-cream/40">{f.license}</p>
         </div>
       </div>
       <div className="max-w-7xl mx-auto px-5 sm:px-8 mt-12 pt-7 border-t border-cream/10 flex flex-col sm:flex-row justify-between gap-3 text-xs text-cream/40">
-        <span>© {new Date().getFullYear()} Residenza Assisi. {f.rights}</span>
-        <span>Assisi · Umbria · Italia</span>
+        <span>© {new Date().getFullYear()} Appartamenti Brufani. {f.rights}</span>
+        <span>Santa Maria degli Angeli · Assisi · Umbria</span>
       </div>
     </footer>
   );

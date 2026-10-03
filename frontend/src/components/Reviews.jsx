@@ -21,6 +21,10 @@ export default function Reviews() {
         >
           <p className="text-xs font-semibold tracking-[0.25em] uppercase text-terracotta mb-4">{r.eyebrow}</p>
           <h2 className="font-serif text-4xl sm:text-5xl tracking-tight text-ink">{r.title}</h2>
+          <div data-testid="booking-score-badge" className="mt-5 inline-flex items-center gap-2.5 rounded-full bg-olive/10 border border-olive/20 px-5 py-2.5">
+            <Star size={15} className="fill-gold text-gold" />
+            <span className="text-sm font-semibold text-olive">{r.scoreBadge}</span>
+          </div>
         </motion.div>
 
         <div className="grid md:grid-cols-3 gap-6">

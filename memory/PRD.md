@@ -12,7 +12,8 @@
 ## Architettura
 - Frontend: React 19 + Tailwind + framer-motion + lenis + react-day-picker (`/app/frontend/src/`)
 - Backend: FastAPI + MongoDB (`/app/backend/server.py`)
-- Brand: "Residenza Assisi" — appartamenti "Dimora Subasio" (€135/notte) e "Dimora Minerva" (€115/notte)
+- Brand: "Appartamenti Brufani" — "Appartamento Brufani" (trilocale 65 m², 4 ospiti, giardino privato) e "Appartamento Brufani Due" (monolocale 40 m², 2 ospiti)
+- Dati reali da Booking.com: punteggio 9,2/10 (44 recensioni), pet friendly, Via Risorgimento 27/A e 29, Santa Maria degli Angeli, 350m dalla Basilica, 800m stazione, licenza IT054001C27A035224
 - i18n: `/app/frontend/src/i18n.js` (IT/EN/DE/ES, persistito in localStorage)
 - Email: proxy gestito Emergent (Resend) — `EMERGENT_EMAIL_KEY` + `EMAIL_FROM_NAME` in backend/.env
 
@@ -33,10 +34,10 @@
 
 ## Contenuti MOCKED / da completare con dati reali
 - Foto: placeholder Unsplash (l'utente caricherà le sue)
-- Recensioni: 3 testimonianze di esempio
-- Indirizzo footer, email info@residenzaassisi.it: di esempio
+- Recensioni: 3 testimonianze di esempio (il badge 9,2/10 con 44 recensioni Booking.com è REALE)
+- Email footer info@appartamentibrufani.it: di esempio
 - Numero WhatsApp: placeholder `REACT_APP_WHATSAPP_NUMBER=390000000000` in frontend/.env
-- Prezzi €135/€115: indicativi, da confermare
+- Prezzi €135/€115: indicativi, NON confermati dall'utente — da chiedere
 
 ## Azioni pendenti che richiedono l'utente
 1. `OWNER_EMAIL` in backend/.env → email reale del proprietario per ricevere le richieste di prenotazione

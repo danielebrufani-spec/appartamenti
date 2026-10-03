@@ -14,7 +14,7 @@ export function Logo({ compact = false }) {
       </svg>
       {!compact && (
         <span className="font-serif text-xl font-semibold tracking-tight text-ink">
-          Residenza <span className="text-terracotta">Assisi</span>
+          Appartamenti <span className="text-terracotta">Brufani</span>
         </span>
       )}
     </a>
