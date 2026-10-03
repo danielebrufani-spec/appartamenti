@@ -33,6 +33,8 @@ EMAIL_BASE_URL = "https://integrations.emergentagent.com"
 EMAIL_KEY = os.environ.get("EMERGENT_EMAIL_KEY")
 EMAIL_FROM_NAME = os.environ.get("EMAIL_FROM_NAME", "Residenza Assisi")
 OWNER_EMAIL = os.environ.get("OWNER_EMAIL")
+RESEND_API_KEY = os.environ.get("RESEND_API_KEY")
+EMAIL_FROM_ADDRESS = os.environ.get("EMAIL_FROM_ADDRESS", "onboarding@resend.dev")
 
 APARTMENTS = {
     "appartamento-brufani": {"name": "Appartamento Brufani", "base_price": 110, "base_guests": 2, "extra_guest": 10, "max_guests": 4},
@@ -117,14 +119,22 @@ def _assert_safe_email(subject: str, html: str) -> None:
 
 async def send_email(*, to: str, subject: str, html: str) -> Optional[str]:
     _assert_safe_email(subject, html)
-    payload = {"to": [to], "subject": subject, "html": html, "from_name": EMAIL_FROM_NAME}
+    if RESEND_API_KEY:
+        url = "https://api.resend.com/emails"
+        headers = {"Authorization": f"Bearer {RESEND_API_KEY}"}
+        payload = {
+            "from": f"{EMAIL_FROM_NAME} <{EMAIL_FROM_ADDRESS}>",
+            "to": [to],
+            "subject": subject,
+            "html": html,
+        }
+    else:
+        url = f"{EMAIL_BASE_URL}/api/v1/email/send"
+        headers = {"X-Email-Key": EMAIL_KEY}
+        payload = {"to": [to], "subject": subject, "html": html, "from_name": EMAIL_FROM_NAME}
     try:
         async with httpx.AsyncClient(timeout=30) as http:
-            resp = await http.post(
-                f"{EMAIL_BASE_URL}/api/v1/email/send",
-                headers={"X-Email-Key": EMAIL_KEY},
-                json=payload,
-            )
+            resp = await http.post(url, headers=headers, json=payload)
         resp.raise_for_status()
         return resp.json().get("id")
     except Exception as e:

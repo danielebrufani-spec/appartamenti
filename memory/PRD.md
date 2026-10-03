@@ -36,6 +36,12 @@
 - Contatti REALI: danielebrufani@gmail.com (notifiche email attive via OWNER_EMAIL), tel/WhatsApp +39 339 502 0625
 - Sconto prenotazione diretta: -15% sul soggiorno vs portali
 
+## Portabilità (03/10/2026)
+- L'utente vuole hosting indipendente da Emergent: Vercel (frontend) + Render (backend) + MongoDB Atlas + Resend (email)
+- Backend reso portabile: se `RESEND_API_KEY` è impostata usa Resend diretto (`EMAIL_FROM_ADDRESS`, default onboarding@resend.dev), altrimenti proxy Emergent (anteprima)
+- Creato `/app/render.yaml` per deploy Render (rootDir backend, uvicorn)
+- NOTA: il fix date-fns@3.6.0 va pushato su GitHub (Save to GitHub) prima del deploy Vercel
+
 ## Contenuti MOCKED / da completare con dati reali
 - Foto: placeholder Unsplash (l'utente caricherà le sue)
 - Recensioni: 3 testimonianze di esempio (il badge 9,2/10 con 44 recensioni Booking.com è REALE)
