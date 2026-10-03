@@ -35,9 +35,11 @@ EMAIL_FROM_NAME = os.environ.get("EMAIL_FROM_NAME", "Residenza Assisi")
 OWNER_EMAIL = os.environ.get("OWNER_EMAIL")
 
 APARTMENTS = {
-    "appartamento-brufani": {"name": "Appartamento Brufani", "price": 135},
-    "appartamento-brufani-due": {"name": "Appartamento Brufani Due", "price": 115},
+    "appartamento-brufani": {"name": "Appartamento Brufani", "base_price": 110, "base_guests": 2, "extra_guest": 10, "max_guests": 4},
+    "appartamento-brufani-due": {"name": "Appartamento Brufani Due", "base_price": 90, "base_guests": 2, "extra_guest": 10, "max_guests": 3},
 }
+CITY_TAX_PER_PERSON_NIGHT = 3
+CITY_TAX_MAX_NIGHTS = 3
 
 # ---------- Email guardrail gate (G2/G3) ----------
 _SHORTENERS = ("bit.ly", "tinyurl.com", "t.co", "is.gd", "cutt.ly", "goo.gl", "rebrand.ly")
@@ -237,9 +239,16 @@ async def create_booking_request(payload: BookingRequestCreate):
     if requested & blocked:
         raise HTTPException(status_code=409, detail="dates_unavailable")
 
+    if payload.guests > apt["max_guests"]:
+        raise HTTPException(status_code=400, detail="too_many_guests")
+
     nights = len(requested)
-    ota_price = apt["price"] * nights
-    direct_price = round(ota_price * 0.85)
+    nightly = apt["base_price"] + max(0, payload.guests - apt["base_guests"]) * apt["extra_guest"]
+    stay = nightly * nights
+    direct_stay = int(stay * 0.85 + 0.5)
+    city_tax = CITY_TAX_PER_PERSON_NIGHT * payload.guests * min(nights, CITY_TAX_MAX_NIGHTS)
+    ota_total = stay + city_tax
+    direct_total = direct_stay + city_tax
     request_id = str(uuid.uuid4())
 
     doc = {
@@ -255,8 +264,10 @@ async def create_booking_request(payload: BookingRequestCreate):
         "message": payload.message,
         "language": payload.language,
         "nights": nights,
-        "ota_price": ota_price,
-        "direct_price": direct_price,
+        "nightly_rate": nightly,
+        "ota_price": ota_total,
+        "direct_price": direct_total,
+        "city_tax": city_tax,
         "status": "received",
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
@@ -274,7 +285,9 @@ async def create_booking_request(payload: BookingRequestCreate):
             f"<tr><td style='padding:6px 12px;color:#6E7570'>Telefono</td><td style='padding:6px 12px'>{escape(payload.phone or '-')}</td></tr>",
             f"<tr><td style='padding:6px 12px;color:#6E7570'>Messaggio</td><td style='padding:6px 12px'>{escape(payload.message or '-')}</td></tr>",
             f"<tr><td style='padding:6px 12px;color:#6E7570'>Notti</td><td style='padding:6px 12px'>{nights}</td></tr>",
-            f"<tr><td style='padding:6px 12px;color:#6E7570'>Prezzo diretto</td><td style='padding:6px 12px'><strong>&euro;{direct_price}</strong> (portali: &euro;{ota_price})</td></tr>",
+            f"<tr><td style='padding:6px 12px;color:#6E7570'>Tariffa a notte</td><td style='padding:6px 12px'>&euro;{nightly}</td></tr>",
+            f"<tr><td style='padding:6px 12px;color:#6E7570'>Tassa di soggiorno</td><td style='padding:6px 12px'>&euro;{city_tax}</td></tr>",
+            f"<tr><td style='padding:6px 12px;color:#6E7570'>Totale diretto</td><td style='padding:6px 12px'><strong>&euro;{direct_total}</strong> (portali: &euro;{ota_total})</td></tr>",
         ])
         html = (
             "<table role='presentation' width='100%'><tr><td style='padding:24px;font-family:Arial,sans-serif'>"
@@ -293,8 +306,10 @@ async def create_booking_request(payload: BookingRequestCreate):
         "id": request_id,
         "status": "received",
         "nights": nights,
-        "ota_price": ota_price,
-        "direct_price": direct_price,
+        "nightly_rate": nightly,
+        "ota_price": ota_total,
+        "direct_price": direct_total,
+        "city_tax": city_tax,
     }
 
 

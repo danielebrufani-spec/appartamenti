@@ -43,8 +43,12 @@ export default function BookingSection() {
     return 0;
   }, [range]);
 
-  const otaPrice = nights * apt.price;
-  const directPrice = Math.round(otaPrice * 0.85);
+  const nightly = apt.price + Math.max(0, guests - apt.baseGuests) * apt.extraGuest;
+  const stay = nightly * nights;
+  const directStay = Math.round(stay * 0.85);
+  const cityTax = 3 * guests * Math.min(nights, 3);
+  const otaTotal = stay + cityTax;
+  const directTotal = directStay + cityTax;
 
   const submit = async (e) => {
     e.preventDefault();
@@ -158,13 +162,18 @@ export default function BookingSection() {
                 </p>
                 <div className="flex justify-between text-sm text-ink/60">
                   <span>{b.otaPrice}</span>
-                  <span className="line-through decoration-terracotta">€{otaPrice}</span>
+                  <span className="line-through decoration-terracotta">€{otaTotal}</span>
                 </div>
-                <div className="flex justify-between items-baseline mt-1.5">
-                  <span className="text-sm font-semibold text-ink">{b.directPrice}</span>
-                  <span className="font-serif text-2xl font-semibold text-terracotta">€{directPrice}</span>
+                <div className="flex justify-between text-sm text-ink/60 mt-1.5">
+                  <span>{b.cityTax}</span>
+                  <span>€{cityTax}</span>
                 </div>
-                <p className="mt-2 text-xs font-bold text-olive">{b.youSave} €{otaPrice - directPrice}</p>
+                <p className="text-[11px] text-ink/40 mt-1">{b.taxNote}</p>
+                <div className="flex justify-between items-baseline mt-2 pt-2 border-t border-olive/15">
+                  <span className="text-sm font-semibold text-ink">{b.directPrice} · {b.total}</span>
+                  <span className="font-serif text-2xl font-semibold text-terracotta">€{directTotal}</span>
+                </div>
+                <p className="mt-2 text-xs font-bold text-olive">{b.youSave} €{otaTotal - directTotal}</p>
               </div>
             )}
           </motion.div>

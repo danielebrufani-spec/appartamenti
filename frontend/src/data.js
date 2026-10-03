@@ -19,7 +19,9 @@ export const APARTMENTS = [
   {
     id: "appartamento-brufani",
     key: "brufani",
-    price: 135,
+    price: 110,
+    baseGuests: 2,
+    extraGuest: 10,
     guests: 4,
     size: 65,
     main: IMAGES.subasioMain,
@@ -28,8 +30,10 @@ export const APARTMENTS = [
   {
     id: "appartamento-brufani-due",
     key: "brufanidue",
-    price: 115,
-    guests: 2,
+    price: 90,
+    baseGuests: 2,
+    extraGuest: 10,
+    guests: 3,
     size: 40,
     main: IMAGES.minervaMain,
     gallery: [IMAGES.minervaMain, IMAGES.minervaLiving, IMAGES.minervaBedroom],

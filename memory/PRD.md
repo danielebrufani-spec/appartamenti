@@ -32,12 +32,13 @@
 - Pulsante WhatsApp flottante, logo SVG originale + favicon
 - Verificato: booking request end-to-end (4 notti, €540 → €459), switch lingue, responsive 375/768/1366
 
+- Prezzi REALI (03/10/2026): Brufani €110/notte fino a 2 ospiti +€10/ospite extra (max 4); Brufani Due €90 fino a 2, €100 con 3 (max 3). Tassa di soggiorno €3/persona/notte max 3 notti (calcolata su tutti gli ospiti; under 12 gratis → il proprietario la storna manualmente)
+- Contatti REALI: danielebrufani@gmail.com (notifiche email attive via OWNER_EMAIL), tel/WhatsApp +39 339 502 0625
+- Sconto prenotazione diretta: -15% sul soggiorno vs portali
+
 ## Contenuti MOCKED / da completare con dati reali
 - Foto: placeholder Unsplash (l'utente caricherà le sue)
 - Recensioni: 3 testimonianze di esempio (il badge 9,2/10 con 44 recensioni Booking.com è REALE)
-- Email footer info@appartamentibrufani.it: di esempio
-- Numero WhatsApp: placeholder `REACT_APP_WHATSAPP_NUMBER=390000000000` in frontend/.env
-- Prezzi €135/€115: indicativi, NON confermati dall'utente — da chiedere
 
 ## Azioni pendenti che richiedono l'utente
 1. `OWNER_EMAIL` in backend/.env → email reale del proprietario per ricevere le richieste di prenotazione

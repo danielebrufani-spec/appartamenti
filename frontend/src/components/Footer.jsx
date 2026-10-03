@@ -1,4 +1,4 @@
-import { Mail, MapPin, RefreshCw } from "lucide-react";
+import { Mail, MapPin, Phone, RefreshCw } from "lucide-react";
 import { useLanguage } from "@/i18n";
 import { Logo } from "@/components/Header";
 
@@ -24,7 +24,11 @@ export default function Footer() {
             </li>
             <li className="flex items-start gap-2.5">
               <Mail size={15} className="mt-0.5 shrink-0 text-cream/40" />
-              <span data-testid="footer-email">info@appartamentibrufani.it</span>
+              <a data-testid="footer-email" href="mailto:danielebrufani@gmail.com" className="hover:text-cream transition-colors duration-200">danielebrufani@gmail.com</a>
+            </li>
+            <li className="flex items-start gap-2.5">
+              <Phone size={15} className="mt-0.5 shrink-0 text-cream/40" />
+              <a data-testid="footer-phone" href="tel:+393395020625" className="hover:text-cream transition-colors duration-200">+39 339 502 0625</a>
             </li>
           </ul>
         </div>
