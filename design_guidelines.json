@@ -1,0 +1,146 @@
+{
+  "project_title": "Residenza Assisi - Direct Booking Luxury Landing Page",
+  "brand_identity": {
+    "name": "Residenza Assisi",
+    "subheading": "Dimore Historic Apartments in the Heart of Assisi",
+    "apartments": [
+      {
+        "id": "dimora-subasio",
+        "name": "Dimora Subasio",
+        "tagline": "Panoramic Stone Residence with Valley Views",
+        "capacity": "Up to 4 Guests • 75 m²",
+        "price_from": "€135",
+        "price_period": "night",
+        "badge": "Valley View Suite"
+      },
+      {
+        "id": "dimora-minerva",
+        "name": "Dimora Minerva",
+        "tagline": "Charming Central Apartment near Piazza del Comune",
+        "capacity": "Up to 3 Guests • 60 m²",
+        "price_from": "€115",
+        "price_period": "night",
+        "badge": "Historic Center"
+      }
+    ],
+    "logo_concept": "Minimalist SVG icon with interlocking arch geometry representing Assisi stone portals combined with a stylized sun key.",
+    "tagline_languages": {
+      "IT": "Prenota direttamente: Senza commissioni, miglior prezzo garantito.",
+      "EN": "Book direct: Zero commissions, best price guaranteed.",
+      "DE": "Direkt buchen: Keine Provisionen, Bestpreisgarantie.",
+      "ES": "Reserva directa: Sin comisiones, mejor precio garantizado."
+    }
+  },
+  "typography": {
+    "heading_font": "Cormorant Garamond, Playfair Display, serif",
+    "body_font": "Plus Jakarta Sans, Outfit, sans-serif",
+    "mono_font": "JetBrains Mono, monospace",
+    "google_fonts_url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap",
+    "hierarchy": {
+      "h1": "text-4xl sm:text-5xl lg:text-6xl font-serif tracking-tight leading-[1.1]",
+      "h2": "text-2xl sm:text-3xl lg:text-4xl font-serif tracking-tight leading-snug",
+      "h3": "text-xl sm:text-2xl font-serif font-semibold",
+      "h4": "text-lg sm:text-xl font-sans font-semibold",
+      "body": "text-base font-sans leading-relaxed text-stone-700 dark:text-stone-300",
+      "caption": "text-xs sm:text-sm font-sans tracking-wider uppercase text-stone-500"
+    }
+  },
+  "colors": {
+    "archetype": "ORGANIC & EARTHY (Assisi Stone, Terracotta & Olive Green)",
+    "palette": {
+      "background_light": "#FAF7F2",
+      "background_card_light": "#FFFFFF",
+      "background_dark": "#181C1A",
+      "background_card_dark": "#222825",
+      "primary_terracotta": "#C85A32",
+      "primary_hover": "#B04B26",
+      "olive_green": "#2C4231",
+      "olive_light": "#3E5C45",
+      "assisi_stone_warm": "#EFE8DC",
+      "golden_light": "#E6A15C",
+      "text_dark": "#1C211E",
+      "text_muted": "#6E7570",
+      "border_subtle": "#E2DACD",
+      "border_dark": "#333D37"
+    },
+    "guidelines": "Do not use pure black (#000000). Use deep charcoal/slate tint #1C211E. Use Terracotta (#C85A32) exclusively for primary CTAs like 'Prenota Ora / Book Direct'. Use Olive Green (#2C4231) for trust badges, amenity icons, and status highlights."
+  },
+  "image_urls": {
+    "hero": "https://images.unsplash.com/photo-1775923534560-532e19b5e0ef?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NxA2MjJ8MHwxfHNlYXJjaHwxfHxhc3Npc2klMjB1bWJyaWElMjBpdGFseSUyMGFyY2hpdGVjdHVyZXxlbnwwfHx8fDE3OTEwMzk5NjB8MA&ixlib=rb-4.1.0&q=85",
+    "assisi_street_1": "https://images.unsplash.com/photo-1630247008103-7b6bffe8d21b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NxA2MjJ8MHwxfHNlYXJjaHw0fHxhc3Npc2klMjB1bWJyaWElMjBpdGFseSUyMGFyY2hpdGVjdHVyZXxlbnwwfHx8fDE3OTEwMzk5NjB8MA&ixlib=rb-4.1.0&q=85",
+    "assisi_landscape": "https://images.unsplash.com/photo-1761156844063-35890268afd7?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NxA2MjJ8MHwxfHNlYXJjaHwyfHxhc3Npc2klMjB1bWJyaWElMjBpdGFseSUyMGFyY2hpdGVjdHVyZXxlbnwwfHx8fDE3OTEwMzk5NjB8MA&ixlib=rb-4.1.0&q=85",
+    "apartment_subasio_main": "https://images.unsplash.com/photo-1710956394109-aaa3710e3a63?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzNDR8MHwxfHNlYXJjaHw0fHxsdXh1cnklMjBhcGFydG1lbnQlMjBpbnRlcmlvciUyMHdhcm0lMjB3b29kZW4lMjB0ZXJyYWNvdHRhfGVufDB8fHx8MTc5MTAzOTk2MHww&ixlib=rb-4.1.0&q=85",
+    "apartment_subasio_living": "https://images.unsplash.com/photo-1663811396744-f86d18cdf073?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzNDR8MHwxfHNlYXJjaHwzfHxsdXh1cnklMjBhcGFydG1lbnQlMjBpbnRlcmlvciUyMHdhcm0lMjB3b29kZW4lMjB0ZXJyYWNvdHRhfGVufDB8fHx8MTc5MTAzOTk2MHww&ixlib=rb-4.1.0&q=85",
+    "apartment_subasio_bedroom": "https://images.unsplash.com/photo-1738585608732-49294c24ece0?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzOTB8MHwxfHNlYXJjaHxfHxjb3p5JTIwaXRhbGlhbiUyMGJlZHJvb20lMjBydXN0aWMlMjBtb2Rlcm4lMjBzdG9uZSUyMHdhbGx8ZW58MHx8fHwxNzkxMDM5OTY4fDA&ixlib=rb-4.1.0&q=85",
+    "apartment_minerva_main": "https://images.unsplash.com/photo-1737898415581-7dea57a1905b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzNDR8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBhcGFydG1lbnQlMjBpbnRlcmlvciUyMHdhcm0lMjB3b29kZW4lMjB0ZXJyYWNvdHRhfGVufDB8fHx8MTc5MTAzOTk2MHww&ixlib=rb-4.1.0&q=85",
+    "apartment_minerva_living": "https://images.unsplash.com/photo-1782392399192-0828e79a941b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzNDR8MHwxfHNlYXJjaHwyfHxsdXh1cnklMjBhcGFydG1lbnQlMjBpbnRlcmlvciUyMHdhcm0lMjB3b29kZW4lMjB0ZXJyYWNvdHRhfGVufDB8fHx8MTc5MTAzOTk2MHww&ixlib=rb-4.1.0&q=85",
+    "apartment_minerva_bedroom": "https://images.unsplash.com/photo-1767741737493-9a82868c198d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzOTB8MHwxfHNlYXJjaHwzfHxjb3p5JTIwaXRhbGlhbiUyMGJlZHJvb20lMjBydXN0aWMlMjBtb2Rlcm4lMjBzdG9uZSUyMHdhbGx8ZW58MHx8fHwxNzkxMDM5OTY4fDA&ixlib=rb-4.1.0&q=85",
+    "gallery_1": "https://images.unsplash.com/photo-1578850263823-9417840cf1df?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzOTB8MHwxfHNlYXJjaHw0fHxjb3p5JTIwaXRhbGlhbiUyMGJlZHJvb20lMjBydXN0aWMlMjBtb2Rlcm4lMjBzdG9uZSUyMHdhbGx8ZW58MHx8fHwxNzkxMDM5OTY4fDA&ixlib=rb-4.1.0&q=85",
+    "gallery_2": "https://images.unsplash.com/photo-1733942923759-d86f030e8d72?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4A2MjJ8MHwxfHNlYXJjaHszfHxhc3Npc2klMjB1bWJyaWElMjBpdGFseSUyMGFyY2hpdGVjdHVyZXxlbnwwfHx8fDE3OTEwMzk5NjB8MA&ixlib=rb-4.1.0&q=85",
+    "avatar_guest_1": "https://images.unsplash.com/photo-1726335197089-8c2cf1062d04?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODd8MHwxfHNlYXJjaHwzfHxoYXBweSUyMHRyYXZlbGVyJTIwcG9ydHJhaXQlMjBldXJvcGV8ZW58MHx8fHwxNzkxMDM5OTY4fDA&ixlib=rb-4.1.0&q=85",
+    "avatar_guest_2": "https://images.unsplash.com/photo-1634674701484-6b7364d1a671?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODd8MHwxfHNlYXJjaHxfHxxoYXBweSUyMHRyYXZlbGVyJTIwcG9ydHJhaXQlMjBldXJvcGV8ZW58MHx8fHwxNzkxMDM5OTY4fDA&ixlib=rb-4.1.0&q=85",
+    "avatar_guest_3": "https://images.unsplash.com/photo-1551895678-cf655d8c0141?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODd8MHwxfHNlYXJjaHwyfHxoYXBweSUyMHRyYXZlbGVyJTIwcG9ydHJhaXQlMjBldXJvcGV8ZW58MHx8fHwxNzkxMDM5OTY4fDA&ixlib=rb-4.1.0&q=85"
+  },
+  "key_features_implementation": {
+    "language_switcher": {
+      "supported": ["IT", "EN", "DE", "ES"],
+      "default": "IT",
+      "behavior": "Persistent in header, updates all strings dynamically, saves preference to localStorage",
+      "data_testid": "language-switcher"
+    },
+    "booking_engine": {
+      "type": "Direct Request Form with Interactive Dual Calendar & Commission Saver Calculator",
+      "calendar_features": [
+        "Select apartment (Subasio vs Minerva)",
+        "Interactive Date Range Selection (Check-in & Check-out)",
+        "iCal Sync Status Indicator (Mock Live Sync with Airbnb / Booking.com calendars)",
+        "Direct Price Calculation with 15% Direct Booking Discount vs OTA rates"
+      ],
+      "backend_endpoint": "/api/booking-request",
+      "data_testids": [
+        "apartment-select",
+        "check-in-date",
+        "check-out-date",
+        "guests-count",
+        "booking-submit-button",
+        "direct-saving-badge"
+      ]
+    },
+    "sections": [
+      "Sticky Crystal Glass Header with Language Selector & Quick Call CTA",
+      "Hero with Kinetic Line Reveal, Background Sunset Parallax & Commission Comparison Widget",
+      "Marquee Strip (Editorial slow drift: 'Senza intermediari • Risparmia il 15% • Accoglienza Umbra • Vicino alla Basilica')",
+      "Apartments Showcase Section (Tabs/Cards with Specs, Amenities, Gallery Lightbox trigger, Direct Book action)",
+      "Why Book Direct (Bento Grid: No Hidden Fees, Free Local Wine Bottle, Direct Host Contact, Flexible Check-in)",
+      "Assisi Highlights & Map Location (Interactive points of interest)",
+      "Guest Reviews & Verified Direct Booking Testimonials",
+      "Interactive Availability Calendar & Instant Booking Request Form",
+      "Footer with Host Contact, Direct WhatsApp Button, Address & iCal Sync notice"
+    ]
+  },
+  "motion_and_effects": {
+    "smooth_scroll": "Lenis smooth scroll enabled",
+    "framer_motion_specs": {
+      "stagger_children": 0.12,
+      "text_reveal_duration": 0.8,
+      "hover_scale": 1.02,
+      "button_tap": 0.98
+    },
+    "micro_interactions": "Floating WhatsApp button with pulse animation, Lightbox modal with zoom effect for photos, active calendar date selection highlights"
+  },
+  "instructions_to_main_agent": [
+    "Ensure all interactive elements have precise data-testid attributes.",
+    "Support both light and dark themes using Tailwind class 'dark', with default being the warm earthy light theme.",
+    "Implement full multilingual dynamic switching (IT, EN, DE, ES) for all copy throughout the page.",
+    "Include a light backend FastAPI endpoint '/api/booking-request' to persist booking requests and calculate prices.",
+    "Make the WhatsApp floating button trigger direct conversation with prefilled property inquiry text.",
+    "Ensure responsive design from mobile (370px+) up to large desktop screens."
+  ],
+  "UNIVERSAL GUIDELINES FOR MAIN AGENT": [
+    "Do NOT center align the app container in CSS.",
+    "Never use generic default fonts for headings; load Cormorant Garamond / Playfair Display.",
+    "Do NOT use transparent backgrounds for header without backdrop-blur.",
+    "Every interactive element MUST include data-testid attribute.",
+    "Add transition for specific properties only (e.g., transition-colors, transition-transform), avoid transition: all."
+  ]
+}
