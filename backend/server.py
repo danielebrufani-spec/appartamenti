@@ -231,7 +231,7 @@ async def _sync_feed(feed: dict) -> int:
 # ---------- Routes ----------
 @api_router.get("/")
 async def root():
-    return {"message": "Residenza Assisi API"}
+    return {"message": "Appartamenti Brufani API"}
 
 
 @api_router.post("/booking-request")
