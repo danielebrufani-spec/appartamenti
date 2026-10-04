@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { HeartHandshake, Image as ImageIcon, MapPin, Star, CalendarCheck, ChevronRight } from "lucide-react";
+import { HeartHandshake, Image as ImageIcon, MapPin, Star, CalendarCheck, ChevronRight, UtensilsCrossed } from "lucide-react";
 import { useLanguage } from "@/i18n";
 import { APARTMENTS } from "@/data";
 import ApartmentPanel from "@/components/ApartmentPanel";
@@ -9,6 +9,7 @@ import Hosts from "@/components/Hosts";
 import Gallery from "@/components/Gallery";
 import Location from "@/components/Location";
 import Faq from "@/components/Faq";
+import Consigli from "@/components/Consigli";
 import Reviews from "@/components/Reviews";
 import BookingSection from "@/components/BookingSection";
 
@@ -23,6 +24,7 @@ const INFO_TABS = [
   { id: "perche", icon: HeartHandshake },
   { id: "galleria", icon: ImageIcon },
   { id: "posizione", icon: MapPin },
+  { id: "consigli", icon: UtensilsCrossed },
   { id: "recensioni", icon: Star },
 ];
 
@@ -65,15 +67,12 @@ export default function TabExplorer() {
       <>
         <WhyDirect />
         <Hosts />
-      </>
-    ),
-    galleria: <Gallery />,
-    posizione: (
-      <>
-        <Location />
         <Faq />
       </>
     ),
+    galleria: <Gallery />,
+    consigli: <Consigli />,
+    posizione: <Location />,
     recensioni: <Reviews />,
   };
 

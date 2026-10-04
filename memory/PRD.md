@@ -109,3 +109,9 @@ Sito web per trovare clienti per due appartamenti in affitto ad Assisi (Appartam
 - Foto reali nella sezione Chi Siamo: Daniele (selfie spiaggia — ribaltata perché specchiata, crop quadrato, colori migliorati), Oliviero e Nicoletta (due ritratti ritagliati dalla foto di coppia, luminosità/contrasto migliorati). File in /app/frontend/public/images/hosts/{daniele,nicoletta,oliviero}.webp. Hosts.jsx usa HOST_PHOTOS con fallback a iniziali.
 - Bio Oliviero aggiornata (IT/EN/DE/ES): grande appassionato di Medioevo e d'arte, maestro d'armi, costruisce riproduzioni di armi medievali per appassionati di tutto il mondo.
 - Asset sorgenti: Daniele = artifact im8kdtt4_image.png; coppia = hv5vwwte_image.png (1200x1200).
+
+
+## Aggiornamento 2026-10-04 (scheda Consigli + Posizione pulita)
+- Nuova scheda "Consigli" (Consigli.jsx) nel menu verticale: contiene i 4 servizi consigliati (Elide, Porcellino Divino, Emi, Angelucci) spostati fuori da Location.jsx. i18n: tabs.consigli in 4 lingue.
+- Posizione ora contiene SOLO posizione appartamento + distanze POI principali + mappa: Basilica SMA, Stazione, Basilica di San Francesco (aggiunta, 3,5 km), Centro storico, Aeroporto (rimosso Emi dall'elenco, è in Consigli).
+- FAQ spostate in fondo alla scheda "Perché Diretto" (visibili, JSON-LD invariato).
