@@ -103,3 +103,9 @@ Sito web per trovare clienti per due appartamenti in affitto ad Assisi (Appartam
 ## Aggiornamento 2026-10-04 (logo v3)
 - Utente: la scritta con "Assisi" dentro la A non si capiva. Nuovo wordmark: monogramma AB più grande (w-11/12), "Appartamenti Brufani" grande (text-2xl desktop), sottotitolo "ASSISI · HOLIDAY APARTMENTS" ben leggibile. Su mobile (<sm): nome text-base + solo "ASSISI" (header compatto).
 - Rimosso il trucco "SSISI dentro la A". Footer usa ancora le classi logo-name/logo-b/logo-subtitle.
+
+
+## Aggiornamento 2026-10-04 (foto famiglia + bio Oliviero)
+- Foto reali nella sezione Chi Siamo: Daniele (selfie spiaggia — ribaltata perché specchiata, crop quadrato, colori migliorati), Oliviero e Nicoletta (due ritratti ritagliati dalla foto di coppia, luminosità/contrasto migliorati). File in /app/frontend/public/images/hosts/{daniele,nicoletta,oliviero}.webp. Hosts.jsx usa HOST_PHOTOS con fallback a iniziali.
+- Bio Oliviero aggiornata (IT/EN/DE/ES): grande appassionato di Medioevo e d'arte, maestro d'armi, costruisce riproduzioni di armi medievali per appassionati di tutto il mondo.
+- Asset sorgenti: Daniele = artifact im8kdtt4_image.png; coppia = hv5vwwte_image.png (1200x1200).

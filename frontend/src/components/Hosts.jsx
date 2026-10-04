@@ -4,6 +4,12 @@ import { useLanguage } from "@/i18n";
 
 const EASE = [0.22, 1, 0.36, 1];
 
+const HOST_PHOTOS = {
+  Oliviero: "/images/hosts/oliviero.webp",
+  Nicoletta: "/images/hosts/nicoletta.webp",
+  Daniele: "/images/hosts/daniele.webp",
+};
+
 export default function Hosts() {
   const { t } = useLanguage();
   const h = t.hosts;
@@ -35,9 +41,19 @@ export default function Hosts() {
               whileHover={{ y: -6 }}
               className="rounded-3xl p-7 bg-white border border-ink/5 flex flex-col gap-4"
             >
-              <div className="w-14 h-14 rounded-full bg-olive flex items-center justify-center">
-                <span className="font-serif text-2xl font-semibold text-cream">{m.name.charAt(0)}</span>
-              </div>
+              {HOST_PHOTOS[m.name] ? (
+                <img
+                  src={HOST_PHOTOS[m.name]}
+                  alt={m.name}
+                  data-testid={`host-photo-${i}`}
+                  loading="lazy"
+                  className="w-20 h-20 rounded-full object-cover ring-4 ring-olive/10"
+                />
+              ) : (
+                <div className="w-14 h-14 rounded-full bg-olive flex items-center justify-center">
+                  <span className="font-serif text-2xl font-semibold text-cream">{m.name.charAt(0)}</span>
+                </div>
+              )}
               <div>
                 <h3 className="font-serif text-xl font-semibold text-ink">{m.name}</h3>
                 <p className="text-xs font-semibold tracking-[0.18em] uppercase text-terracotta mt-1">{m.role}</p>

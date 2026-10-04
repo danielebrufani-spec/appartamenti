@@ -70,7 +70,7 @@ const translations = {
       desc: "Gli Appartamenti Brufani nascono da una storia di famiglia. Per noi ospitare non è un lavoro: è aprirvi le porte della nostra Assisi, consigliarvi i posti che amiamo e farvi sentire a casa dal primo giorno.",
       quote: "Vi aspettiamo come si aspetta un amico.",
       members: [
-        { name: "Oliviero", role: "Il papà", desc: "Conosce ogni sentiero e ogni angolo di Assisi: chiedetegli un consiglio e vi manderà nel posto giusto." },
+        { name: "Oliviero", role: "Il papà", desc: "Grande appassionato di Medioevo e d'arte: è maestro d'armi e costruisce riproduzioni di armi medievali per gli amanti del genere in tutto il mondo. E di Assisi conosce ogni sentiero e ogni storia." },
         { name: "Nicoletta", role: "La mamma", desc: "Cura ogni dettaglio della casa come fosse la propria: pulizia, profumo di fresco e piccole attenzioni per gli ospiti." },
         { name: "Daniele", role: "Il figlio", desc: "Vi accoglie all'arrivo, gestisce le prenotazioni e risponde alle vostre richieste, prima e durante il soggiorno." },
       ],
@@ -313,7 +313,7 @@ const translations = {
       desc: "Appartamenti Brufani was born from a family story. For us, hosting is not a job: it means opening the doors of our Assisi to you, sharing the places we love and making you feel at home from day one.",
       quote: "We wait for you the way you wait for a friend.",
       members: [
-        { name: "Oliviero", role: "The dad", desc: "He knows every trail and every corner of Assisi: ask him for a tip and he'll send you to the right place." },
+        { name: "Oliviero", role: "The dad", desc: "A great lover of the Middle Ages and art: he is a master-at-arms and builds medieval weapon replicas for enthusiasts all over the world. And he knows every trail and every story of Assisi." },
         { name: "Nicoletta", role: "The mum", desc: "She cares for every detail of the house as if it were her own: spotless rooms, a fresh scent and little touches for our guests." },
         { name: "Daniele", role: "The son", desc: "He welcomes you on arrival, manages bookings and answers your questions, before and during your stay." },
       ],
@@ -556,7 +556,7 @@ const translations = {
       desc: "Die Appartamenti Brufani entstanden aus einer Familiengeschichte. Für uns ist Gastgeben kein Beruf: Wir öffnen euch die Türen unseres Assisi, verraten euch die Orte, die wir lieben, und geben euch vom ersten Tag an das Gefühl, zu Hause zu sein.",
       quote: "Wir erwarten euch, wie man einen Freund erwartet.",
       members: [
-        { name: "Oliviero", role: "Der Papa", desc: "Er kennt jeden Weg und jede Ecke von Assisi: Fragt ihn um einen Tipp und er schickt euch an den richtigen Ort." },
+        { name: "Oliviero", role: "Der Papa", desc: "Ein großer Liebhaber des Mittelalters und der Kunst: Als Fechtmeister baut er mittelalterliche Waffennachbildungen für Liebhaber aus aller Welt. Und er kennt jeden Weg und jede Geschichte von Assisi." },
         { name: "Nicoletta", role: "Die Mama", desc: "Sie kümmert sich um jedes Detail des Hauses, als wäre es ihr eigenes: Sauberkeit, frischer Duft und kleine Aufmerksamkeiten für die Gäste." },
         { name: "Daniele", role: "Der Sohn", desc: "Er empfängt euch bei der Ankunft, kümmert sich um die Buchungen und beantwortet eure Fragen, vor und während des Aufenthalts." },
       ],
@@ -799,7 +799,7 @@ const translations = {
       desc: "Los Appartamenti Brufani nacen de una historia de familia. Para nosotros hospedar no es un trabajo: es abriros las puertas de nuestra Assisi, recomendaros los lugares que amamos y haceros sentir en casa desde el primer día.",
       quote: "Os esperamos como se espera a un amigo.",
       members: [
-        { name: "Oliviero", role: "El papá", desc: "Conoce cada sendero y cada rincón de Assisi: pedidle un consejo y os mandará al lugar indicado." },
+        { name: "Oliviero", role: "El papá", desc: "Un gran amante de la Edad Media y del arte: es maestro de armas y construye réplicas de armas medievales para los amantes del género en todo el mundo. Y de Assisi conoce cada sendero y cada historia." },
         { name: "Nicoletta", role: "La mamá", desc: "Cuida cada detalle de la casa como si fuera la suya: limpieza, aroma a fresco y pequeñas atenciones para los huéspedes." },
         { name: "Daniele", role: "El hijo", desc: "Os recibe a la llegada, gestiona las reservas y responde a vuestras peticiones, antes y durante la estancia." },
       ],
