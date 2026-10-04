@@ -76,6 +76,18 @@
     }
 }
 
+/* Apartment thumbnail strips */
+.apt-thumbs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+@media (min-width: 640px) {
+    .apt-thumbs {
+        grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr));
+    }
+}
+
 /* Lenis smooth scroll */
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }

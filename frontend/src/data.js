@@ -15,6 +15,23 @@ export const IMAGES = {
   avatar3: "https://images.unsplash.com/photo-1551895678-cf655d8c0141?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODd8MHwxfHNlYXJjaHwyfHxoYXBweSUyMHRyYXZlbGVyJTIwcG9ydHJhaXQlMjBldXJvcGV8ZW58MHx8fHwxNzkxMDM5OTY4fDA&ixlib=rb-4.1.0&q=85",
 };
 
+export const BRUFANI_PHOTOS = {
+  cucinaPensili: "/images/brufani/foto-1.webp",
+  angoloColazione: "/images/brufani/foto-2.webp",
+  angoloCaffe: "/images/brufani/foto-3.webp",
+  tavoloTulipani: "/images/brufani/foto-4.webp",
+  cucinaForno: "/images/brufani/foto-5.webp",
+  bagno: "/images/brufani/foto-9.webp",
+  camera1: "/images/brufani/foto-10.webp",
+  camera2: "/images/brufani/foto-12.webp",
+  cucinaBenvenuti: "/images/brufani/foto-16.webp",
+  soggiorno: "/images/brufani/foto-17.webp",
+  angoloTv: "/images/brufani/foto-18.webp",
+  frigo: "/images/brufani/foto-15-crop.webp",
+  giardino: "/images/brufani/giardino-1.webp",
+  giardino2: "/images/brufani/giardino-3.webp",
+};
+
 export const APARTMENTS = [
   {
     id: "appartamento-brufani",
@@ -24,8 +41,8 @@ export const APARTMENTS = [
     extraGuest: 10,
     guests: 4,
     size: 65,
-    main: IMAGES.subasioMain,
-    gallery: [IMAGES.subasioMain, IMAGES.subasioLiving, IMAGES.subasioBedroom],
+    main: BRUFANI_PHOTOS.cucinaBenvenuti,
+    gallery: [BRUFANI_PHOTOS.giardino, BRUFANI_PHOTOS.cucinaBenvenuti, BRUFANI_PHOTOS.camera1, BRUFANI_PHOTOS.camera2, BRUFANI_PHOTOS.soggiorno, BRUFANI_PHOTOS.bagno],
   },
   {
     id: "appartamento-brufani-due",
@@ -42,14 +59,14 @@ export const APARTMENTS = [
 
 export const GALLERY = [
   IMAGES.hero,
-  IMAGES.subasioLiving,
-  IMAGES.assisiStreet,
+  BRUFANI_PHOTOS.angoloColazione,
+  BRUFANI_PHOTOS.giardino2,
   IMAGES.minervaMain,
-  IMAGES.subasioBedroom,
+  BRUFANI_PHOTOS.tavoloTulipani,
   IMAGES.assisiLandscape,
   IMAGES.minervaBedroom,
-  IMAGES.galleryExtra,
-  IMAGES.assisi2,
+  BRUFANI_PHOTOS.camera1,
+  BRUFANI_PHOTOS.angoloTv,
 ];
 
 export const REVIEW_AVATARS = [IMAGES.avatar1, IMAGES.avatar2, IMAGES.avatar3];

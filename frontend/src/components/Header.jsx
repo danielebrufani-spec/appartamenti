@@ -32,7 +32,6 @@ export default function Header() {
   const links = [
     { href: "#appartamenti", label: t.nav.apartments, testid: "nav-apartments" },
     { href: "#perche-diretto", label: t.nav.why, testid: "nav-why" },
-    { href: "#galleria", label: t.nav.gallery, testid: "nav-gallery" },
     { href: "#posizione", label: t.nav.location, testid: "nav-location" },
     { href: "#recensioni", label: t.nav.reviews, testid: "nav-reviews" },
   ];
