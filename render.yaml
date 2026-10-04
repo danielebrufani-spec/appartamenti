@@ -20,3 +20,5 @@ services:
         value: Appartamenti Brufani
       - key: OWNER_EMAIL
         sync: false
+      - key: ICAL_FEEDS
+        sync: false
