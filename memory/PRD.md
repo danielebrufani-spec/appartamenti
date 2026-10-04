@@ -32,6 +32,7 @@ Sito web per trovare clienti per due appartamenti in affitto ad Assisi (Appartam
 - P0 (utente): su Render aggiungere chiavi Stripe LIVE (STRIPE_SECRET_KEY sk_live_, STRIPE_PUBLISHABLE_KEY pk_live_ dal suo account Stripe; opzionale STRIPE_WEBHOOK_SECRET da endpoint webhook https://appartamenti-brufani-api.onrender.com/api/stripe/webhook con eventi checkout.session.completed, checkout.session.expired, charge.refunded). Senza chiavi il sito live resta in modalità "richiesta + email" (fallback già gestito)
 - P0 (utente): aggiornare ICAL_FEEDS su Render con i 3 feed (istruzioni già date)
 - P1 (utente): incollare link export su Airbnb/Booking ("importa calendario")
+- 2026-10-04: Creati /public/robots.txt e /public/sitemap.xml (dominio live https://appartamenti.vercel.app) per SEO/Search Console. Verifica proprietà: metodo meta tag HTML da incollare in index.html quando l'utente fornisce il token
 
 ## Note critiche
 - Usare SEMPRE yarn (mai npm) nel frontend
