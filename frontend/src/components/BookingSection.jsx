@@ -22,8 +22,51 @@ export default function BookingSection() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
   const [sending, setSending] = useState(false);
   const [confirmed, setConfirmed] = useState(null);
+  const [verifying, setVerifying] = useState(false);
+  const [statusForm, setStatusForm] = useState({ code: "", email: "" });
+  const [statusResult, setStatusResult] = useState(null);
+  const [statusError, setStatusError] = useState(false);
 
   const apt = APARTMENTS.find((x) => x.id === apartmentId);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const esito = params.get("pagamento");
+    const sessionId = params.get("session_id");
+    if (!esito) return;
+    window.history.replaceState({}, "", window.location.pathname + "#prenota");
+    if (esito === "annullato") {
+      toast.error(b.payCancelled);
+      return;
+    }
+    if (esito === "successo" && sessionId) {
+      setVerifying(true);
+      let attempts = 0;
+      const poll = setInterval(async () => {
+        attempts += 1;
+        try {
+          const r = await fetch(`${API}/payments/status/${sessionId}`);
+          if (r.ok) {
+            const d = await r.json();
+            if (d.payment_status === "paid" && d.booking) {
+              clearInterval(poll);
+              setVerifying(false);
+              setConfirmed(d.booking);
+              toast.success(b.paySuccessTitle);
+              return;
+            }
+          }
+        } catch { /* riprova */ }
+        if (attempts >= 8) {
+          clearInterval(poll);
+          setVerifying(false);
+          toast.error(b.errorGeneric);
+        }
+      }, 2000);
+      return () => clearInterval(poll);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const handler = (e) => setApartmentId(e.detail);
@@ -72,6 +115,7 @@ export default function BookingSection() {
           phone: form.phone || null,
           message: form.message || null,
           language: lang,
+          origin_url: window.location.origin,
         }),
       });
       if (res.status === 409) {
@@ -80,12 +124,29 @@ export default function BookingSection() {
       }
       if (!res.ok) throw new Error();
       const data = await res.json();
+      if (data.checkout_url) {
+        window.location.href = data.checkout_url;
+        return;
+      }
       setConfirmed(data);
       toast.success(b.successTitle);
     } catch {
       toast.error(b.errorGeneric);
     } finally {
       setSending(false);
+    }
+  };
+
+  const checkStatus = async (e) => {
+    e.preventDefault();
+    setStatusError(false);
+    setStatusResult(null);
+    try {
+      const r = await fetch(`${API}/bookings/status/${encodeURIComponent(statusForm.code.trim())}?email=${encodeURIComponent(statusForm.email.trim())}`);
+      if (!r.ok) throw new Error();
+      setStatusResult(await r.json());
+    } catch {
+      setStatusError(true);
     }
   };
 
@@ -166,13 +227,17 @@ export default function BookingSection() {
                   <span className="line-through decoration-terracotta">€{otaTotal}</span>
                 </div>
                 <div className="flex justify-between text-sm text-ink/60 mt-1.5">
-                  <span>{b.cityTax}</span>
+                  <span>{b.cityTax} · {b.taxOnArrival}</span>
                   <span>€{cityTax}</span>
                 </div>
                 <p className="text-[11px] text-ink/40 mt-1">{b.taxNote}</p>
                 <div className="flex justify-between items-baseline mt-2 pt-2 border-t border-olive/15">
                   <span className="text-sm font-semibold text-ink">{b.directPrice} · {b.total}</span>
                   <span className="font-serif text-2xl font-semibold text-terracotta">€{directTotal}</span>
+                </div>
+                <div className="flex justify-between items-baseline mt-1.5">
+                  <span className="text-sm text-ink/70">{b.payNow}</span>
+                  <span data-testid="pay-now-amount" className="text-lg font-bold text-olive">€{stay}</span>
                 </div>
                 <p className="mt-2 text-xs font-bold text-olive">{b.youSave} €{otaTotal - directTotal}</p>
               </div>
@@ -186,14 +251,24 @@ export default function BookingSection() {
             transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
             className="lg:col-span-7 rounded-3xl bg-white border border-ink/5 p-6 sm:p-8"
           >
-            {confirmed ? (
+            {verifying ? (
+              <div data-testid="payment-verifying" className="h-full flex flex-col items-center justify-center text-center py-10">
+                <RefreshCw size={40} className="text-terracotta mb-5 animate-spin" />
+                <p className="text-ink/60">{b.payVerifying}</p>
+              </div>
+            ) : confirmed ? (
               <div data-testid="booking-success" className="h-full flex flex-col items-center justify-center text-center py-10">
                 <CheckCircle2 size={52} className="text-olive mb-5" />
-                <h3 className="font-serif text-3xl font-semibold text-ink">{b.successTitle}</h3>
-                <p className="mt-3 max-w-sm text-ink/60 leading-relaxed">{b.successMsg}</p>
+                <h3 className="font-serif text-3xl font-semibold text-ink">{b.paySuccessTitle}</h3>
+                <p className="mt-3 max-w-sm text-ink/60 leading-relaxed">{b.paySuccessMsg}</p>
                 <p className="mt-6 rounded-full bg-olive/10 text-olive text-sm font-semibold px-5 py-2.5">
-                  {confirmed.nights} {confirmed.nights === 1 ? b.nightOne : b.nights} · €{confirmed.direct_price}
+                  {b.codeIs}: <strong data-testid="booking-code">{confirmed.code}</strong>
                 </p>
+                {confirmed.apartment_name && (
+                  <p className="mt-3 text-sm text-ink/50">
+                    {confirmed.apartment_name} · {confirmed.check_in} → {confirmed.check_out} · {confirmed.guests} {b.guests.toLowerCase()}
+                  </p>
+                )}
               </div>
             ) : (
               <form data-testid="booking-form" onSubmit={submit} className="grid sm:grid-cols-2 gap-4">
@@ -266,14 +341,64 @@ export default function BookingSection() {
                     disabled={sending}
                     className="rounded-full bg-terracotta hover:bg-terracotta-dark disabled:opacity-60 text-cream font-semibold px-9 py-4 text-sm transition-colors duration-200 shadow-[0_12px_36px_-12px_rgba(200,90,50,0.6)]"
                   >
-                    {sending ? b.sending : b.submit}
+                    {sending ? b.sending : b.submitPay}
                   </motion.button>
-                  <p className="text-xs text-ink/45 max-w-xs">{b.noPayment}</p>
+                  <p className="text-xs text-ink/45 max-w-xs">{b.payNote}</p>
                 </div>
               </form>
             )}
           </motion.div>
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, ease: EASE }}
+          className="mt-10 max-w-2xl mx-auto rounded-3xl bg-white border border-ink/5 p-6 sm:p-7"
+          data-testid="booking-status-checker"
+        >
+          <p className="text-sm font-semibold text-ink mb-4">{b.statusTitle}</p>
+          <form onSubmit={checkStatus} className="flex flex-col sm:flex-row gap-3">
+            <input
+              data-testid="status-code-input"
+              required
+              value={statusForm.code}
+              onChange={(e) => setStatusForm({ ...statusForm, code: e.target.value })}
+              placeholder={b.statusCode}
+              className={inputCls}
+            />
+            <input
+              data-testid="status-email-input"
+              required
+              type="email"
+              value={statusForm.email}
+              onChange={(e) => setStatusForm({ ...statusForm, email: e.target.value })}
+              placeholder={b.email}
+              className={inputCls}
+            />
+            <button
+              data-testid="status-check-button"
+              type="submit"
+              className="rounded-full bg-olive hover:bg-olive/90 text-cream text-sm font-semibold px-6 py-3 whitespace-nowrap transition-colors duration-200"
+            >
+              {b.statusCheck}
+            </button>
+          </form>
+          {statusError && (
+            <p data-testid="status-not-found" className="mt-3 text-sm text-terracotta">{b.statusNotFound}</p>
+          )}
+          {statusResult && (
+            <div data-testid="status-result" className="mt-4 rounded-2xl bg-olive/5 border border-olive/15 p-4 text-sm">
+              <p className="font-semibold text-ink">
+                {statusResult.apartment_name} · {statusResult.check_in} → {statusResult.check_out}
+              </p>
+              <p className="mt-1.5 font-semibold text-olive" data-testid="status-label">
+                {b.statuses[statusResult.status] || statusResult.status}
+              </p>
+            </div>
+          )}
+        </motion.div>
       </div>
     </section>
   );

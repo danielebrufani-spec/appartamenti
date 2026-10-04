@@ -15,7 +15,7 @@ import logging
 import ipaddress
 import httpx
 from pathlib import Path
-from fastapi import Response
+from fastapi import Response, Request
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -36,6 +36,12 @@ EMAIL_FROM_NAME = os.environ.get("EMAIL_FROM_NAME", "Residenza Assisi")
 OWNER_EMAIL = os.environ.get("OWNER_EMAIL")
 RESEND_API_KEY = os.environ.get("RESEND_API_KEY")
 EMAIL_FROM_ADDRESS = os.environ.get("EMAIL_FROM_ADDRESS", "onboarding@resend.dev")
+
+import stripe
+import time
+
+stripe.api_key = os.environ.get("STRIPE_SECRET_KEY")
+STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET", "")
 
 APARTMENTS = {
     "appartamento-brufani": {"name": "Appartamento Brufani", "base_price": 110, "base_guests": 2, "extra_guest": 10, "max_guests": 4},
@@ -161,6 +167,7 @@ class BookingRequestCreate(BaseModel):
     phone: Optional[str] = Field(default=None, max_length=40)
     message: Optional[str] = Field(default=None, max_length=1000)
     language: str = "it"
+    origin_url: Optional[str] = None
 
 
 class CalendarFeedCreate(BaseModel):
@@ -290,6 +297,159 @@ async def _sync_if_stale(apartment_id: str, force: bool = False):
                 logger.error(f"iCal re-sync failed for {feed.get('source')}: {e}")
 
 
+GUEST_TPL = {
+    "it": {
+        "confirmed_subject": "Prenotazione confermata · {apt}",
+        "confirmed_title": "La tua prenotazione è confermata!",
+        "confirmed_intro": "Ciao {name}, la tua prenotazione è confermata. Ti aspettiamo ad Assisi!",
+        "rejected_subject": "La tua richiesta di prenotazione · {apt}",
+        "rejected_title": "Ci dispiace, non possiamo confermare",
+        "rejected_intro": "Ciao {name}, purtroppo non possiamo confermare il soggiorno richiesto. Il rimborso completo è già stato avviato sulla tua carta: lo vedrai entro 5-10 giorni lavorativi.",
+        "apt": "Appartamento", "in": "Check-in", "out": "Check-out", "guests": "Ospiti",
+        "paid": "Pagato online", "tax": "Tassa di soggiorno (da pagare all'arrivo)", "code": "Codice prenotazione", "addr": "Indirizzo",
+        "footer": "Per qualsiasi necessità rispondi a questa email o scrivici su WhatsApp al +39 339 502 0625.",
+    },
+    "en": {
+        "confirmed_subject": "Booking confirmed · {apt}",
+        "confirmed_title": "Your booking is confirmed!",
+        "confirmed_intro": "Hello {name}, your booking is confirmed. See you in Assisi!",
+        "rejected_subject": "Your booking request · {apt}",
+        "rejected_title": "Sorry, we cannot confirm",
+        "rejected_intro": "Hello {name}, unfortunately we cannot confirm the requested stay. A full refund has already been issued to your card: it will appear within 5-10 business days.",
+        "apt": "Apartment", "in": "Check-in", "out": "Check-out", "guests": "Guests",
+        "paid": "Paid online", "tax": "City tax (payable on arrival)", "code": "Booking code", "addr": "Address",
+        "footer": "For anything you need, reply to this email or message us on WhatsApp at +39 339 502 0625.",
+    },
+    "de": {
+        "confirmed_subject": "Buchung bestätigt · {apt}",
+        "confirmed_title": "Deine Buchung ist bestätigt!",
+        "confirmed_intro": "Hallo {name}, deine Buchung ist bestätigt. Wir freuen uns auf dich in Assisi!",
+        "rejected_subject": "Deine Buchungsanfrage · {apt}",
+        "rejected_title": "Leider können wir nicht bestätigen",
+        "rejected_intro": "Hallo {name}, leider können wir den gewünschten Aufenthalt nicht bestätigen. Die volle Rückerstattung wurde bereits auf deine Karte veranlasst: sie ist in 5-10 Werktagen sichtbar.",
+        "apt": "Wohnung", "in": "Check-in", "out": "Check-out", "guests": "Gäste",
+        "paid": "Online bezahlt", "tax": "Kurtaxe (bei Ankunft zu zahlen)", "code": "Buchungscode", "addr": "Adresse",
+        "footer": "Bei Fragen antworte einfach auf diese E-Mail oder schreib uns auf WhatsApp: +39 339 502 0625.",
+    },
+    "es": {
+        "confirmed_subject": "Reserva confirmada · {apt}",
+        "confirmed_title": "¡Tu reserva está confirmada!",
+        "confirmed_intro": "Hola {name}, tu reserva está confirmada. ¡Te esperamos en Assisi!",
+        "rejected_subject": "Tu solicitud de reserva · {apt}",
+        "rejected_title": "Lo sentimos, no podemos confirmar",
+        "rejected_intro": "Hola {name}, lamentablemente no podemos confirmar la estancia solicitada. El reembolso completo ya se ha iniciado en tu tarjeta: lo verás en 5-10 días laborables.",
+        "apt": "Apartamento", "in": "Entrada", "out": "Salida", "guests": "Huéspedes",
+        "paid": "Pagado online", "tax": "Tasa turística (a pagar a la llegada)", "code": "Código de reserva", "addr": "Dirección",
+        "footer": "Para cualquier cosa, responde a este email o escríbenos por WhatsApp al +39 339 502 0625.",
+    },
+}
+
+ADDRESS_LINE = "Via Risorgimento 27/A e 29, 06081 Santa Maria degli Angeli, Assisi (PG)"
+
+
+async def _send_guest_email(booking: dict, kind: str):
+    tpl = GUEST_TPL.get(booking.get("language", "it"), GUEST_TPL["it"])
+    apt_name = booking.get("apartment_name", "")
+    ci = _fmt_data_it(date.fromisoformat(booking["check_in"]))
+    co = _fmt_data_it(date.fromisoformat(booking["check_out"]))
+    rows = "".join([
+        f"<tr><td style='padding:6px 12px;color:#6E7570'>{tpl['apt']}</td><td style='padding:6px 12px'><strong>{escape(apt_name)}</strong></td></tr>",
+        f"<tr><td style='padding:6px 12px;color:#6E7570'>{tpl['in']}</td><td style='padding:6px 12px'>{ci}</td></tr>",
+        f"<tr><td style='padding:6px 12px;color:#6E7570'>{tpl['out']}</td><td style='padding:6px 12px'>{co}</td></tr>",
+        f"<tr><td style='padding:6px 12px;color:#6E7570'>{tpl['guests']}</td><td style='padding:6px 12px'>{booking['guests']}</td></tr>",
+        f"<tr><td style='padding:6px 12px;color:#6E7570'>{tpl['paid']}</td><td style='padding:6px 12px'><strong>&euro;{booking.get('stay_online', booking.get('direct_price'))}</strong></td></tr>",
+        f"<tr><td style='padding:6px 12px;color:#6E7570'>{tpl['tax']}</td><td style='padding:6px 12px'>&euro;{booking.get('city_tax', 0)}</td></tr>",
+        f"<tr><td style='padding:6px 12px;color:#6E7570'>{tpl['code']}</td><td style='padding:6px 12px'><strong>{escape(booking.get('code', ''))}</strong></td></tr>",
+        f"<tr><td style='padding:6px 12px;color:#6E7570'>{tpl['addr']}</td><td style='padding:6px 12px'>{ADDRESS_LINE}</td></tr>",
+    ])
+    title = tpl[f"{kind}_title"]
+    intro = tpl[f"{kind}_intro"].format(name=escape(booking.get("name", "")))
+    html = (
+        "<table role='presentation' width='100%'><tr><td style='padding:24px;font-family:Arial,sans-serif'>"
+        f"<h2 style='color:#2C4231;margin:0 0 12px'>{title}</h2>"
+        f"<p style='margin:0 0 16px'>{intro}</p>"
+        f"<table role='presentation' style='border-collapse:collapse'>{rows}</table>"
+        f"<p style='font-size:12px;color:#888;margin-top:24px'>{tpl['footer']}</p>"
+        "</td></tr></table>"
+    )
+    email_id = await send_email(to=booking["email"], subject=tpl[f"{kind}_subject"].format(apt=apt_name), html=html)
+    logger.info(f"Guest {kind} email id: {email_id}")
+
+
+def _owner_page(title: str, subtitle: str) -> str:
+    return (
+        "<!doctype html><html lang='it'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>"
+        f"<title>{escape(title)}</title></head>"
+        "<body style='font-family:Arial,sans-serif;background:#FAF7F2;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0'>"
+        "<div style='background:#fff;border-radius:24px;padding:40px;max-width:420px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.08)'>"
+        f"<h1 style='color:#2C4231;font-size:24px;margin:0 0 12px'>{escape(title)}</h1>"
+        f"<p style='color:#6E7570;margin:0'>{escape(subtitle)}</p>"
+        "</div></body></html>"
+    )
+
+
+async def _release_dates(booking_id: str):
+    await db.blocked_dates.delete_many({"request_id": booking_id, "source": "direct"})
+
+
+async def _mark_paid(session_id: str, base_url: str):
+    tx = await db.payment_transactions.find_one({"session_id": session_id})
+    if not tx:
+        logger.warning(f"Payment session unknown: {session_id}")
+        return
+    booking = await db.booking_requests.find_one({"id": tx["booking_id"]})
+    if not booking or booking.get("status") != "pending_payment":
+        return
+    pi = None
+    try:
+        s = stripe.checkout.Session.retrieve(session_id)
+        pi = s.payment_intent
+    except Exception as e:
+        logger.error(f"Stripe session retrieve failed: {e}")
+    now = datetime.now(timezone.utc).isoformat()
+    await db.booking_requests.update_one(
+        {"id": booking["id"]},
+        {"$set": {"status": "paid", "payment_status": "paid", "paid_at": now, "stripe_payment_intent": pi}},
+    )
+    await db.payment_transactions.update_one(
+        {"session_id": session_id},
+        {"$set": {"status": "completed", "payment_status": "paid", "stripe_payment_intent_id": pi, "updated_at": now}},
+    )
+    if OWNER_EMAIL:
+        confirm_url = f"{base_url}api/bookings/{booking['id']}/confirm?token={booking['action_token']}"
+        reject_url = f"{base_url}api/bookings/{booking['id']}/reject?token={booking['action_token']}"
+        ci = _fmt_data_it(date.fromisoformat(booking["check_in"]))
+        co = _fmt_data_it(date.fromisoformat(booking["check_out"]))
+        rows = "".join([
+            f"<tr><td style='padding:6px 12px;color:#6E7570'>Appartamento</td><td style='padding:6px 12px'><strong>{escape(booking['apartment_name'])}</strong></td></tr>",
+            f"<tr><td style='padding:6px 12px;color:#6E7570'>Check-in</td><td style='padding:6px 12px'>{ci}</td></tr>",
+            f"<tr><td style='padding:6px 12px;color:#6E7570'>Check-out</td><td style='padding:6px 12px'>{co}</td></tr>",
+            f"<tr><td style='padding:6px 12px;color:#6E7570'>Ospiti</td><td style='padding:6px 12px'>{booking['guests']}</td></tr>",
+            f"<tr><td style='padding:6px 12px;color:#6E7570'>Nome</td><td style='padding:6px 12px'>{escape(booking['name'])}</td></tr>",
+            f"<tr><td style='padding:6px 12px;color:#6E7570'>Email</td><td style='padding:6px 12px'>{escape(booking['email'])}</td></tr>",
+            f"<tr><td style='padding:6px 12px;color:#6E7570'>Telefono</td><td style='padding:6px 12px'>{escape(booking.get('phone') or '-')}</td></tr>",
+            f"<tr><td style='padding:6px 12px;color:#6E7570'>Messaggio</td><td style='padding:6px 12px'>{escape(booking.get('message') or '-')}</td></tr>",
+            f"<tr><td style='padding:6px 12px;color:#6E7570'>Incassato online</td><td style='padding:6px 12px'><strong>&euro;{booking.get('stay_online')}</strong> (tassa di soggiorno &euro;{booking.get('city_tax')} all'arrivo)</td></tr>",
+            f"<tr><td style='padding:6px 12px;color:#6E7570'>Codice</td><td style='padding:6px 12px'>{booking.get('code')}</td></tr>",
+        ])
+        html = (
+            "<table role='presentation' width='100%'><tr><td style='padding:24px;font-family:Arial,sans-serif'>"
+            f"<h2 style='color:#2C4231;margin:0 0 8px'>Prenotazione PAGATA - {escape(booking['apartment_name'])}</h2>"
+            "<p style='margin:0 0 16px;color:#6E7570'>L'ospite ha già pagato online. Conferma o rifiuta (rimborso automatico):</p>"
+            f"<p style='margin:0 0 20px'>"
+            f"<a href='{confirm_url}' style='background:#2C4231;color:#FAF7F2;padding:14px 28px;border-radius:999px;text-decoration:none;font-weight:bold'>Conferma prenotazione</a>"
+            "&nbsp;&nbsp;"
+            f"<a href='{reject_url}' style='background:#C85A32;color:#FAF7F2;padding:14px 28px;border-radius:999px;text-decoration:none;font-weight:bold'>Rifiuta e rimborsa</a>"
+            "</p>"
+            f"<table role='presentation' style='border-collapse:collapse'>{rows}</table>"
+            f"<p style='font-size:12px;color:#888;margin-top:24px'>Inviata dal sito {escape(EMAIL_FROM_NAME)}. "
+            "Non chiediamo mai password o dati di pagamento via email.</p>"
+            "</td></tr></table>"
+        )
+        email_id = await send_email(to=OWNER_EMAIL, subject=f"Prenotazione PAGATA - {booking['apartment_name']} ({booking.get('code')})", html=html)
+        logger.info(f"Owner paid-booking email id: {email_id}")
+
+
 # ---------- Routes ----------
 @api_router.get("/")
 async def root():
@@ -324,16 +484,18 @@ async def create_booking_request(payload: BookingRequestCreate):
     ota_total = ota_stay + city_tax
     direct_total = direct_stay + city_tax
     request_id = str(uuid.uuid4())
+    booking_code = "BRF-" + uuid.uuid4().hex[:6].upper()
 
     doc = {
         "id": request_id,
+        "code": booking_code,
         "apartment_id": payload.apartment_id,
         "apartment_name": apt["name"],
         "check_in": payload.check_in.isoformat(),
         "check_out": payload.check_out.isoformat(),
         "guests": payload.guests,
         "name": payload.name,
-        "email": payload.email,
+        "email": payload.email.lower(),
         "phone": payload.phone,
         "message": payload.message,
         "language": payload.language,
@@ -341,50 +503,95 @@ async def create_booking_request(payload: BookingRequestCreate):
         "nightly_rate": nightly,
         "ota_price": ota_total,
         "direct_price": direct_total,
+        "stay_online": direct_stay,
         "city_tax": city_tax,
-        "status": "received",
+        "status": "pending_payment",
+        "payment_status": "pending",
+        "action_token": str(uuid.uuid4()),
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
+
+    if not stripe.api_key:
+        # Fallback senza pagamento online: vecchia logica (richiesta + email al proprietario)
+        doc["status"] = "received"
+        doc.pop("action_token", None)
+        await db.booking_requests.insert_one(doc)
+        await db.blocked_dates.insert_many([
+            {"apartment_id": payload.apartment_id, "source": "direct", "request_id": request_id, "date": d}
+            for d in requested
+        ])
+        if OWNER_EMAIL:
+            html = (
+                "<table role='presentation' width='100%'><tr><td style='padding:24px;font-family:Arial,sans-serif'>"
+                f"<h2 style='color:#2C4231;margin:0 0 16px'>Nuova richiesta di prenotazione</h2>"
+                f"<p>Appartamento: <strong>{escape(apt['name'])}</strong> · {_fmt_data_it(payload.check_in)} → {_fmt_data_it(payload.check_out)} · "
+                f"{payload.guests} ospiti · {escape(payload.name)} · {escape(payload.email)} · Totale &euro;{direct_total}</p>"
+                "</td></tr></table>"
+            )
+            await send_email(to=OWNER_EMAIL, subject=f"Nuova richiesta di prenotazione - {apt['name']}", html=html)
+        return {
+            "id": request_id,
+            "code": booking_code,
+            "status": "received",
+            "nights": nights,
+            "nightly_rate": nightly,
+            "ota_price": ota_total,
+            "direct_price": direct_total,
+            "city_tax": city_tax,
+        }
+
+    origin = (payload.origin_url or "").rstrip("/")
+    if not origin.startswith("https://"):
+        raise HTTPException(status_code=400, detail="invalid_origin")
+
     await db.booking_requests.insert_one(doc)
     await db.blocked_dates.insert_many([
         {"apartment_id": payload.apartment_id, "source": "direct", "request_id": request_id, "date": d}
         for d in requested
     ])
 
-    if OWNER_EMAIL:
-        subject = f"Nuova richiesta di prenotazione - {apt['name']}"
-        rows = "".join([
-            f"<tr><td style='padding:6px 12px;color:#6E7570'>Appartamento</td><td style='padding:6px 12px'><strong>{escape(apt['name'])}</strong></td></tr>",
-            f"<tr><td style='padding:6px 12px;color:#6E7570'>Check-in</td><td style='padding:6px 12px'>{_fmt_data_it(payload.check_in)}</td></tr>",
-            f"<tr><td style='padding:6px 12px;color:#6E7570'>Check-out</td><td style='padding:6px 12px'>{_fmt_data_it(payload.check_out)}</td></tr>",
-            f"<tr><td style='padding:6px 12px;color:#6E7570'>Ospiti</td><td style='padding:6px 12px'>{payload.guests}</td></tr>",
-            f"<tr><td style='padding:6px 12px;color:#6E7570'>Nome</td><td style='padding:6px 12px'>{escape(payload.name)}</td></tr>",
-            f"<tr><td style='padding:6px 12px;color:#6E7570'>Email</td><td style='padding:6px 12px'>{escape(payload.email)}</td></tr>",
-            f"<tr><td style='padding:6px 12px;color:#6E7570'>Telefono</td><td style='padding:6px 12px'>{escape(payload.phone or '-')}</td></tr>",
-            f"<tr><td style='padding:6px 12px;color:#6E7570'>Messaggio</td><td style='padding:6px 12px'>{escape(payload.message or '-')}</td></tr>",
-            f"<tr><td style='padding:6px 12px;color:#6E7570'>Notti</td><td style='padding:6px 12px'>{nights}</td></tr>",
-            f"<tr><td style='padding:6px 12px;color:#6E7570'>Tariffa a notte</td><td style='padding:6px 12px'>&euro;{nightly}</td></tr>",
-            f"<tr><td style='padding:6px 12px;color:#6E7570'>Soggiorno</td><td style='padding:6px 12px'>{nights} notti x &euro;{nightly} = &euro;{stay}</td></tr>",
-            f"<tr><td style='padding:6px 12px;color:#6E7570'>Stesso soggiorno sui portali</td><td style='padding:6px 12px'>&euro;{ota_stay} (con commissioni ~15%)</td></tr>",
-            f"<tr><td style='padding:6px 12px;color:#6E7570'>Tassa di soggiorno</td><td style='padding:6px 12px'>&euro;{city_tax} (da versare al Comune)</td></tr>",
-            f"<tr><td style='padding:6px 12px;color:#6E7570'>Totale ospite</td><td style='padding:6px 12px'><strong>&euro;{direct_total}</strong> (sui portali: &euro;{ota_total})</td></tr>",
-        ])
-        html = (
-            "<table role='presentation' width='100%'><tr><td style='padding:24px;font-family:Arial,sans-serif'>"
-            f"<h2 style='color:#2C4231;margin:0 0 16px'>Nuova richiesta di prenotazione</h2>"
-            f"<table role='presentation' style='border-collapse:collapse'>{rows}</table>"
-            f"<p style='font-size:12px;color:#888;margin-top:24px'>Inviata dal sito {escape(EMAIL_FROM_NAME)}. "
-            "Non chiediamo mai password o dati di pagamento via email.</p>"
-            "</td></tr></table>"
+    try:
+        session = stripe.checkout.Session.create(
+            line_items=[{
+                "price_data": {
+                    "currency": "eur",
+                    "unit_amount": int(round(direct_stay * 100)),
+                    "product_data": {
+                        "name": f"{apt['name']} · {_fmt_data_it(payload.check_in)} → {_fmt_data_it(payload.check_out)}",
+                    },
+                },
+                "quantity": 1,
+            }],
+            mode="payment",
+            success_url=f"{origin}/?pagamento=successo&session_id={{CHECKOUT_SESSION_ID}}",
+            cancel_url=f"{origin}/?pagamento=annullato",
+            metadata={"booking_id": request_id},
+            customer_email=payload.email,
+            expires_at=int(time.time()) + 1800,
         )
-        email_id = await send_email(to=OWNER_EMAIL, subject=subject, html=html)
-        logger.info(f"Owner notification email id: {email_id}")
-    else:
-        logger.warning("OWNER_EMAIL not configured - booking request stored without email notification")
+    except Exception as e:
+        logger.error(f"Stripe checkout creation failed: {e}")
+        await db.booking_requests.delete_one({"id": request_id})
+        await _release_dates(request_id)
+        raise HTTPException(status_code=502, detail="payment_unavailable")
+
+    await db.booking_requests.update_one({"id": request_id}, {"$set": {"stripe_session_id": session.id}})
+    await db.payment_transactions.insert_one({
+        "session_id": session.id,
+        "booking_id": request_id,
+        "amount": float(direct_stay),
+        "currency": "eur",
+        "status": "initiated",
+        "payment_status": "pending",
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "updated_at": datetime.now(timezone.utc).isoformat(),
+    })
 
     return {
         "id": request_id,
-        "status": "received",
+        "code": booking_code,
+        "status": "pending_payment",
+        "checkout_url": session.url,
         "nights": nights,
         "nightly_rate": nightly,
         "ota_price": ota_total,
@@ -394,12 +601,40 @@ async def create_booking_request(payload: BookingRequestCreate):
 
 
 @api_router.get("/availability")
-async def get_availability(apartment_id: str):
+async def get_availability(request: Request, apartment_id: str):
     if apartment_id not in APARTMENTS:
         raise HTTPException(status_code=400, detail="Unknown apartment")
+    await _expire_stale_pending(apartment_id, str(request.base_url))
     await _sync_if_stale(apartment_id)
     blocked = sorted(await _blocked_dates(apartment_id))
     return {"apartment_id": apartment_id, "blocked": blocked}
+
+
+async def _expire_stale_pending(apartment_id: str, base_url: str):
+    if not stripe.api_key:
+        return
+    cutoff = (datetime.now(timezone.utc) - timedelta(minutes=40)).isoformat()
+    olds = await db.booking_requests.find(
+        {"apartment_id": apartment_id, "status": "pending_payment", "created_at": {"$lt": cutoff}},
+        {"_id": 0, "id": 1, "stripe_session_id": 1},
+    ).to_list(50)
+    for b in olds:
+        sid = b.get("stripe_session_id")
+        if not sid:
+            await db.booking_requests.update_one({"id": b["id"]}, {"$set": {"status": "expired", "payment_status": "expired"}})
+            await _release_dates(b["id"])
+            continue
+        try:
+            s = stripe.checkout.Session.retrieve(sid)
+            if s.payment_status == "paid":
+                await _mark_paid(sid, base_url)
+                continue
+        except Exception as e:
+            logger.error(f"Stripe session check failed: {e}")
+            continue
+        await db.booking_requests.update_one({"id": b["id"]}, {"$set": {"status": "expired", "payment_status": "expired"}})
+        await db.payment_transactions.update_one({"session_id": sid}, {"$set": {"status": "expired", "payment_status": "expired"}})
+        await _release_dates(b["id"])
 
 
 @api_router.post("/calendar/feeds")
@@ -486,6 +721,121 @@ async def export_calendar(apartment_id: str):
     if apartment_id not in APARTMENTS:
         raise HTTPException(status_code=400, detail="Unknown apartment")
     return Response(content=await _export_ical(apartment_id), media_type="text/calendar")
+
+
+# ---------- Payments (Stripe) ----------
+@api_router.get("/payments/status/{session_id}")
+async def payment_status(session_id: str, request: Request):
+    tx = await db.payment_transactions.find_one({"session_id": session_id}, {"_id": 0})
+    if not tx:
+        raise HTTPException(status_code=404, detail="Transaction not found")
+    if tx.get("payment_status") != "paid" and stripe.api_key:
+        try:
+            s = stripe.checkout.Session.retrieve(session_id)
+            if s.payment_status == "paid":
+                await _mark_paid(session_id, str(request.base_url))
+        except Exception as e:
+            logger.error(f"Stripe status poll failed: {e}")
+    booking = await db.booking_requests.find_one(
+        {"id": tx["booking_id"]},
+        {"_id": 0, "code": 1, "status": 1, "apartment_name": 1, "check_in": 1, "check_out": 1, "guests": 1, "stay_online": 1, "city_tax": 1},
+    )
+    return {
+        "session_id": session_id,
+        "payment_status": tx.get("payment_status"),
+        "booking": booking,
+    }
+
+
+@api_router.post("/stripe/webhook")
+async def stripe_webhook(request: Request):
+    if not STRIPE_WEBHOOK_SECRET:
+        raise HTTPException(status_code=503, detail="Webhook not configured")
+    payload = await request.body()
+    sig = request.headers.get("stripe-signature", "")
+    try:
+        event = stripe.Webhook.construct_event(payload, sig, STRIPE_WEBHOOK_SECRET)
+    except stripe.error.SignatureVerificationError:
+        raise HTTPException(status_code=400, detail="Invalid signature")
+    obj, t = event["data"]["object"], event["type"]
+    base_url = str(request.base_url)
+    if t == "checkout.session.completed":
+        await _mark_paid(obj["id"], base_url)
+    elif t in ("checkout.session.async_payment_failed", "checkout.session.expired"):
+        tx = await db.payment_transactions.find_one({"session_id": obj["id"]})
+        if tx:
+            upd = await db.booking_requests.update_one(
+                {"id": tx["booking_id"], "status": "pending_payment"},
+                {"$set": {"status": "expired", "payment_status": "expired"}},
+            )
+            if upd.modified_count:
+                await _release_dates(tx["booking_id"])
+        await db.payment_transactions.update_one(
+            {"session_id": obj["id"]},
+            {"$set": {"status": "expired", "payment_status": "expired", "updated_at": datetime.now(timezone.utc).isoformat()}},
+        )
+    elif t == "charge.refunded":
+        await db.payment_transactions.update_one(
+            {"stripe_payment_intent_id": obj.get("payment_intent")},
+            {"$set": {"status": "refunded", "payment_status": "refunded", "updated_at": datetime.now(timezone.utc).isoformat()}},
+        )
+    return {"status": "ok"}
+
+
+# ---------- Owner confirm / reject (link nell'email) ----------
+@api_router.get("/bookings/{booking_id}/confirm")
+async def confirm_booking(booking_id: str, token: str = ""):
+    b = await db.booking_requests.find_one({"id": booking_id})
+    if not b or b.get("action_token") != token:
+        return Response(content=_owner_page("Link non valido", "Questo link non è valido o è scaduto."), media_type="text/html", status_code=403)
+    if b["status"] == "confirmed":
+        return Response(content=_owner_page("Già confermata", f"La prenotazione {b.get('code')} era già confermata."), media_type="text/html")
+    if b["status"] != "paid":
+        return Response(content=_owner_page("Azione non disponibile", f"La prenotazione {b.get('code')} è in stato '{b['status']}' e non può essere confermata."), media_type="text/html", status_code=409)
+    await db.booking_requests.update_one(
+        {"id": booking_id},
+        {"$set": {"status": "confirmed", "confirmed_at": datetime.now(timezone.utc).isoformat()}},
+    )
+    await _send_guest_email(b, "confirmed")
+    return Response(content=_owner_page("Prenotazione confermata", f"{b.get('code')} · {b['apartment_name']} · {b['name']}: l'ospite ha ricevuto l'email di conferma."), media_type="text/html")
+
+
+@api_router.get("/bookings/{booking_id}/reject")
+async def reject_booking(booking_id: str, token: str = ""):
+    b = await db.booking_requests.find_one({"id": booking_id})
+    if not b or b.get("action_token") != token:
+        return Response(content=_owner_page("Link non valido", "Questo link non è valido o è scaduto."), media_type="text/html", status_code=403)
+    if b["status"] in ("cancelled", "refunded"):
+        return Response(content=_owner_page("Già rifiutata", f"La prenotazione {b.get('code')} era già stata rifiutata e rimborsata."), media_type="text/html")
+    if b["status"] != "paid":
+        return Response(content=_owner_page("Azione non disponibile", f"La prenotazione {b.get('code')} è in stato '{b['status']}' e non può essere rifiutata."), media_type="text/html", status_code=409)
+    refund_ok = False
+    if b.get("stripe_payment_intent") and stripe.api_key:
+        try:
+            stripe.Refund.create(payment_intent=b["stripe_payment_intent"])
+            refund_ok = True
+        except Exception as e:
+            logger.error(f"Stripe refund failed for {booking_id}: {e}")
+            return Response(content=_owner_page("Rimborso non riuscito", "Errore durante il rimborso. Riprova tra poco o contatta l'assistenza."), media_type="text/html", status_code=502)
+    await db.booking_requests.update_one(
+        {"id": booking_id},
+        {"$set": {"status": "cancelled", "payment_status": "refunded" if refund_ok else b.get("payment_status"), "cancelled_at": datetime.now(timezone.utc).isoformat()}},
+    )
+    await _release_dates(booking_id)
+    await _send_guest_email(b, "rejected")
+    return Response(content=_owner_page("Prenotazione rifiutata", f"{b.get('code')} · rimborso completo avviato, le date sono di nuovo disponibili."), media_type="text/html")
+
+
+# ---------- Stato prenotazione per l'ospite ----------
+@api_router.get("/bookings/status/{code}")
+async def guest_booking_status(code: str, email: str = ""):
+    b = await db.booking_requests.find_one(
+        {"code": code.strip().upper(), "email": email.strip().lower()},
+        {"_id": 0, "code": 1, "status": 1, "payment_status": 1, "apartment_name": 1, "check_in": 1, "check_out": 1, "guests": 1, "stay_online": 1, "city_tax": 1, "created_at": 1},
+    )
+    if not b:
+        raise HTTPException(status_code=404, detail="not_found")
+    return b
 
 
 app.include_router(api_router)
