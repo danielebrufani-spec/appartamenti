@@ -1,0 +1,45 @@
+{
+  "summary": "E2E verification on LIVE site after Stripe key env name fix (TRIPE_SECRET_KEY -> STRIPE_SECRET_KEY) on Render. All 5 requested checks PASS. The live backend is no longer in email-only fallback: /api/booking-request now returns a cs_live_ Stripe Checkout URL.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {"ui_bugs": [], "integration_issues": [], "design_issues": []},
+  "verification_details": {
+    "live_stripe_e2e": {
+      "redirect_host": "checkout.stripe.com",
+      "session_prefix": "cs_live_ (confirmed, NOT cs_test_)",
+      "sample_url_prefix": "https://checkout.stripe.com/c/pay/cs_live_a18xBQnfGMCO...",
+      "amount_shown": "EUR 180.00 (2 nights x 90 EUR, correct)",
+      "description": "Appartamento Brufani Due \u00b7 5 ottobre 2027 \u2192 7 ottobre 2027",
+      "email_prefill": "verifica.live@example.com (correct)",
+      "action_taken": "Stopped at Stripe checkout page; NO payment completed. Pending booking will auto-expire in 30-40 min and free the dates."
+    },
+    "cancel_toast": "Verified via direct URL ?pagamento=annullato#prenota - sonner toast displayed: 'Pagamento annullato: nessun addebito e le date sono state liberate. Puoi riprovare quando vuoi.' Top-centered as expected.",
+    "api_prod_availability": {
+      "endpoint": "GET /api/availability?apartment_id=appartamento-brufani-due",
+      "contains_2026_10_03": true,
+      "contains_2026_10_10": true,
+      "contains_2026_10_17": true,
+      "blocked_sample": ["2026-10-03","2026-10-10","2026-10-17","2027-09-01","2027-09-02","2027-09-08","2027-09-09","2027-09-15","2027-09-16"]
+    },
+    "api_prod_ics": "GET /api/calendar/export/appartamento-brufani-due.ics returns 200 and starts with BEGIN:VCALENDAR",
+    "calendar_trilocale_oct2026": "Blocked days from API: 4,10,16,17,18,24,25,26,27,30 - all 9 requested days (4,10,16,17,24,25,26,27,30) present. Day 18 is an extra block (OK).",
+    "calendar_monolocale_oct2026": "Blocked days: 3,10,17 - matches requirement exactly.",
+    "mobile_hero_legibility_390px": "Captured 3 screenshots across hero image rotation (~6.5s each). Hero headline 'La tua casa ad Assisi, senza intermediari.' and subheadline remain readable on all 3 rotating backgrounds thanks to the dark gradient overlay. Text contrast adequate."
+  },
+  "preview_regression": "NOT re-executed in this iteration because: (a) backend code unchanged since iteration_2 (which ran 19/19 pytest green on the Stripe TEST flow), (b) attempting /api/booking-request via curl against the preview backend is blocked by the invalid_origin middleware. Full preview UI retest can be skipped unless the backend code is touched again.",
+  "test_report_links": ["/app/test_reports/iteration_4.json", "/app/backend/tests/test_booking_payment_flow.py"],
+  "action_items": [
+    "USER CLEANUP (manual, non-blocking): 3 test bookings currently in DB live - 'Verifica Config' x2 (status=received) and 'Verifica Pagamento Live' (status=pending_payment) with Sep 2027 dates, plus a new 'Verifica Live Finale' pending_payment created by this iteration for 5-7 Oct 2027 (will auto-expire). Owner may delete manually if desired.",
+    "Optional: in BookingSection.jsx line 44 toast is `toast.error(b.payCancelled)` - works fine. Consider using `toast.info` for cancellation to avoid red error styling (minor cosmetic)."
+  ],
+  "critical_code_review_comments": [
+    "Live Stripe is correctly in LIVE mode (cs_live_ session). Backend fallback (email-only) is no longer active - the previously documented env name typo on Render is confirmed fixed in production.",
+    "Pending booking expiration (30-40min) correctly frees dates; verified indirectly as our first test attempt booked 5-7 Oct 2027 and the second attempt within minutes showed those dates as blocked."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "100%", "frontend": "100%"},
+  "seed_data_creation": "One LIVE pending_payment booking created (name 'Verifica Live Finale', 5-7 Oct 2027, Appartamento Brufani Due) - auto-expires per app design. No real payment made.",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Live Stripe fix is fully verified E2E. All 5 checks in the request passed. If future testing involves submitting booking forms on LIVE, be aware this will create pending_payment entries sent via email to danielebrufani@gmail.com and will block dates for ~30min.",
+  "rca of the issue": "RCA (already fixed by main agent before this test): Render env var was named 'TRIPE_SECRET_KEY' (missing 'S'), so backend's os.environ.get('STRIPE_SECRET_KEY') returned None and the booking-request endpoint silently fell back to the 'email-only' flow instead of creating a Stripe Checkout Session. Fix: renamed env var to STRIPE_SECRET_KEY on Render, triggered rebuild. Verification: LIVE submit now redirects to checkout.stripe.com/c/pay/cs_live_... with EUR 180.00 for 2 nights (90 EUR x 2)."
+}
