@@ -121,3 +121,8 @@ Sito web per trovare clienti per due appartamenti in affitto ad Assisi (Appartam
 - Porcellino Divino: 5 foto in /images/consigli/porcellino-1..5.webp (rimossi badge TripAdvisor dal tagliere, cuoricini decorativi dal tagliere salumi, scritta dalla Focaccia Linda).
 - Consigli.jsx: ServicePhotos carousel per card (frecce + contatore + zoom lightbox fullscreen via createPortal su document.body — necessario perché motion.article trasformato rompe position:fixed; NIENTE AnimatePresence attorno al portale, non traccia i portal).
 
+## Aggiornamento 2026-10-04 (niente nomi Booking/Airbnb)
+- Richiesta utente: non citare direttamente Booking e Airbnb sul sito (cautela legale). Sostituiti ovunque in IT/EN/DE/ES con formule generiche: "grandi piattaforme / portali" (widget hero, FAQ, badge recensioni, nota sync calendario, footer, JSON-LD FAQPage in index.html).
+- NOTA: la sincronizzazione iCal tecnica con Booking/Airbnb (backend) resta attiva e invariata — cambiano solo i testi pubblici.
+
+
