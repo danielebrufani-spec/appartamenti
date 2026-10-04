@@ -62,6 +62,17 @@ const translations = {
         { title: "Check-in flessibile", desc: "Arrivi tardi? Parti presto? Con la prenotazione diretta ci organizziamo insieme, senza rigidità." },
       ],
     },
+    hosts: {
+      eyebrow: "Chi Siamo",
+      title: "Una famiglia, due case, tanta cura",
+      desc: "Gli Appartamenti Brufani nascono da una storia di famiglia. Per noi ospitare non è un lavoro: è aprirvi le porte della nostra Assisi, consigliarvi i posti che amiamo e farvi sentire a casa dal primo giorno.",
+      quote: "Vi aspettiamo come si aspetta un amico.",
+      members: [
+        { name: "Oliviero", role: "Il papà", desc: "Conosce ogni sentiero e ogni angolo di Assisi: chiedetegli un consiglio e vi manderà nel posto giusto." },
+        { name: "Nicoletta", role: "La mamma", desc: "Cura ogni dettaglio della casa come fosse la propria: pulizia, profumo di fresco e piccole attenzioni per gli ospiti." },
+        { name: "Daniele", role: "Il figlio", desc: "Vi accoglie all'arrivo, gestisce le prenotazioni e risponde alle vostre richieste, prima e durante il soggiorno." },
+      ],
+    },
     gallery: { eyebrow: "Galleria", title: "Scorci di casa e di Assisi" },
     location: {
       eyebrow: "La Zona",
@@ -256,6 +267,17 @@ const translations = {
         { title: "Free parking", desc: "Private parking space included with both apartments: arrive, park in front of the house and explore Assisi without worries." },
         { title: "Direct contact", desc: "You talk directly with us, no call centers: fast replies and advice from people who live Assisi every day." },
         { title: "Flexible check-in", desc: "Arriving late? Leaving early? With direct booking we arrange it together, without rigidity." },
+      ],
+    },
+    hosts: {
+      eyebrow: "About Us",
+      title: "One family, two homes, endless care",
+      desc: "Appartamenti Brufani was born from a family story. For us, hosting is not a job: it means opening the doors of our Assisi to you, sharing the places we love and making you feel at home from day one.",
+      quote: "We wait for you the way you wait for a friend.",
+      members: [
+        { name: "Oliviero", role: "The dad", desc: "He knows every trail and every corner of Assisi: ask him for a tip and he'll send you to the right place." },
+        { name: "Nicoletta", role: "The mum", desc: "She cares for every detail of the house as if it were her own: spotless rooms, a fresh scent and little touches for our guests." },
+        { name: "Daniele", role: "The son", desc: "He welcomes you on arrival, manages bookings and answers your questions, before and during your stay." },
       ],
     },
     gallery: { eyebrow: "Gallery", title: "Glimpses of home and Assisi" },
@@ -454,6 +476,17 @@ const translations = {
         { title: "Flexibler Check-in", desc: "Späte Ankunft? Frühe Abreise? Bei Direktbuchung stimmen wir das gemeinsam ab, ganz ohne Starrheit." },
       ],
     },
+    hosts: {
+      eyebrow: "Über Uns",
+      title: "Eine Familie, zwei Häuser, viel Herz",
+      desc: "Die Appartamenti Brufani entstanden aus einer Familiengeschichte. Für uns ist Gastgeben kein Beruf: Wir öffnen euch die Türen unseres Assisi, verraten euch die Orte, die wir lieben, und geben euch vom ersten Tag an das Gefühl, zu Hause zu sein.",
+      quote: "Wir erwarten euch, wie man einen Freund erwartet.",
+      members: [
+        { name: "Oliviero", role: "Der Papa", desc: "Er kennt jeden Weg und jede Ecke von Assisi: Fragt ihn um einen Tipp und er schickt euch an den richtigen Ort." },
+        { name: "Nicoletta", role: "Die Mama", desc: "Sie kümmert sich um jedes Detail des Hauses, als wäre es ihr eigenes: Sauberkeit, frischer Duft und kleine Aufmerksamkeiten für die Gäste." },
+        { name: "Daniele", role: "Der Sohn", desc: "Er empfängt euch bei der Ankunft, kümmert sich um die Buchungen und beantwortet eure Fragen, vor und während des Aufenthalts." },
+      ],
+    },
     gallery: { eyebrow: "Galerie", title: "Einblicke in Haus und Assisi" },
     location: {
       eyebrow: "Die Umgebung",
@@ -648,6 +681,17 @@ const translations = {
         { title: "Aparcamiento gratuito", desc: "Plaza de aparcamiento privada incluida en ambos apartamentos: llegas, aparcas delante de casa y visitas Assisi sin preocupaciones." },
         { title: "Contacto directo", desc: "Hablas directamente con nosotros, sin call centers: respuestas rápidas y consejos de quien vive Assisi cada día." },
         { title: "Check-in flexible", desc: "¿Llegas tarde? ¿Te vas pronto? Con la reserva directa lo organizamos juntos, sin rigidez." },
+      ],
+    },
+    hosts: {
+      eyebrow: "Quiénes Somos",
+      title: "Una familia, dos casas, mucho cariño",
+      desc: "Los Appartamenti Brufani nacen de una historia de familia. Para nosotros hospedar no es un trabajo: es abriros las puertas de nuestra Assisi, recomendaros los lugares que amamos y haceros sentir en casa desde el primer día.",
+      quote: "Os esperamos como se espera a un amigo.",
+      members: [
+        { name: "Oliviero", role: "El papá", desc: "Conoce cada sendero y cada rincón de Assisi: pedidle un consejo y os mandará al lugar indicado." },
+        { name: "Nicoletta", role: "La mamá", desc: "Cuida cada detalle de la casa como si fuera la suya: limpieza, aroma a fresco y pequeñas atenciones para los huéspedes." },
+        { name: "Daniele", role: "El hijo", desc: "Os recibe a la llegada, gestiona las reservas y responde a vuestras peticiones, antes y durante la estancia." },
       ],
     },
     gallery: { eyebrow: "Galería", title: "Rincones de casa y de Assisi" },

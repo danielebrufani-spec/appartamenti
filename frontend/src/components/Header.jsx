@@ -6,15 +6,19 @@ import { useLanguage, LANGUAGES } from "@/i18n";
 export function Logo({ compact = false }) {
   return (
     <a href="#top" data-testid="logo-link" className="flex items-center gap-2.5 group">
-      <svg viewBox="0 0 64 64" className="w-9 h-9 rounded-xl transition-transform duration-300 group-hover:rotate-3" aria-hidden="true">
+      <svg viewBox="0 0 64 64" className="w-10 h-10 rounded-xl transition-transform duration-300 group-hover:rotate-3" aria-hidden="true">
         <rect width="64" height="64" rx="14" fill="#2C4231" />
-        <path d="M20 46V30a12 12 0 0 1 24 0v16" fill="none" stroke="#FAF7F2" strokeWidth="4" strokeLinecap="round" />
-        <circle cx="32" cy="22" r="4" fill="#E6A15C" />
-        <path d="M20 46h24" stroke="#C85A32" strokeWidth="4" strokeLinecap="round" />
+        <text x="32" y="38" textAnchor="middle" fontFamily="Georgia, 'Times New Roman', serif" fontWeight="700" fontSize="26" letterSpacing="1" fill="#FAF7F2">AB</text>
+        <rect x="19" y="45" width="26" height="3.5" rx="1.75" fill="#C85A32" />
       </svg>
       {!compact && (
-        <span className="font-serif text-xl font-semibold tracking-tight text-ink">
-          Appartamenti <span className="text-terracotta">Brufani</span>
+        <span className="flex flex-col leading-none">
+          <span className="font-serif text-xl font-semibold tracking-tight text-ink">
+            Appartamenti <span className="text-terracotta">Brufani</span>
+          </span>
+          <span className="logo-subtitle hidden sm:block text-[10px] font-semibold tracking-[0.22em] uppercase text-ink/45 mt-1.5">
+            Holiday Apartments · Assisi
+          </span>
         </span>
       )}
     </a>

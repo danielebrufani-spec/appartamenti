@@ -42,6 +42,13 @@ Sito web per trovare clienti per due appartamenti in affitto ad Assisi (Appartam
 - 2026-10-04: Creati /public/robots.txt e /public/sitemap.xml (dominio live https://appartamenti.vercel.app) per SEO/Search Console. Verifica proprietà: metodo meta tag HTML da incollare in index.html quando l'utente fornisce il token
 
 ## Note critiche
+
+## Aggiornamento 2026-10-04
+- Logo ridisegnato: monogramma "AB" in SVG (riquadro oliva, lettere serif panna, barra terracotta) + wordmark "Appartamenti Brufani" con sottotitolo "Holiday Apartments · Assisi" (nascosto sotto i 640px). Footer adattato.
+- Nuova sezione "Chi Siamo" (Hosts.jsx) dopo WhyDirect: descrizione di famiglia con tocco personale, card per Oliviero (papà), Nicoletta (mamma), Daniele (figlio), citazione finale. Tradotta in IT/EN/DE/ES in i18n.js (blocco `hosts`).
+- Verificato via screenshot a 375/768/1366px: header, sezione hosts e footer corretti.
+- DA FARE: l'utente deve cliccare "Save -> Save to GitHub" per aggiornare il sito live (Vercel).
+
 - Usare SEMPRE yarn (mai npm) nel frontend
 - Non toccare REACT_APP_BACKEND_URL in frontend/.env (gestito da Vercel)
 - Backend raggiungibile via REACT_APP_BACKEND_URL + /api

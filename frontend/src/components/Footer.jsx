@@ -10,7 +10,7 @@ export default function Footer() {
     <footer data-testid="site-footer" className="bg-ink text-cream/80 py-16">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 grid md:grid-cols-3 gap-10">
         <div>
-          <div className="[&_span]:text-cream [&_span_span]:text-gold">
+          <div className="[&_span]:text-cream [&_span_span]:text-gold [&_.logo-subtitle]:text-cream/40">
             <Logo />
           </div>
           <p className="mt-5 text-sm leading-relaxed text-cream/60 max-w-xs">{f.tagline}</p>

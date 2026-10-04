@@ -7,6 +7,7 @@ import Hero from "@/components/Hero";
 import Marquee from "@/components/Marquee";
 import Apartments from "@/components/Apartments";
 import WhyDirect from "@/components/WhyDirect";
+import Hosts from "@/components/Hosts";
 import Location from "@/components/Location";
 import Reviews from "@/components/Reviews";
 import BookingSection from "@/components/BookingSection";
@@ -46,6 +47,7 @@ export default function App() {
             <Marquee />
             <Apartments />
             <WhyDirect />
+            <Hosts />
             <Location />
             <Reviews />
             <BookingSection />
