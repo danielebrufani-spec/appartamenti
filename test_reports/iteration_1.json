@@ -1,0 +1,25 @@
+{
+  "summary": "Frontend-only smoke test of the Brufani apartments landing page. Verified all 8 requested features: Appartamento Brufani Due gallery (mono-1.webp main + 7 thumbs), 15-photo lightbox with working next/prev navigation and wrap-around (counter '1 / 15' → '2 / 15' → wrap to '15 / 15'), Trilocale lightbox (6 unique photos due to dedup via [...new Set()] on main+gallery, counter '1 / 6'), La Zona section with 5 POI items (Basilica 600m, Stazione 1km, Emi Supermercato 500m, Centro storico 3km, Aeroporto 12km), local Basilica image (/images/brufani/basilica-sma.webp), two service cards (Trattoria Da Elide with rating 'Oltre 4/5' and Angelucci Cicli 4,7/5), hero image rotation confirmed cycling through 4 images every ~6.5s (opacity crossfade verified), footer displays both licenses IT054001C27A035224 and IT054001C21A037467, language switch EN/DE/ES translates the services section correctly, hero widget shows €379 struck-through and €330 direct with 'Risparmi €49'. Zero console errors.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Apartments - trilocale", "issues": ["In data.js APARTMENTS[0] (brufani) has 6 gallery items but one (BRUFANI_PHOTOS.cucinaBenvenuti) duplicates the main photo. After the [...new Set()] dedup, the lightbox shows '1 / 6' photos while the thumbnail strip renders 6 thumbs with one duplicate. Low priority but worth cleaning up for consistency."]}
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "Apartments.jsx openLightbox: when idx === -1 branch is unused (always 'main' or numeric index); dead code can be removed.",
+    "data.js APARTMENTS[0].gallery contains BRUFANI_PHOTOS.cucinaBenvenuti which is also apt.main; Set dedup hides the issue but gallery should be unique.",
+    "Hero.jsx: using data-testid conditionally (only on active image) is clever but may confuse automated tests that rely on stable selectors; consider adding data-testid='hero-image-slide-{i}' as well.",
+    "EN language file reports 'Elide' service card content still rendered in Italian strings on first switch (tested post-DE switch worked; likely initial EN button-click did not re-render due to selector mismatch in test, not a product bug). Verified by subsequent DE and ES translations working correctly."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A (not requested)", "frontend": "100%"},
+  "seed_data_creation": "none",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "All features from the request work. HERO_IMAGES rotates every 6500ms with the active image carrying data-testid='hero-image' - to verify rotation wait >=7s and compare src across polls. Brufani-due uses apt.photos (15 mono-*.webp) in lightbox; trilocale falls back to [main, ...gallery] dedup = 6 photos. Language buttons are plain buttons with text IT/EN/DE/ES in header (no data-testid). Backend was intentionally not tested per request."
+}

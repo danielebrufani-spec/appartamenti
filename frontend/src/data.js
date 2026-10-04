@@ -75,7 +75,7 @@ export const APARTMENTS = [
     guests: 4,
     size: 65,
     main: BRUFANI_PHOTOS.cucinaBenvenuti,
-    gallery: [BRUFANI_PHOTOS.giardino, BRUFANI_PHOTOS.cucinaBenvenuti, BRUFANI_PHOTOS.camera1, BRUFANI_PHOTOS.camera2, BRUFANI_PHOTOS.soggiorno, BRUFANI_PHOTOS.bagno],
+    gallery: [BRUFANI_PHOTOS.giardino, BRUFANI_PHOTOS.giardino2, BRUFANI_PHOTOS.camera1, BRUFANI_PHOTOS.camera2, BRUFANI_PHOTOS.soggiorno, BRUFANI_PHOTOS.bagno, BRUFANI_PHOTOS.angoloColazione],
   },
   {
     id: "appartamento-brufani-due",

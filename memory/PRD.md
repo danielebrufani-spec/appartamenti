@@ -1,58 +1,34 @@
-# PRD — Residenza Assisi
+# PRD — Appartamenti Brufani · Landing page prenotazioni dirette
 
-## Problem statement (originale)
-"Crea una landing page: vorrei creare un sito web per trovare clienti per i miei due appartamenti in affitto ad Assisi cercando di trovare prenotazioni al di fuori di Booking, si può creare qualcosa dove la gente possa trovarmi indipendentemente da Booking?"
+## Problema originale
+Sito web per trovare clienti per due appartamenti in affitto ad Assisi (Appartamento Brufani — trilocale, e Appartamento Brufani Due — monolocale) per ottenere prenotazioni al di fuori di Booking/Airbnb.
 
-## Scelte dell'utente
-- Sezioni: descrizione, galleria immagini, prenotazione diretta con calendario sincronizzato Booking/Airbnb
-- Stile: moderno, colorato, intuitivo
-- Lingue: italiano, inglese, tedesco, spagnolo con selettore
-- L'utente ha foto proprie da caricare in seguito
+## Requisiti core
+- Descrizione, galleria fotografica dedicata per appartamento, prenotazione diretta con calendario sincronizzato Booking/Airbnb (iCal)
+- Multilingua: IT, EN, DE, ES
+- Stile moderno, colorato, intuitivo; animazioni Framer Motion + Lenis
 
 ## Architettura
-- Frontend: React 19 + Tailwind + framer-motion + lenis + react-day-picker (`/app/frontend/src/`)
-- Backend: FastAPI + MongoDB (`/app/backend/server.py`)
-- Brand: "Appartamenti Brufani" — "Appartamento Brufani" (trilocale 65 m², 4 ospiti, giardino privato) e "Appartamento Brufani Due" (monolocale 40 m², 2 ospiti)
-- Dati reali da Booking.com: punteggio 9,2/10 (44 recensioni), pet friendly, Via Risorgimento 27/A e 29, Santa Maria degli Angeli, 350m dalla Basilica, 800m stazione, licenza IT054001C27A035224
-- i18n: `/app/frontend/src/i18n.js` (IT/EN/DE/ES, persistito in localStorage)
-- Email: proxy gestito Emergent (Resend) — `EMERGENT_EMAIL_KEY` + `EMAIL_FROM_NAME` in backend/.env
+- Frontend: React (porta 3000), Tailwind, Framer Motion, Lenis, i18n custom (`src/i18n.js`)
+- Backend: FastAPI (porta 8001, prefix /api), MongoDB via Motor
+- Deploy utente: Frontend su Vercel, Backend su Render, DB su MongoDB Atlas (email via Resend, chiave su Render)
+- Foto reali locali in `/app/frontend/public/images/brufani/` (foto-*, giardino-*, mono-*, basilica-sma.webp)
 
-## Endpoint API
-- `POST /api/booking-request` — salva richiesta, calcola prezzo diretto (-15%), email al proprietario se `OWNER_EMAIL` configurata
-- `GET /api/availability?apartment_id=` — date bloccate
-- `POST /api/calendar/feeds` — registra feed iCal (Booking/Airbnb) e sincronizza
-- `POST /api/calendar/sync` — risincronizza tutti i feed
-- `GET /api/calendar/feeds` — lista feed
-
-## Implementato (03/10/2026)
-- Landing page completa: hero cinetico con reveal riga-per-riga + parallasse + widget risparmio commissioni
-- Marquee editoriale, showcase 2 appartamenti, bento "Perché prenotare diretto", galleria con lightbox, sezione posizione Assisi, recensioni, footer
-- Selettore lingua IT/EN/DE/ES funzionante su tutto il sito
-- Calendario disponibilità con selezione range, riepilogo prezzo (diretto vs portali), form richiesta prenotazione con toast e conferma
-- Pulsante WhatsApp flottante, logo SVG originale + favicon
-- Verificato: booking request end-to-end (4 notti, €540 → €459), switch lingue, responsive 375/768/1366
-
-- Prezzi REALI (03/10/2026): Brufani €110/notte fino a 2 ospiti +€10/ospite extra (max 4); Brufani Due €90 fino a 2, €100 con 3 (max 3). Tassa di soggiorno €3/persona/notte max 3 notti (calcolata su tutti gli ospiti; under 12 gratis → il proprietario la storna manualmente)
-- Contatti REALI: danielebrufani@gmail.com (notifiche email attive via OWNER_EMAIL), tel/WhatsApp +39 339 502 0625
-- Sconto prenotazione diretta: -15% sul soggiorno vs portali
-
-## Portabilità (03/10/2026)
-- L'utente vuole hosting indipendente da Emergent: Vercel (frontend) + Render (backend) + MongoDB Atlas + Resend (email)
-- Backend reso portabile: se `RESEND_API_KEY` è impostata usa Resend diretto (`EMAIL_FROM_ADDRESS`, default onboarding@resend.dev), altrimenti proxy Emergent (anteprima)
-- Creato `/app/render.yaml` per deploy Render (rootDir backend, uvicorn)
-- NOTA: il fix date-fns@3.6.0 va pushato su GitHub (Save to GitHub) prima del deploy Vercel
-
-## Contenuti MOCKED / da completare con dati reali
-- Foto: placeholder Unsplash (l'utente caricherà le sue)
-- Recensioni: 3 testimonianze di esempio (il badge 9,2/10 con 44 recensioni Booking.com è REALE)
-
-## Azioni pendenti che richiedono l'utente
-1. `OWNER_EMAIL` in backend/.env → email reale del proprietario per ricevere le richieste di prenotazione
-2. `REACT_APP_WHATSAPP_NUMBER` → numero WhatsApp reale
-3. URL iCal export di Booking.com e Airbnb → poi `POST /api/calendar/feeds`
-4. Foto reali degli appartamenti
+## Implementato (changelog)
+- 2026-10-04: Galleria Monolocale con 15 foto reali (mono-1..15.webp), lightbox dedicato per appartamento
+- 2026-10-04: Sezione "La Zona" riscritta: Via Risorgimento 27/A e 29; distanze a piedi (Basilica SMA 600m/8min, Stazione Assisi 1km/12min, Emi Supermercato Via Raffaello 500m/6min, Centro Assisi 3km, Aeroporto Perugia 12km); card "Consigliati da noi": Trattoria Da Elide (Viale Patrono d'Italia 48, 800m, rating 4+/5, cucina di Alessandra) e Angelucci Cicli noleggio bici/e-bike (Via Risorgimento 54/A, 2 min, 4,7/5) — tradotto in 4 lingue
+- 2026-10-04: Hero con rotazione automatica di 4 immagini (crossfade 6.5s) invece della foto fissa di San Francesco
+- 2026-10-04: Foto REALE della Basilica di Santa Maria degli Angeli da Wikimedia Commons (basilica-sma.webp, credito CC BY-SA in footer) — le foto stock Unsplash erano di San Giovanni Rotondo/San Francesco, scartate
+- 2026-10-04: Footer con doppia licenza: IT054001C27A035224 · IT054001C21A037467
+- 2026-10-04: Rimossa foto duplicata dalla galleria trilocale
+- Sessioni precedenti: deploy Vercel/Render/Atlas, fix dipendenze React 19 per npm/Vercel, logica prezzi (diretto = totale standard, OTA +15%), galleria trilocale con foto reali, testi aggiornati (giardino solo trilocale, parcheggio entrambi, rimosso vino omaggio)
 
 ## Backlog prioritizzato
-- P0: collegare email proprietario, numero WhatsApp reale, feed iCal reali, foto reali
-- P1: pagina/pannello semplice per il proprietario per vedere le richieste ricevute; SEO (meta OG, sitemap, Google Business); dominio personalizzato
-- P2: blog/guida di Assisi per SEO, recensioni vere importate, pagamento caparra online (Stripe), cookie banner/Privacy (GDPR)
+- P1: Sincronizzazione iCal reale Booking/Airbnb — IN ATTESA dei link iCal dall'utente
+- P1: L'utente deve cliccare "Save to GitHub" per far ridistribuire Vercel con le nuove foto/sezioni
+
+## Note critiche
+- Usare SEMPRE yarn (mai npm) nel frontend
+- Non toccare REACT_APP_BACKEND_URL in frontend/.env (gestito da Vercel)
+- Backend raggiungibile via REACT_APP_BACKEND_URL + /api
+- Rispondere sempre in italiano
