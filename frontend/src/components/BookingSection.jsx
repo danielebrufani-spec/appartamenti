@@ -45,9 +45,10 @@ export default function BookingSection() {
 
   const nightly = apt.price + Math.max(0, guests - apt.baseGuests) * apt.extraGuest;
   const stay = nightly * nights;
-  const directStay = Math.round(stay * 0.85);
+  const directStay = stay;
+  const otaStay = Math.round(stay * 1.15);
   const cityTax = 3 * guests * Math.min(nights, 3);
-  const otaTotal = stay + cityTax;
+  const otaTotal = otaStay + cityTax;
   const directTotal = directStay + cityTax;
 
   const submit = async (e) => {
@@ -158,7 +159,7 @@ export default function BookingSection() {
             {nights > 0 && (
               <div data-testid="price-summary" className="mt-6 rounded-2xl bg-olive/5 border border-olive/15 p-5">
                 <p className="text-xs font-semibold tracking-widest uppercase text-ink/50 mb-3">
-                  {b.summary} · {nights} {b.nights}
+                  {b.summary} · {nights} {nights === 1 ? b.nightOne : b.nights}
                 </p>
                 <div className="flex justify-between text-sm text-ink/60">
                   <span>{b.otaPrice}</span>
@@ -191,7 +192,7 @@ export default function BookingSection() {
                 <h3 className="font-serif text-3xl font-semibold text-ink">{b.successTitle}</h3>
                 <p className="mt-3 max-w-sm text-ink/60 leading-relaxed">{b.successMsg}</p>
                 <p className="mt-6 rounded-full bg-olive/10 text-olive text-sm font-semibold px-5 py-2.5">
-                  {confirmed.nights} {b.nights} · €{confirmed.direct_price}
+                  {confirmed.nights} {confirmed.nights === 1 ? b.nightOne : b.nights} · €{confirmed.direct_price}
                 </p>
               </div>
             ) : (

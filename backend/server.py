@@ -262,9 +262,10 @@ async def create_booking_request(payload: BookingRequestCreate):
     nights = len(requested)
     nightly = apt["base_price"] + max(0, payload.guests - apt["base_guests"]) * apt["extra_guest"]
     stay = nightly * nights
-    direct_stay = int(stay * 0.85 + 0.5)
+    direct_stay = stay
+    ota_stay = int(stay * 1.15 + 0.5)
     city_tax = CITY_TAX_PER_PERSON_NIGHT * payload.guests * min(nights, CITY_TAX_MAX_NIGHTS)
-    ota_total = stay + city_tax
+    ota_total = ota_stay + city_tax
     direct_total = direct_stay + city_tax
     request_id = str(uuid.uuid4())
 
@@ -304,7 +305,7 @@ async def create_booking_request(payload: BookingRequestCreate):
             f"<tr><td style='padding:6px 12px;color:#6E7570'>Notti</td><td style='padding:6px 12px'>{nights}</td></tr>",
             f"<tr><td style='padding:6px 12px;color:#6E7570'>Tariffa a notte</td><td style='padding:6px 12px'>&euro;{nightly}</td></tr>",
             f"<tr><td style='padding:6px 12px;color:#6E7570'>Soggiorno</td><td style='padding:6px 12px'>{nights} notti x &euro;{nightly} = &euro;{stay}</td></tr>",
-            f"<tr><td style='padding:6px 12px;color:#6E7570'>Sconto prenotazione diretta -15%</td><td style='padding:6px 12px'>- &euro;{stay - direct_stay}</td></tr>",
+            f"<tr><td style='padding:6px 12px;color:#6E7570'>Stesso soggiorno sui portali</td><td style='padding:6px 12px'>&euro;{ota_stay} (con commissioni ~15%)</td></tr>",
             f"<tr><td style='padding:6px 12px;color:#6E7570'>Tassa di soggiorno</td><td style='padding:6px 12px'>&euro;{city_tax} (da versare al Comune)</td></tr>",
             f"<tr><td style='padding:6px 12px;color:#6E7570'>Totale ospite</td><td style='padding:6px 12px'><strong>&euro;{direct_total}</strong> (sui portali: &euro;{ota_total})</td></tr>",
         ])

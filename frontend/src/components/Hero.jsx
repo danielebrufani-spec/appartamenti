@@ -14,8 +14,8 @@ export default function Hero() {
   const fade = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
   const lines = [t.hero.line1, t.hero.line2, t.hero.line3];
-  const ota = APARTMENTS[0].price * 3;
-  const direct = Math.round(ota * 0.85);
+  const direct = APARTMENTS[0].price * 3;
+  const ota = Math.round(direct * 1.15);
 
   return (
     <section ref={ref} id="top" data-testid="hero-section" className="relative min-h-[100svh] flex items-end overflow-hidden bg-ink grain">
