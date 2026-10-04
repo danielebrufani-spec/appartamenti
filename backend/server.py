@@ -687,7 +687,7 @@ def _ical_escape(text: str) -> str:
 async def _export_ical(apartment_id: str) -> str:
     apt = APARTMENTS[apartment_id]
     bookings = await db.booking_requests.find(
-        {"apartment_id": apartment_id, "status": {"$ne": "cancelled"}},
+        {"apartment_id": apartment_id, "status": {"$nin": ["cancelled", "expired"]}},
         {"_id": 0},
     ).to_list(2000)
     lines = [
