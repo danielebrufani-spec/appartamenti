@@ -125,4 +125,8 @@ Sito web per trovare clienti per due appartamenti in affitto ad Assisi (Appartam
 - Richiesta utente: non citare direttamente Booking e Airbnb sul sito (cautela legale). Sostituiti ovunque in IT/EN/DE/ES con formule generiche: "grandi piattaforme / portali" (widget hero, FAQ, badge recensioni, nota sync calendario, footer, JSON-LD FAQPage in index.html).
 - NOTA: la sincronizzazione iCal tecnica con Booking/Airbnb (backend) resta attiva e invariata — cambiano solo i testi pubblici.
 
+## Aggiornamento 2026-10-04 (distanza Basilica)
+- Corretta distanza Basilica Santa Maria degli Angeli: 400 metri (era 600) e 5 min a piedi (era 8), in tutti i testi IT/EN/DE/ES (hero, marquee, appartamenti, FAQ, posizione) e in index.html (meta description, og, JSON-LD).
+
+
 
