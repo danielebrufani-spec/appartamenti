@@ -98,3 +98,8 @@ Sito web per trovare clienti per due appartamenti in affitto ad Assisi (Appartam
 - FIX mobile booking: calendario DayPicker troppo largo su telefono (celle 44px → tagliato a destra). Aggiunta media query max-width 480px in index.css (celle 38px/bottoni 34px), padding card ridotto p-4 su mobile, etichette "SCEGLI L'APPARTAMENTO"/"SELEZIONA LE DATE" e legenda centrate su mobile.
 - Verificato screenshot 375px: calendario 266px centrato, card servizi impilate e leggibili.
 - NOTA: lo screenshot dell'utente veniva dal sito LIVE (versione vecchia, non ancora aggiornata): serve Save to GitHub.
+
+
+## Aggiornamento 2026-10-04 (logo v3)
+- Utente: la scritta con "Assisi" dentro la A non si capiva. Nuovo wordmark: monogramma AB più grande (w-11/12), "Appartamenti Brufani" grande (text-2xl desktop), sottotitolo "ASSISI · HOLIDAY APARTMENTS" ben leggibile. Su mobile (<sm): nome text-base + solo "ASSISI" (header compatto).
+- Rimosso il trucco "SSISI dentro la A". Footer usa ancora le classi logo-name/logo-b/logo-subtitle.

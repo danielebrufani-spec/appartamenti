@@ -5,8 +5,8 @@ import { useLanguage, LANGUAGES } from "@/i18n";
 
 export function Logo({ compact = false }) {
   return (
-    <a href="#top" data-testid="logo-link" className="flex items-center gap-2.5 group">
-      <svg viewBox="0 0 64 64" className="w-10 h-10 rounded-xl transition-transform duration-300 group-hover:rotate-3" aria-hidden="true">
+    <a href="#top" data-testid="logo-link" className="flex items-center gap-3 group">
+      <svg viewBox="0 0 64 64" className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl transition-transform duration-300 group-hover:rotate-3 shrink-0" aria-hidden="true">
         <rect width="64" height="64" rx="16" fill="#2C4231" />
         <path d="M13 45 L21 19 L29 45" fill="none" stroke="#FAF7F2" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
         <path d="M16.5 36 H25.5" stroke="#E6A15C" strokeWidth="4" strokeLinecap="round" />
@@ -17,15 +17,14 @@ export function Logo({ compact = false }) {
       </svg>
       {!compact && (
         <span className="flex flex-col leading-none">
-          <span className="logo-name font-serif text-xl font-semibold tracking-tight text-ink">
-            <span className="logo-a relative inline-block text-terracotta">
-              A
-              <span className="logo-assisi absolute left-1/2 top-[47%] -translate-x-1/2 -translate-y-1/2 font-sans font-bold text-[0.32em] tracking-[0.26em] indent-[0.26em] text-cream whitespace-nowrap">SSISI</span>
-            </span>
-            ppartamenti <span className="logo-b text-terracotta">Brufani</span>
+          <span className="logo-name font-serif text-base sm:text-2xl font-semibold tracking-tight text-ink">
+            Appartamenti <span className="logo-b text-terracotta">Brufani</span>
           </span>
-          <span className="logo-subtitle hidden sm:block text-[10px] font-semibold tracking-[0.22em] uppercase text-ink/45 mt-1.5">
-            Holiday Apartments
+          <span className="logo-subtitle text-[10px] font-bold tracking-[0.3em] uppercase text-ink/55 mt-1 sm:hidden">
+            Assisi
+          </span>
+          <span className="logo-subtitle hidden sm:block text-xs font-bold tracking-[0.22em] uppercase text-ink/55 mt-1.5">
+            Assisi · Holiday Apartments
           </span>
         </span>
       )}
