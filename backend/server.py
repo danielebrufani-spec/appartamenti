@@ -15,6 +15,7 @@ import logging
 import ipaddress
 import httpx
 from pathlib import Path
+from fastapi import Response
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -235,6 +236,60 @@ async def _sync_feed(feed: dict) -> int:
     return len(events)
 
 
+# ---------- iCal feeds: env registration + lazy re-sync ----------
+ICAL_ALLOWED_HOSTS = ("ical.booking.com", "admin.booking.com", "www.airbnb.com", "www.airbnb.it", "ical.airbnb.com", "www.vrbo.com")
+SYNC_MAX_AGE_MINUTES = 30
+
+
+def _env_feeds():
+    feeds = []
+    for item in os.environ.get("ICAL_FEEDS", "").split(";"):
+        item = item.strip()
+        if not item:
+            continue
+        try:
+            apt, source, url = (p.strip() for p in item.split("|", 2))
+        except ValueError:
+            logger.warning(f"Invalid ICAL_FEEDS entry skipped: {item[:40]}")
+            continue
+        if apt in APARTMENTS and url.startswith("https://"):
+            feeds.append({"apartment_id": apt, "source": source, "url": url})
+    return feeds
+
+
+@app.on_event("startup")
+async def register_env_feeds():
+    for feed in _env_feeds():
+        await db.calendar_feeds.update_one(
+            {"apartment_id": feed["apartment_id"], "source": feed["source"]},
+            {"$set": feed},
+            upsert=True,
+        )
+        try:
+            events = await _sync_feed(feed)
+            logger.info(f"iCal startup sync {feed['apartment_id']}/{feed['source']}: {events} events")
+        except Exception as e:
+            logger.error(f"iCal startup sync failed for {feed['source']}: {e}")
+
+
+async def _sync_if_stale(apartment_id: str, force: bool = False):
+    feeds = await db.calendar_feeds.find({"apartment_id": apartment_id}).to_list(20)
+    now = datetime.now(timezone.utc)
+    for feed in feeds:
+        stale = True
+        last = feed.get("last_sync")
+        if last and not force:
+            try:
+                stale = (now - datetime.fromisoformat(last)) > timedelta(minutes=SYNC_MAX_AGE_MINUTES)
+            except ValueError:
+                stale = True
+        if stale:
+            try:
+                await _sync_feed(feed)
+            except Exception as e:
+                logger.error(f"iCal re-sync failed for {feed.get('source')}: {e}")
+
+
 # ---------- Routes ----------
 @api_router.get("/")
 async def root():
@@ -252,6 +307,7 @@ async def create_booking_request(payload: BookingRequestCreate):
         raise HTTPException(status_code=400, detail="past_dates")
 
     requested = set(_date_range(payload.check_in, payload.check_out))
+    await _sync_if_stale(payload.apartment_id, force=True)
     blocked = await _blocked_dates(payload.apartment_id)
     if requested & blocked:
         raise HTTPException(status_code=409, detail="dates_unavailable")
@@ -290,6 +346,10 @@ async def create_booking_request(payload: BookingRequestCreate):
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
     await db.booking_requests.insert_one(doc)
+    await db.blocked_dates.insert_many([
+        {"apartment_id": payload.apartment_id, "source": "direct", "request_id": request_id, "date": d}
+        for d in requested
+    ])
 
     if OWNER_EMAIL:
         subject = f"Nuova richiesta di prenotazione - {apt['name']}"
@@ -337,6 +397,7 @@ async def create_booking_request(payload: BookingRequestCreate):
 async def get_availability(apartment_id: str):
     if apartment_id not in APARTMENTS:
         raise HTTPException(status_code=400, detail="Unknown apartment")
+    await _sync_if_stale(apartment_id)
     blocked = sorted(await _blocked_dates(apartment_id))
     return {"apartment_id": apartment_id, "blocked": blocked}
 
@@ -347,6 +408,9 @@ async def add_calendar_feed(payload: CalendarFeedCreate):
         raise HTTPException(status_code=400, detail="Unknown apartment")
     if not payload.url.startswith("https://"):
         raise HTTPException(status_code=400, detail="Feed URL must be https")
+    host = urlparse(payload.url).hostname or ""
+    if not any(host == h or host.endswith("." + h) for h in ICAL_ALLOWED_HOSTS):
+        raise HTTPException(status_code=400, detail="Feed host not allowed (Booking, Airbnb, Vrbo only)")
     feed = {"apartment_id": payload.apartment_id, "source": payload.source, "url": payload.url}
     await db.calendar_feeds.update_one(
         {"apartment_id": payload.apartment_id, "source": payload.source},
@@ -378,6 +442,50 @@ async def sync_all_calendars():
 async def list_calendar_feeds():
     feeds = await db.calendar_feeds.find({}, {"_id": 0, "url": 0}).to_list(50)
     return {"feeds": feeds}
+
+
+# ---------- iCal export (per importare su Booking/Airbnb le prenotazioni dirette) ----------
+def _ical_escape(text: str) -> str:
+    return text.replace("\\", "\\\\").replace(";", "\\;").replace(",", "\\,").replace("\n", "\\n")
+
+
+async def _export_ical(apartment_id: str) -> str:
+    apt = APARTMENTS[apartment_id]
+    bookings = await db.booking_requests.find(
+        {"apartment_id": apartment_id, "status": {"$ne": "cancelled"}},
+        {"_id": 0},
+    ).to_list(2000)
+    lines = [
+        "BEGIN:VCALENDAR",
+        "VERSION:2.0",
+        "PRODID:-//Appartamenti Brufani//Prenotazioni Dirette//IT",
+        "CALSCALE:GREGORIAN",
+        "METHOD:PUBLISH",
+        f"X-WR-CALNAME:{_ical_escape(apt['name'])} - prenotazioni dirette",
+    ]
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    for b in bookings:
+        lines += [
+            "BEGIN:VEVENT",
+            f"DTSTAMP:{stamp}",
+            f"DTSTART;VALUE=DATE:{b['check_in'].replace('-', '')}",
+            f"DTEND;VALUE=DATE:{b['check_out'].replace('-', '')}",
+            f"UID:{b['id']}@appartamentibrufani",
+            f"SUMMARY:{_ical_escape('Prenotazione diretta - ' + b.get('name', 'ospite'))}",
+            "STATUS:CONFIRMED",
+            "END:VEVENT",
+        ]
+    lines.append("END:VCALENDAR")
+    return "\r\n".join(lines) + "\r\n"
+
+
+@api_router.get("/calendar/export/{apartment_id}.ics")
+@api_router.get("/calendar/export/{apartment_id}")
+async def export_calendar(apartment_id: str):
+    apartment_id = apartment_id.removesuffix(".ics")
+    if apartment_id not in APARTMENTS:
+        raise HTTPException(status_code=400, detail="Unknown apartment")
+    return Response(content=await _export_ical(apartment_id), media_type="text/calendar")
 
 
 app.include_router(api_router)

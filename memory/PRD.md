@@ -23,11 +23,13 @@ Sito web per trovare clienti per due appartamenti in affitto ad Assisi (Appartam
 - 2026-10-04: Rimossa foto duplicata dalla galleria trilocale
 - 2026-10-04: SEO completo: title/description keyword-first ("appartamento Santa Maria degli Angeli"), meta keywords, Open Graph + Twitter card, JSON-LD LodgingBusiness con geo (43.0616, 12.5765); titolo e meta description cambiano dinamicamente con la lingua (chiave seo in i18n.js + LanguageProvider)
 - 2026-10-04: Mappa Google interattiva (iframe embed, senza API key) nella sezione zona con pin su Via Risorgimento 27/A — chiave i18n: location.mapTitle
+- 2026-10-04: iCal sync REALE trilocale: import Booking (65 eventi) + Airbnb in backend/.env come ICAL_FEEDS="apt|source|url;..." — startup registra+sincronizza, lazy re-sync se last_sync>30min su GET /availability, force sync su POST /booking-request, whitelist host su POST /calendar/feeds. Export iCal per portali: GET /api/calendar/export/{apartment_id}.ics (Content-Type text/calendar, status!=cancelled). Le prenotazioni dirette bloccano subito le date sul sito (blocked_dates source="direct" con request_id). Testati: import, 409 su date occupate, export. PULIZIA: rimosse prenotazioni test vecchie. MANCA SU RENDER: env var ICAL_FEEDS identica nel dashboard Render (Environment → Add) altrimenti la produzione non sincronizza
 - Sessioni precedenti: deploy Vercel/Render/Atlas, fix dipendenze React 19 per npm/Vercel, logica prezzi (diretto = totale standard, OTA +15%), galleria trilocale con foto reali, testi aggiornati (giardino solo trilocale, parcheggio entrambi, rimosso vino omaggio)
 
 ## Backlog prioritizzato
-- P1: Sincronizzazione iCal reale Booking/Airbnb — IN ATTESA dei link iCal dall'utente
-- P1: L'utente deve cliccare "Save to GitHub" per far ridistribuire Vercel con le nuove foto/sezioni
+- P1: iCal del monolocale (Booking + Airbnb) — l'utente deve mandare i 2 link; poi aggiungerli a ICAL_FEEDS separati da ";"
+- P1: Istruzioni utente già date: su Airbnb/Booking incollare come "importa calendario" https://URL-RENDER/api/calendar/export/appartamento-brufani.ics
+- P1: L'utente deve cliccare "Save to GitHub" per ridistribuire Vercel+Render
 
 ## Note critiche
 - Usare SEMPRE yarn (mai npm) nel frontend
