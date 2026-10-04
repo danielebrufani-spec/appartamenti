@@ -27,7 +27,7 @@ Sito web per trovare clienti per due appartamenti in affitto ad Assisi (Appartam
 - Sessioni precedenti: deploy Vercel/Render/Atlas, fix dipendenze React 19 per npm/Vercel, logica prezzi (diretto = totale standard, OTA +15%), galleria trilocale con foto reali, testi aggiornati (giardino solo trilocale, parcheggio entrambi, rimosso vino omaggio)
 
 ## Backlog prioritizzato
-- P1: iCal del monolocale (Booking + Airbnb) — l'utente deve mandare i 2 link; poi aggiungerli a ICAL_FEEDS separati da ";"
+- P1: iCal del monolocale (Booking + Airbnb) — Booking monolocale COLLEGATO (e9b71d3e...): ICAL_FEEDS in preview ora ha 3 feed. Su Render l'utente deve AGGIORNARE il valore ICAL_FEEDS aggiungendo in coda ";appartamento-brufani-due|booking|https://ical.booking.com/v1/export?t=e9b71d3e-7cf5-4a6f-ab88-7be62b3f9a3d". Link export monolocale per Booking: https://appartamenti-brufani-api.onrender.com/api/calendar/export/appartamento-brufani-due.ics (già live). Manca solo Airbnb del monolocale (non esiste ancora, monolocale è solo su Booking)
 - P1: Istruzioni utente già date: su Airbnb/Booking incollare come "importa calendario" https://URL-RENDER/api/calendar/export/appartamento-brufani.ics
 - P1: L'utente deve cliccare "Save to GitHub" per ridistribuire Vercel+Render
 
