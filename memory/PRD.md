@@ -91,3 +91,10 @@ Sito web per trovare clienti per due appartamenti in affitto ad Assisi (Appartam
 - FIX regressione: ritorno Stripe ?pagamento=... — il parametro ora viene letto nel lazy initializer di useState in TabExplorer (BookingSection lo rimuoveva dall'URL prima che il padre lo leggesse).
 - Test: iteration_7.json (menu verticale OK desktop/mobile, i18n OK, switch appartamenti OK; unica regressione trovata = quella Stripe, ora fixata e verificata con screenshot).
 - DA FARE: "Save -> Save to GitHub" per aggiornare il live.
+
+
+## Aggiornamento 2026-10-04 (servizi zona + fix calendario mobile)
+- Servizi consigliati nella scheda Posizione ora sono 4 card: Trattoria Da Elide, Porcellino Divino (Via Los Angeles 44 — nome corretto trovato via web, utente lo chiamava "Porcello Divino"; segnalato da Gambero Rosso), Emi Supermercato, Angelucci Cicli. Ogni card mostra indirizzo + distanza A PIEDI e IN AUTO (campi addr/walk/car in i18n, icone MapPin/Footprints/Car). Emi senza immagine (tag inline). Tradotto IT/EN/DE/ES.
+- FIX mobile booking: calendario DayPicker troppo largo su telefono (celle 44px → tagliato a destra). Aggiunta media query max-width 480px in index.css (celle 38px/bottoni 34px), padding card ridotto p-4 su mobile, etichette "SCEGLI L'APPARTAMENTO"/"SELEZIONA LE DATE" e legenda centrate su mobile.
+- Verificato screenshot 375px: calendario 266px centrato, card servizi impilate e leggibili.
+- NOTA: lo screenshot dell'utente veniva dal sito LIVE (versione vecchia, non ancora aggiornata): serve Save to GitHub.

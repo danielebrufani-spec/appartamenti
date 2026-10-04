@@ -187,9 +187,9 @@ export default function BookingSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.8, ease: EASE }}
-            className="lg:col-span-5 rounded-3xl bg-white border border-ink/5 p-6 sm:p-8"
+            className="lg:col-span-5 rounded-3xl bg-white border border-ink/5 p-4 sm:p-8"
           >
-            <p className="text-xs font-semibold tracking-widest uppercase text-ink/50 mb-3">{b.selectApartment}</p>
+            <p className="text-xs font-semibold tracking-widest uppercase text-ink/50 mb-3 text-center sm:text-left">{b.selectApartment}</p>
             <div data-testid="apartment-select" className="grid grid-cols-2 gap-2 mb-7">
               {APARTMENTS.map((x) => (
                 <button
@@ -211,7 +211,7 @@ export default function BookingSection() {
               ))}
             </div>
 
-            <p className="text-xs font-semibold tracking-widest uppercase text-ink/50 mb-3">{b.selectDates}</p>
+            <p className="text-xs font-semibold tracking-widest uppercase text-ink/50 mb-3 text-center sm:text-left">{b.selectDates}</p>
             <div className="flex justify-center" data-testid="booking-calendar">
               <DayPicker
                 mode="range"
@@ -223,7 +223,7 @@ export default function BookingSection() {
                 showOutsideDays={false}
               />
             </div>
-            <div className="mt-4 flex items-center gap-5 text-xs text-ink/50">
+            <div className="mt-4 flex items-center justify-center gap-5 text-xs text-ink/50">
               <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm border border-ink/25 inline-block" /> {b.legendAvailable}</span>
               <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm bg-ink/15 inline-block" /> {b.legendBooked}</span>
             </div>
@@ -260,7 +260,7 @@ export default function BookingSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
-            className="lg:col-span-7 rounded-3xl bg-white border border-ink/5 p-6 sm:p-8"
+            className="lg:col-span-7 rounded-3xl bg-white border border-ink/5 p-4 sm:p-8"
           >
             {verifying ? (
               <div data-testid="payment-verifying" className="h-full flex flex-col items-center justify-center text-center py-10">

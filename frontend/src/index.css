@@ -121,6 +121,15 @@ html.lenis, html.lenis body { height: auto; }
     --rdp-nav-height: 40px;
     margin: 0;
 }
+@media (max-width: 480px) {
+    .rdp-root {
+        --rdp-day-height: 38px;
+        --rdp-day-width: 38px;
+        --rdp-day_button-height: 34px;
+        --rdp-day_button-width: 34px;
+        --rdp-nav-height: 34px;
+    }
+}
 .rdp-selected .rdp-day_button {
     background: #C85A32;
     color: #FAF7F2;
