@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { motion } from "framer-motion";
 import { DayPicker } from "react-day-picker";
 import { it as localeIt, enUS, de as localeDe, es as localeEs } from "date-fns/locale";
@@ -29,14 +29,21 @@ export default function BookingSection() {
 
   const apt = APARTMENTS.find((x) => x.id === apartmentId);
 
+  const toasted = useRef(false);
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const esito = params.get("pagamento");
     const sessionId = params.get("session_id");
     if (!esito) return;
-    window.history.replaceState({}, "", window.location.pathname + "#prenota");
     if (esito === "annullato") {
-      toast.error(b.payCancelled);
+      window.history.replaceState({}, "", window.location.pathname + "#prenota");
+      setTimeout(() => {
+        if (!toasted.current) {
+          toasted.current = true;
+          toast.error(b.payCancelled);
+        }
+      }, 150);
       return;
     }
     if (esito === "successo" && sessionId) {
@@ -52,12 +59,16 @@ export default function BookingSection() {
               clearInterval(poll);
               setVerifying(false);
               setConfirmed(d.booking);
-              toast.success(b.paySuccessTitle);
+              if (!toasted.current) {
+                toasted.current = true;
+                toast.success(b.paySuccessTitle);
+              }
+              window.history.replaceState({}, "", window.location.pathname + "#prenota");
               return;
             }
           }
         } catch { /* riprova */ }
-        if (attempts >= 8) {
+        if (attempts >= 10) {
           clearInterval(poll);
           setVerifying(false);
           toast.error(b.errorGeneric);
@@ -112,7 +123,7 @@ export default function BookingSection() {
           guests,
           name: form.name,
           email: form.email,
-          phone: form.phone || null,
+          phone: form.phone,
           message: form.message || null,
           language: lang,
           origin_url: window.location.origin,
@@ -300,6 +311,7 @@ export default function BookingSection() {
                   <label className="block text-xs font-semibold text-ink/60 mb-1.5">{b.phone}</label>
                   <input
                     data-testid="booking-phone-input"
+                    required
                     type="tel"
                     value={form.phone}
                     onChange={(e) => setForm({ ...form, phone: e.target.value })}

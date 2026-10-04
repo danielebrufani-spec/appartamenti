@@ -164,7 +164,7 @@ class BookingRequestCreate(BaseModel):
     guests: int = Field(ge=1, le=8)
     name: str = Field(min_length=2, max_length=120)
     email: EmailStr
-    phone: Optional[str] = Field(default=None, max_length=40)
+    phone: str = Field(min_length=6, max_length=40)
     message: Optional[str] = Field(default=None, max_length=1000)
     language: str = "it"
     origin_url: Optional[str] = None
