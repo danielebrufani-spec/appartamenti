@@ -5,12 +5,7 @@ import { Toaster } from "@/components/ui/sonner";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Marquee from "@/components/Marquee";
-import Apartments from "@/components/Apartments";
-import WhyDirect from "@/components/WhyDirect";
-import Hosts from "@/components/Hosts";
-import Location from "@/components/Location";
-import Reviews from "@/components/Reviews";
-import BookingSection from "@/components/BookingSection";
+import TabExplorer from "@/components/TabExplorer";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import CheckInPage from "@/components/CheckInPage";
@@ -45,12 +40,7 @@ export default function App() {
           <main>
             <Hero />
             <Marquee />
-            <Apartments />
-            <WhyDirect />
-            <Hosts />
-            <Location />
-            <Reviews />
-            <BookingSection />
+            <TabExplorer />
           </main>
           <Footer />
           <WhatsAppButton />

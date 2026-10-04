@@ -1,95 +1,331 @@
 {
-  "project_title": "Santa Maria degli Angeli & Assisi Apartments Landing Page",
+  "project_title": "Appartamenti Brufani Assisi - Modern Luminous Direct Booking Platform",
+  "app_type": "hybrid_fullstack",
   "theme": {
-    "primary_palette": "Earthy Archetype (Terracotta #C85A32, Olive Green #4A5D4E, Warm Cream #FAF7F2, Charcoal #2C2A29)",
-    "mood": "Warm, authentic Umbrian hospitality, rustic luxury, welcoming"
+    "archetype": "Organic Earthy Modern Luminous Hybrid (Umbrian Modern Luxury)",
+    "palette": {
+      "olive": "#2C4231",
+      "olive_light": "#3E5C45",
+      "terracotta": "#C85A32",
+      "terracotta_dark": "#B04B26",
+      "terracotta_light": "#E08A63",
+      "gold": "#E6A15C",
+      "cream": "#FAF7F2",
+      "stonewarm": "#EFE8DC",
+      "ink": "#1C211E",
+      "muted2": "#6E7570",
+      "emerald_accent": "#10B981",
+      "glass_bg": "rgba(255, 255, 255, 0.82)",
+      "glass_border": "rgba(200, 90, 50, 0.15)"
+    },
+    "mood": "Luminous, authentic, effortless Umbrian luxury, vibrant warmth, instant clarity with zero vertical scrolling fatigue"
   },
   "typography": {
-    "headings": "Playfair Display or Cormorant Garamond",
-    "body": "Plus Jakarta Sans or Inter"
+    "headings": {
+      "font": "Cormorant Garamond, Georgia, serif",
+      "h1_hero": "text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-ink tracking-tight leading-none",
+      "h2_section": "text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-olive",
+      "h3_card": "text-xl sm:text-2xl font-serif font-semibold text-ink"
+    },
+    "body": {
+      "font": "Plus Jakarta Sans, system-ui, sans-serif",
+      "regular": "text-base text-ink/80 leading-relaxed",
+      "small": "text-sm text-muted2 leading-normal"
+    },
+    "labels_overlines": "text-xs font-sans uppercase tracking-[0.2em] text-terracotta font-semibold"
+  },
+  "layout_architecture": {
+    "concept": "Tab-Based Single Screen Explorer ('A Schede Tab') - Zero Scroll Fatigue",
+    "sections": {
+      "hero_screen": {
+        "description": "Impactful top viewport (min-h-[85vh]) with atmospheric video/photo carousel, headline, price savings highlight badge ('Risparmi fino al 15% prenotando diretto'), quick date search widget, and direct price comparison badge (Booking.com €130 vs Diretto €110)",
+        "elements": [
+          "AB Monogram brand badge",
+          "Hero title & multilingual pitch (IT/EN/DE/ES)",
+          "Price comparison card (Direct vs OTAs)",
+          "Quick Availability Search Pill",
+          "Direct Booking Guarantee Chips (Nessuna commissione, Parcheggio gratuito, Cancellazione flessibile)"
+        ]
+      },
+      "sticky_tabs_navigation": {
+        "description": "Sticky segmented control tab bar that locks under header once user scrolls or directly visible at the top of content area. Enables fast switching across all sections without page reloads.",
+        "desktop_style": "Horizontal glassmorphism container with smooth indicator slider and badge counts",
+        "mobile_style": "Horizontal swipeable scroll bar with touch-friendly pills and auto-scroll-to-active",
+        "tabs": [
+          {
+            "id": "brufani",
+            "label": "Appartamento Brufani",
+            "badge": "65m² • 6 Ospiti",
+            "icon": "HomeIcon"
+          },
+          {
+            "id": "brufanidue",
+            "label": "Brufani Due",
+            "badge": "40m² • 3 Ospiti",
+            "icon": "SparklesIcon"
+          },
+          {
+            "id": "perche-diretto",
+            "label": "Perché Diretto & Host",
+            "badge": "Risparmia 15%",
+            "icon": "HeartIcon"
+          },
+          {
+            "id": "galleria",
+            "label": "Galleria Foto",
+            "badge": "30+ Foto",
+            "icon": "ImageIcon"
+          },
+          {
+            "id": "posizione",
+            "label": "Posizione & Mappa",
+            "badge": "600m Basilica",
+            "icon": "MapPinIcon"
+          },
+          {
+            "id": "recensioni",
+            "label": "Recensioni",
+            "badge": "9.4 / 10",
+            "icon": "StarIcon"
+          },
+          {
+            "id": "prenota",
+            "label": "Prenota Ora",
+            "badge": "Miglior Prezzo",
+            "icon": "CalendarIcon"
+          }
+        ]
+      }
+    }
+  },
+  "tabs_content_breakdown": {
+    "tab_brufani": {
+      "title": "Appartamento Brufani (Trilocale con Giardino)",
+      "specs": "65 m² | 2 Camere da Letto | 2 Bagni | Fino a 6 Ospiti | Giardino Privato | Parcheggio Gratuito",
+      "price_start": "Da 110 € / notte",
+      "features": [
+        "Giardino privato recintato con tavolo e sedie da esterno",
+        "2 Bagni completi con doccia e bidet",
+        "Cucina completa attrezzata con macchina del caffè, forno e frigo",
+        "Parcheggio privato in corte recintata incluso",
+        "Wi-Fi veloce 100Mbps e Climatizzazione autonomo",
+        "A 600m dalla Basilica di Santa Maria degli Angeli"
+      ],
+      "interactive_components": [
+        "Lightroom Photo Carousel / Grid with full-screen zoom modal",
+        "Interactive Amenities Grid with icons",
+        "Integrated Live Availability Calendar",
+        "Quick Price Calculator for selected dates",
+        "Direct CTA: 'Prenota Ora Brufani - Risparmia €20/notte'"
+      ]
+    },
+    "tab_brufanidue": {
+      "title": "Appartamento Brufani Due (Monolocale Moderno)",
+      "specs": "40 m² | 1 Camera / Zona Notte | 1 Bagno | Fino a 3 Ospiti | Parcheggio Gratuito | Clima",
+      "price_start": "Da 90 € / notte",
+      "features": [
+        "Ambiente open-space luminoso e di design contemporaneo",
+        "Angolo cottura ad induzione completo di stoviglie e macchina da caffè",
+        "Parcheggio privato recintato gratuito sotto casa",
+        "Smart TV 43\", Wi-Fi fibra e Aria Condizionata",
+        "Posizione ideale per coppie e brevi soggiorni ad Assisi"
+      ],
+      "interactive_components": [
+        "Photo Carousel with interior details focus",
+        "Amenity badges",
+        "Embedded Booking Widget with discount counter",
+        "Direct CTA: 'Prenota Ora Brufani Due'"
+      ]
+    },
+    "tab_perche_diretto_and_host": {
+      "title": "Scegli la Prenotazione Diretta & Conosci la Famiglia Brufani",
+      "content": {
+        "why_direct_cards": [
+          {
+            "title": "Miglior Prezzo Garantito",
+            "text": "Fino al 15% di sconto rispetto alle tariffe su Booking.com ed Airbnb per azzeramento commissioni intermediari.",
+            "icon": "TagIcon"
+          },
+          {
+            "title": "Parcheggio Privato Incluso",
+            "text": "Posto auto riservato e gratuito all'interno della corte privata recintata.",
+            "icon": "KeyIcon"
+          },
+          {
+            "title": "Contatto Diretto con gli Host",
+            "text": "Siamo Oliviero, Nicoletta e Daniele: assistenza H24, consigli locali personalizzati e massimo supporto.",
+            "icon": "UserGroupIcon"
+          },
+          {
+            "title": "Check-in Flessibile & Online",
+            "text": "Semplice procedura di check-in online prima dell'arrivo e massima flessibilità d'orario.",
+            "icon": "ClockIcon"
+          }
+        ],
+        "hosts_family_section": {
+          "title": "La Famiglia Brufani ti dà il Benvenuto",
+          "subtitle": "Un'accoglienza autentica nel cuore dell'Umbria",
+          "members": [
+            {
+              "name": "Oliviero & Nicoletta",
+              "role": "I Fondatori e Custodi della Tradizione",
+              "bio": "Amiamo accogliere gli ospiti con il calore tipico umbro e curare ogni piccolo dettaglio del giardino e delle case."
+            },
+            {
+              "name": "Daniele",
+              "role": "Host & Supporto Ospiti",
+              "bio": "Sempre a disposizione via WhatsApp o di persona per rendere il tuo soggiorno ad Assisi indimenticabile."
+            }
+          ]
+        }
+      }
+    },
+    "tab_galleria": {
+      "title": "Galleria Fotografica Completa",
+      "filters": ["Tutti", "Appartamento Brufani", "Brufani Due", "Giardino & Esterni", "Assisi & Dintorni"],
+      "interactive": "Masonry lightbox photo viewer with touch swipe support"
+    },
+    "tab_posizione": {
+      "title": "Posizione Strategica & Mappa Interattiva",
+      "address": "Via Santa Maria degli Angeli, Assisi (PG), Umbria, Italia",
+      "distances": [
+        {"place": "Basilica di Santa Maria degli Angeli", "distance": "600 metri (7 min a piedi)", "icon": "Church"},
+        {"place": "Stazione Ferroviaria di Assisi", "distance": "1.0 km (12 min a piedi / 2 min auto)", "icon": "Train"},
+        {"place": "Centro Storico di Assisi (Piazza del Comune)", "distance": "3.5 km (5 min auto / Bus diretto)", "icon": "Castle"},
+        {"place": "Supermercato, Ristoranti e Bar", "distance": "A meno di 200 metri", "icon": "Utensils"},
+        {"place": "Noleggio Bici ed E-Bike", "distance": "300 metri", "icon": "Bike"}
+      ],
+      "map_embed": "Google Maps interactive iframe integration with route planner CTA"
+    },
+    "tab_recensioni": {
+      "title": "Cosa dicono i nostri Ospiti (Punteggio Booking.com 9.4 / 10)",
+      "score_highlight": "9.4 Eccellente su oltre 120+ recensioni verificate",
+      "reviews_list": [
+        {
+          "name": "Simonetta",
+          "country": "Italia",
+          "score": 9.5,
+          "date": "Settembre 2026",
+          "text": "Il proprietario Daniele, molto disponibile e premuroso. Abbiamo gradito molto la privacy, avendo 2 bagni, parcheggio incluso, posizione eccezionale."
+        },
+        {
+          "name": "Giuseppe",
+          "country": "Italia",
+          "score": 9.5,
+          "date": "Settembre 2026",
+          "text": "La posizione col parcheggio e giardinetto privato, la gentilezza e disponibilità del proprietario."
+        },
+        {
+          "name": "Pietro",
+          "country": "Italia",
+          "score": 9.4,
+          "date": "Settembre 2026",
+          "text": "Ottima accoglienza e disponibilità dell'host, appartamento con tutti i servizi e posizione ottima, ci tornerei sicuramente."
+        },
+        {
+          "name": "Dinorah",
+          "country": "Austria",
+          "score": 9.0,
+          "date": "Settembre 2026",
+          "text": "Excelente ubicación, a solo 10 minutos a pie de la estación de tren. Muy tranquilo, limpio y equipado. Muy buen precio."
+        }
+      ]
+    },
+    "tab_prenota": {
+      "title": "Prenota Direttamente al Miglior Prezzo Garantito",
+      "step_flow": [
+        "1. Scegli le date e il numero di ospiti",
+        "2. Seleziona l'appartamento (Brufani o Brufani Due)",
+        "3. Visualizza il calcolo trasparente del prezzo e il risparmio",
+        "4. Inserisci i dati e paga in sicurezza con Stripe",
+        "5. Ricevi conferma immediata e voucher check-in"
+      ]
+    }
   },
   "curated_image_urls": {
-    "basilica_and_churches": [
+    "hero_carousel": [
       {
-        "url": "https://images.unsplash.com/photo-1561766014-b8586054c696?crop=entropy&cs=srgb&fm=jpg&ixid=M3w8NTYxNzV8MHwxfHNlYXJjaHwzfHxzYW50YSUyMG1hcmlhJTIwZGVnbGklMjBhbmdlbGklMjBjaHVyY2glMjBhc3Npc2l8ZW58MHx8fHwxNzkxMTA1NDgxfDA&ixlib=rb-4.1.0&q=85",
-        "description": "White Basilica facade representative of Santa Maria degli Angeli",
-        "usage": "Hero background slider / Santa Maria degli Angeli Basilica feature card"
+        "url": "https://images.unsplash.com/photo-1775923534560-532e19b5e0ef?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NxA2MjJ8MHwxfHNlYXJjaHwxfHxhc3Npc2klMjB1bWJyaWElMjBpdGFseSUyMGFyY2hpdGVjdHVyZXxlbnwwfHx8fDE3OTEwMzk5NjB8MA&ixlib=rb-4.1.0&q=85",
+        "description": "Historic panoramic street view of Assisi with stone towers and warm sun",
+        "usage": "Hero background image 1"
       },
       {
-        "url": "https://images.unsplash.com/photo-1673272873523-503eb3e8d5c0?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NzF8MHwxfHNlYXJjaHwxfHxhc3Npc2klMjBjaHVyY2glMjBiYXNpbGljYXxlbnwwfHx8fDE3OTExMDU0Nzd8MA&ixlib=rb-4.1.0&q=85",
+        "url": "https://images.unsplash.com/photo-1673272873523-503eb3e8d5c0?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY6NzF8MHwxfHNlYXJjaHwxfHxhc3Npc2klMjBjaHVyY2glMjBiYXNpbGljYXxlbnwwfHx8fDE3OTExMDU0Nzd8MA&ixlib=rb-4.1.0&q=85",
         "description": "Basilica di San Francesco and piazza view in Assisi",
-        "usage": "Hero background slider / Assisi historic monuments card"
+        "usage": "Hero background image 2"
       },
-      {
-        "url": "https://images.unsplash.com/photo-1598995762987-562a4d29c3c0?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NzF8MHwxfHNlYXJjaHw0fHxhc3Npc2klMjBjaHVyY2glMjBiYXNpbGljYXxlbnwwfHx8fDE3OTExMDU0Nzd8MA&ixlib=rb-4.1.0&q=85",
-        "description": "Historic church tower under blue sky in Assisi",
-        "usage": "Hero background slider / La Zona section gallery"
-      }
-    ],
-    "assisi_scorci": [
-      {
-        "url": "https://images.unsplash.com/photo-1783457053093-acdf449cbc89?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzNDR8MHwxfHNlYXJjaHwzfHxhc3Npc2klMjBzdHJlZXQlMjBhbGxleSUyMGl0YWx5fGVufDB8fHx8MTc5MTEwNTQ3N3ww&ixlib=rb-4.1.0&q=85",
-        "description": "Narrow stone street with historic stone buildings and hanging lantern in Assisi",
-        "usage": "Hero slider / Assisi medieval alleys feature section"
-      },
-      {
-        "url": "https://images.unsplash.com/photo-1630247008103-7b6bffe8d21b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzNDR8MHwxfHNlYXJjaHwxfHxhc3Npc2klMjBzdHJlZXQlMjBhbGxleSUyMGl0YWx5fGVufDB8fHx8MTc5MTEwNTQ3N3ww&ixlib=rb-4.1.0&q=85",
-        "description": "Medieval stone archway and cobblestone path in Assisi",
-        "usage": "Assisi historical walks grid item"
-      },
-      {
-        "url": "https://images.unsplash.com/photo-1781768526859-ae9451046c01?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NjZ8MHwxfHNlYXJjaHw0fHxhc3Npc2klMjBpdGFseSUyMGZsb3dlcnMlMjBzdG9uZSUyMHN0cmVldHxlbnwwfHx8fDE3OTExMDU0ODF8MA&ixlib=rb-4.1.0&q=85",
-        "description": "Old stone alleyway decorated with balconies and potted flowers",
-        "usage": "La Zona - Assisi atmosphere and charm card"
-      },
-      {
-        "url": "https://images.unsplash.com/photo-1724398932019-af309e2733b5?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NjZ8MHwxfHNlYXJjaHwxfHxhc3Npc2klMjBpdGFseSUyMGZsb3dlcnMlMjBzdG9uZSUyMHN0cmVldHxlbnwwfHx8fDE3OTExMDU0ODF8MA&ixlib=rb-4.1.0&q=85",
-        "description": "Narrow alley with vibrant flower pots lining rustic stone walls",
-        "usage": "Explore Assisi streets visual gallery"
-      }
-    ],
-    "umbrian_landscape": [
       {
         "url": "https://images.unsplash.com/photo-1733942862849-f0a3d7c6e61d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHwyfHx1bWJyaWElMjBhc3Npc2klMjBsYW5kc2NhcGV8ZW58MHx8fHwxNzkxMTA1NDc3fDA&ixlib=rb-4.1.0&q=85",
-        "description": "Panoramic vista of Assisi hilltop town overlooking the valley",
-        "usage": "Hero section slide / Umbrian valley overview banner"
-      },
-      {
-        "url": "https://images.unsplash.com/photo-1630247008567-9c3facb9276c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHwxfHx1bWJyaWElMjBhc3Npc2klMjBsYW5kc2NhcGV8ZW58MHx8fHwxNzkxMTA1NDc3fDA&ixlib=rb-4.1.0&q=85",
-        "description": "Assisi monument architecture surrounded by rolling hills and olive groves",
-        "usage": "Location overview / La Zona background accent"
+        "description": "Rolling Umbrian hills surrounding Assisi",
+        "usage": "Hero background image 3"
       }
     ],
-    "trattoria_food": [
-      {
-        "url": "https://images.unsplash.com/photo-1532117472055-4d0734b51f31?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1ODR8MHwxfHNlYXJjaHw0fHxpdGFsaWFuJTIwdHJhdHRvcmlhJTIwZm9vZCUyMHBhc3RhfGVufDB8fHx8MTc5MTEwNTQ3N3ww&ixlib=rb-4.1.0&q=85",
-        "description": "Outdoor trattoria table setting with wine glasses and traditional Italian food",
-        "usage": "Trattoria Da Elide recommendation card"
-      },
-      {
-        "url": "https://images.unsplash.com/photo-1516100882582-96c3a05fe590?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1ODR8MHwxfHNlYXJjaHwyfHxpdGFsaWFuJTIwdHJhdHRvcmlhJTIwZm9vZCUyMHBhc3RhfGVufDB8fHx8MTc5MTEwNTQ3N3ww&ixlib=rb-4.1.0&q=85",
-        "description": "Fresh handcrafted Umbrian pasta dish with tomatoes and herbs",
-        "usage": "Local gastronomy highlight"
-      }
-    ],
-    "cycling_and_activities": [
-      {
-        "url": "https://images.unsplash.com/photo-1764185935775-cf36c0a12f7d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1Mjh8MHwxfHNlYXJjaHwyfHxjeWNsaW5nJTIwY291bnRyeXNpZGUlMjBpdGFseXxlbnwwfHx8fDE3OTExMDU0Nzd8MA&ixlib=rb-4.1.0&q=85",
-        "description": "Cyclist riding e-bike along countryside dirt path lined with cypress trees",
-        "usage": "Noleggio Bici / Bike Rental service card"
-      }
-    ],
-    "transportation": [
-      {
-        "url": "https://images.unsplash.com/photo-1773245995729-68bcabd3e2cb?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzNDR8MHwxfHNlYXJjaHwzfHxpdGFsaWFuJTIwdHJhaW4lMjBzdGF0aW9uJTIwcmFpbHdheXxlbnwwfHx8fDE3OTExMDU0ODF8MA&ixlib=rb-4.1.0&q=85",
-        "description": "Italian regional train at station platform",
-        "usage": "Stazione di Assisi (Train Station) distance & transit card"
-      }
-    ]
+    "local_apartment_photos": {
+      "brufani": [
+        "/images/brufani/foto-16.webp",
+        "/images/brufani/giardino-1.webp",
+        "/images/brufani/giardino-3.webp",
+        "/images/brufani/foto-10.webp",
+        "/images/brufani/foto-12.webp",
+        "/images/brufani/foto-17.webp",
+        "/images/brufani/foto-9.webp",
+        "/images/brufani/foto-2.webp"
+      ],
+      "brufani_due": [
+        "/images/brufani/mono-1.webp",
+        "/images/brufani/mono-2.webp",
+        "/images/brufani/mono-7.webp",
+        "/images/brufani/mono-11.webp",
+        "/images/brufani/mono-15.webp",
+        "/images/brufani/mono-6.webp",
+        "/images/brufani/mono-3.webp"
+      ]
+    }
   },
-  "instructions_to_main_agent": "Integrate these curated Unsplash image URLs into the hero carousel and 'La Zona' (The Area) section of the apartment rental landing page. Ensure responsive cropping and proper alt texts. All interactive elements must retain testid attributes.",
+  "data_testid_specification": {
+    "header": {
+      "logo": "data-testid=\"header-logo\"",
+      "lang_selector": "data-testid=\"header-lang-selector\"",
+      "direct_badge": "data-testid=\"header-direct-badge\"",
+      "prenota_btn": "data-testid=\"header-prenota-button\""
+    },
+    "hero": {
+      "price_comparison_card": "data-testid=\"hero-price-comparison-card\"",
+      "quick_search_bar": "data-testid=\"hero-quick-search-bar\"",
+      "hero_cta_brufani": "data-testid=\"hero-cta-brufani\"",
+      "hero_cta_brufani_due": "data-testid=\"hero-cta-brufani-due\""
+    },
+    "tab_navigation": {
+      "tab_bar": "data-testid=\"main-tab-bar\"",
+      "tab_brufani": "data-testid=\"tab-brufani\"",
+      "tab_brufanidue": "data-testid=\"tab-brufanidue\"",
+      "tab_perche_diretto": "data-testid=\"tab-perche-diretto\"",
+      "tab_galleria": "data-testid=\"tab-galleria\"",
+      "tab_posizione": "data-testid=\"tab-posizione\"",
+      "tab_recensioni": "data-testid=\"tab-recensioni\"",
+      "tab_prenota": "data-testid=\"tab-prenota\""
+    },
+    "apartments_tab": {
+      "brufani_gallery": "data-testid=\"brufani-gallery-container\"",
+      "brufani_book_now_btn": "data-testid=\"brufani-book-now-button\"",
+      "brufani_calendar": "data-testid=\"brufani-availability-calendar\"",
+      "brufanidue_gallery": "data-testid=\"brufanidue-gallery-container\"",
+      "brufanidue_book_now_btn": "data-testid=\"brufanidue-book-now-button\"",
+      "brufanidue_calendar": "data-testid=\"brufanidue-availability-calendar\""
+    },
+    "booking_section": {
+      "apartment_select": "data-testid=\"booking-apartment-select\"",
+      "checkin_input": "data-testid=\"booking-checkin-input\"",
+      "checkout_input": "data-testid=\"booking-checkout-input\"",
+      "guests_select": "data-testid=\"booking-guests-select\"",
+      "stripe_submit_btn": "data-testid=\"booking-stripe-submit-button\""
+    },
+    "floating_whatsapp": "data-testid=\"floating-whatsapp-button\""
+  },
+  "instructions_to_main_agent": "Ensure all content is explored using the smooth 'a schede tab' architecture. All tab transitions should use Framer Motion for clean horizontal fade-slides. Ensure the price comparison widget prominently displays how much money guests save by booking directly instead of Airbnb/Booking. Preserve all Stripe integration endpoints, test IDs, and multilingual support (IT, EN, DE, ES).",
   "UNIVERSAL GUIDELINES FOR MAIN AGENT": {
     "data_testid_requirement": "All interactive and key informational elements MUST include a data-testid attribute for automated testing.",
-    "accessibility": "Ensure high contrast on text overlays using subtle dark gradient scrims over background photos."
+    "accessibility": "Ensure high contrast on text overlays using subtle dark gradient scrims over background photos.",
+    "javascript_note": "The codebase uses React .jsx and .js files. Ensure all guidelines reference .js/.jsx conventions."
   }
 }

@@ -88,14 +88,14 @@ export default function Hero() {
           <motion.button
             data-testid="hero-cta-availability"
             whileTap={{ scale: 0.98 }}
-            onClick={() => document.querySelector("#prenota")?.scrollIntoView({ behavior: "smooth" })}
+            onClick={() => window.dispatchEvent(new CustomEvent("open-tab", { detail: "prenota" }))}
             className="rounded-full bg-terracotta hover:bg-terracotta-dark text-cream font-semibold px-8 py-4 text-sm sm:text-base transition-colors duration-200 shadow-[0_12px_40px_-10px_rgba(200,90,50,0.7)]"
           >
             {t.hero.ctaPrimary}
           </motion.button>
           <button
             data-testid="hero-cta-apartments"
-            onClick={() => document.querySelector("#appartamenti")?.scrollIntoView({ behavior: "smooth" })}
+            onClick={() => window.dispatchEvent(new CustomEvent("open-tab", { detail: "brufani" }))}
             className="rounded-full border border-cream/40 text-cream hover:bg-cream/10 font-semibold px-8 py-4 text-sm sm:text-base transition-colors duration-200"
           >
             {t.hero.ctaSecondary}

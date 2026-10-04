@@ -33,8 +33,8 @@ export function Logo({ compact = false }) {
   );
 }
 
-function scrollTo(id) {
-  document.querySelector(id)?.scrollIntoView({ behavior: "smooth" });
+function openTab(id) {
+  window.dispatchEvent(new CustomEvent("open-tab", { detail: id }));
 }
 
 export default function Header() {
@@ -42,10 +42,10 @@ export default function Header() {
   const [open, setOpen] = useState(false);
 
   const links = [
-    { href: "#appartamenti", label: t.nav.apartments, testid: "nav-apartments" },
-    { href: "#perche-diretto", label: t.nav.why, testid: "nav-why" },
-    { href: "#posizione", label: t.nav.location, testid: "nav-location" },
-    { href: "#recensioni", label: t.nav.reviews, testid: "nav-reviews" },
+    { tab: "brufani", label: t.nav.apartments, testid: "nav-apartments" },
+    { tab: "perche", label: t.nav.why, testid: "nav-why" },
+    { tab: "posizione", label: t.nav.location, testid: "nav-location" },
+    { tab: "recensioni", label: t.nav.reviews, testid: "nav-reviews" },
   ];
 
   return (
@@ -55,9 +55,9 @@ export default function Header() {
         <nav className="hidden lg:flex items-center gap-7" data-testid="main-nav">
           {links.map((l) => (
             <button
-              key={l.href}
+              key={l.tab}
               data-testid={l.testid}
-              onClick={() => scrollTo(l.href)}
+              onClick={() => openTab(l.tab)}
               className="text-sm font-medium text-ink/70 hover:text-terracotta transition-colors duration-200"
             >
               {l.label}
@@ -82,7 +82,7 @@ export default function Header() {
           <motion.button
             data-testid="nav-book-cta"
             whileTap={{ scale: 0.98 }}
-            onClick={() => scrollTo("#prenota")}
+            onClick={() => openTab("prenota")}
             className="hidden sm:inline-flex items-center rounded-full bg-terracotta hover:bg-terracotta-dark text-cream text-sm font-semibold px-5 py-2.5 transition-colors duration-200"
           >
             {t.nav.book}
@@ -106,9 +106,9 @@ export default function Header() {
         >
           {links.map((l) => (
             <button
-              key={l.href}
+              key={l.tab}
               data-testid={`mobile-${l.testid}`}
-              onClick={() => { scrollTo(l.href); setOpen(false); }}
+              onClick={() => { openTab(l.tab); setOpen(false); }}
               className="text-left text-base font-medium text-ink/80 py-1.5"
             >
               {l.label}
@@ -116,7 +116,7 @@ export default function Header() {
           ))}
           <button
             data-testid="mobile-nav-book-cta"
-            onClick={() => { scrollTo("#prenota"); setOpen(false); }}
+            onClick={() => { openTab("prenota"); setOpen(false); }}
             className="mt-2 rounded-full bg-terracotta text-cream font-semibold px-5 py-3 text-center"
           >
             {t.nav.book}
