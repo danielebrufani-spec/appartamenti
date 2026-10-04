@@ -15,6 +15,21 @@ export const IMAGES = {
   avatar3: "https://images.unsplash.com/photo-1551895678-cf655d8c0141?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODd8MHwxfHNlYXJjaHwyfHxoYXBweSUyMHRyYXZlbGVyJTIwcG9ydHJhaXQlMjBldXJvcGV8ZW58MHx8fHwxNzkxMDM5OTY4fDA&ixlib=rb-4.1.0&q=85",
 };
 
+export const AREA_IMAGES = {
+  basilica: "/images/brufani/basilica-sma.webp",
+  chiesa: "https://images.unsplash.com/photo-1673272873523-503eb3e8d5c0?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NzF8MHwxfHNlYXJjaHwxfHxhc3Npc2klMjBjaHVyY2glMjBiYXNpbGljYXxlbnwwfHx8fDE3OTExMDU0Nzd8MA&ixlib=rb-4.1.0&q=85",
+  scorcio: "https://images.unsplash.com/photo-1783457053093-acdf449cbc89?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzNDR8MHwxfHNlYXJjaHwzfHxhc3Npc2klMjBzdHJlZXQlMjBhbGxleSUyMGl0YWx5fGVufDB8fHx8MTc5MTEwNTQ3N3ww&ixlib=rb-4.1.0&q=85",
+  scorcioFiori: "https://images.unsplash.com/photo-1781768526859-ae9451046c01?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NjZ8MHwxfHNlYXJjaHw0fHxhc3Npc2klMjBpdGFseSUyMGZsb3dlcnMlMjBzdG9uZSUyMHN0cmVldHxlbnwwfHx8fDE3OTExMDU0ODF8MA&ixlib=rb-4.1.0&q=85",
+  scorcioPietra: "https://images.unsplash.com/photo-1724398932019-af309e2733b5?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NjZ8MHwxfHNlYXJjaHwxfHxhc3Npc2klMjBpdGFseSUyMGZsb3dlcnMlMjBzdG9uZSUyMHN0cmVldHxlbnwwfHx8fDE3OTExMDU0ODF8MA&ixlib=rb-4.1.0&q=85",
+  valle: "https://images.unsplash.com/photo-1733942862849-f0a3d7c6e61d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHwyfHx1bWJyaWElMjBhc3Npc2klMjBsYW5kc2NhcGV8ZW58MHx8fHwxNzkxMTA1NDc3fDA&ixlib=rb-4.1.0&q=85",
+  valle2: "https://images.unsplash.com/photo-1630247008567-9c3facb9276c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHwxfHx1bWJyaWElMjBhc3Npc2klMjBsYW5kc2NhcGV8ZW58MHx8fHwxNzkxMTA1NDc3fDA&ixlib=rb-4.1.0&q=85",
+  trattoria: "https://images.unsplash.com/photo-1532117472055-4d0734b51f31?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1ODR8MHwxfHNlYXJjaHw0fHxpdGFsaWFuJTIwdHJhdHRvcmlhJTIwZm9vZCUyMHBhc3RhfGVufDB8fHx8MTc5MTEwNTQ3N3ww&ixlib=rb-4.1.0&q=85",
+  trattoria2: "https://images.unsplash.com/photo-1516100882582-96c3a05fe590?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1ODR8MHwxfHNlYXJjaHwyfHxpdGFsaWFuJTIwdHJhdHRvcmlhJTIwZm9vZCUyMHBhc3RhfGVufDB8fHx8MTc5MTEwNTQ3N3ww&ixlib=rb-4.1.0&q=85",
+  bici: "https://images.unsplash.com/photo-1764185935775-cf36c0a12f7d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1Mjh8MHwxfHNlYXJjaHwyfHxjeWNsaW5nJTIwY291bnRyeXNpZGUlMjBpdGFseXxlbnwwfHx8fDE3OTExMDU0Nzd8MA&ixlib=rb-4.1.0&q=85",
+};
+
+export const HERO_IMAGES = [IMAGES.hero, AREA_IMAGES.basilica, AREA_IMAGES.scorcioFiori, AREA_IMAGES.valle2];
+
 export const BRUFANI_PHOTOS = {
   cucinaPensili: "/images/brufani/foto-1.webp",
   angoloColazione: "/images/brufani/foto-2.webp",
@@ -30,6 +45,24 @@ export const BRUFANI_PHOTOS = {
   frigo: "/images/brufani/foto-15-crop.webp",
   giardino: "/images/brufani/giardino-1.webp",
   giardino2: "/images/brufani/giardino-3.webp",
+};
+
+export const MONO_PHOTOS = {
+  cucina: "/images/brufani/mono-1.webp",
+  cucinaWide: "/images/brufani/mono-2.webp",
+  cucinaCaffe: "/images/brufani/mono-3.webp",
+  induzione: "/images/brufani/mono-4.webp",
+  angoloCaffe: "/images/brufani/mono-5.webp",
+  tv: "/images/brufani/mono-6.webp",
+  camera: "/images/brufani/mono-7.webp",
+  letto: "/images/brufani/mono-8.webp",
+  cameraSpecchio: "/images/brufani/mono-9.webp",
+  armadio: "/images/brufani/mono-10.webp",
+  bagno: "/images/brufani/mono-11.webp",
+  lavabo: "/images/brufani/mono-12.webp",
+  doccia: "/images/brufani/mono-13.webp",
+  ingresso: "/images/brufani/mono-14.webp",
+  ingressoFiori: "/images/brufani/mono-15.webp",
 };
 
 export const APARTMENTS = [
@@ -52,8 +85,9 @@ export const APARTMENTS = [
     extraGuest: 10,
     guests: 3,
     size: 40,
-    main: IMAGES.minervaMain,
-    gallery: [IMAGES.minervaMain, IMAGES.minervaLiving, IMAGES.minervaBedroom],
+    main: MONO_PHOTOS.cucina,
+    gallery: [MONO_PHOTOS.cucinaWide, MONO_PHOTOS.camera, MONO_PHOTOS.bagno, MONO_PHOTOS.ingressoFiori, MONO_PHOTOS.tv, MONO_PHOTOS.angoloCaffe, MONO_PHOTOS.letto],
+    photos: Object.values(MONO_PHOTOS),
   },
 ];
 
@@ -61,12 +95,12 @@ export const GALLERY = [
   IMAGES.hero,
   BRUFANI_PHOTOS.angoloColazione,
   BRUFANI_PHOTOS.giardino2,
-  IMAGES.minervaMain,
+  AREA_IMAGES.basilica,
   BRUFANI_PHOTOS.tavoloTulipani,
-  IMAGES.assisiLandscape,
-  IMAGES.minervaBedroom,
+  AREA_IMAGES.scorcio,
+  MONO_PHOTOS.cucinaWide,
   BRUFANI_PHOTOS.camera1,
-  BRUFANI_PHOTOS.angoloTv,
+  AREA_IMAGES.valle,
 ];
 
 export const REVIEW_AVATARS = [IMAGES.avatar1, IMAGES.avatar2, IMAGES.avatar3];

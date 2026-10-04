@@ -67,7 +67,7 @@ export default function Apartments() {
   const [lightbox, setLightbox] = useState(null); // { photos, index, name }
 
   const openLightbox = (apt, copy, idx) => {
-    const photos = [...new Set([apt.main, ...apt.gallery])];
+    const photos = [...new Set(apt.photos || [apt.main, ...apt.gallery])];
     setLightbox({ photos, index: Math.max(0, photos.indexOf(idx === -1 ? apt.main : (idx === "main" ? apt.main : apt.gallery[idx]))), name: copy.name });
   };
 

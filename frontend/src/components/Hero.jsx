@@ -1,8 +1,8 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ShieldCheck, ArrowDown } from "lucide-react";
 import { useLanguage } from "@/i18n";
-import { IMAGES, APARTMENTS } from "@/data";
+import { APARTMENTS, HERO_IMAGES } from "@/data";
 
 const EASE = [0.22, 1, 0.36, 1];
 
@@ -13,6 +13,12 @@ export default function Hero() {
   const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "22%"]);
   const fade = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
+  const [bg, setBg] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setBg((i) => (i + 1) % HERO_IMAGES.length), 6500);
+    return () => clearInterval(id);
+  }, []);
+
   const lines = [t.hero.line1, t.hero.line2, t.hero.line3];
   const direct = APARTMENTS[0].price * 3;
   const ota = Math.round(direct * 1.15);
@@ -20,12 +26,18 @@ export default function Hero() {
   return (
     <section ref={ref} id="top" data-testid="hero-section" className="relative min-h-[100svh] flex items-end overflow-hidden bg-ink grain">
       <motion.div style={{ y: bgY }} className="absolute inset-0">
-        <img
-          src={IMAGES.hero}
-          alt="Assisi, Umbria"
-          className="w-full h-full object-cover scale-110"
-          data-testid="hero-image"
-        />
+        {HERO_IMAGES.map((src, i) => (
+          <motion.img
+            key={src}
+            src={src}
+            alt="Assisi e Santa Maria degli Angeli"
+            initial={false}
+            animate={{ opacity: i === bg ? 1 : 0 }}
+            transition={{ duration: 1.6, ease: "easeInOut" }}
+            className="absolute inset-0 w-full h-full object-cover scale-110"
+            data-testid={i === bg ? "hero-image" : undefined}
+          />
+        ))}
         <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/35 to-ink/20" />
       </motion.div>
 
