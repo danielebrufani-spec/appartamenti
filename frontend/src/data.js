@@ -103,7 +103,16 @@ export const GALLERY = [
   AREA_IMAGES.valle,
 ];
 
-export const REVIEW_AVATARS = [IMAGES.avatar1, IMAGES.avatar2, IMAGES.avatar3];
+export const REAL_REVIEWS = [
+  { name: "Simonetta", country: "Italia", score: 9.5, date: "23/09/2026", text: "Il proprietario Daniele, molto disponibile e premuroso. Abbiamo gradito molto la privacy, avendo 2 bagni, parcheggio incluso, posizione eccezionale." },
+  { name: "Giuseppe", country: "Italia", score: 9.5, date: "29/09/2026", text: "La posizione col parcheggio e giardinetto privato, la gentilezza e disponibilità del proprietario." },
+  { name: "Pietro", country: "Italia", score: 9.4, date: "30/09/2026", text: "Ottima accoglienza e disponibilità dell'host, appartamento con tutti i servizi e posizione ottima, ci tornerei sicuramente." },
+  { name: "Giovanni", country: "Italia", score: 9.4, date: "25/09/2026", text: "Disponibilità e cortesia del gestore. Posizione dell'appartamento, rapporto qualità-prezzo, funzionalità e comfort nel suo complesso." },
+  { name: "Andrea", country: "Italia", score: 9.3, date: "27/09/2026", text: "Proprietario molto accogliente, cura del dettaglio, appartamento bello e pulito, posizione comoda." },
+  { name: "Daniela", country: "Italia", score: 9.3, date: "22/09/2026", text: "La casa è comoda, centrale e pulita. Il gestore è molto gentile e disponibile." },
+  { name: "Riccardo", country: "Italia", score: 9.2, date: "01/10/2026", text: "Posizione, appartamento e disponibilità dell'host. Molto consigliato." },
+  { name: "Dinorah", country: "Austria", score: 9.0, date: "28/09/2026", text: "Excelente ubicación, a solo 10 minutos a pie de la estación de tren. Muy tranquilo, limpio y equipado. Muy buen precio." },
+];
 
 export const WHATSAPP_NUMBER = process.env.REACT_APP_WHATSAPP_NUMBER;
 export const API = `${process.env.REACT_APP_BACKEND_URL}/api`;

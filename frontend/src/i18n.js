@@ -99,11 +99,8 @@ const translations = {
       eyebrow: "Recensioni",
       title: "Parole dei nostri ospiti",
       scoreBadge: "9,2 su 10 · Eccellente · 44 recensioni verificate su Booking.com",
-      items: [
-        { name: "Sophie M.", from: "Francia", text: "Appartamento stupendo, giardino curatissimo e posizione comodissima per la Basilica. La prenotazione diretta è stata facile e veloce." },
-        { name: "Hans K.", from: "Germania", text: "Posizione perfetta, parcheggio davanti a casa. L'host ci ha consigliato ristoranti meravigliosi che non avremmo mai trovato da soli." },
-        { name: "María G.", from: "Spagna", text: "Tutto perfetto. La casa è accogliente e prenotando direttamente abbiamo risparmiato molto rispetto ai portali." },
-      ],
+      sourceNote: "Le recensioni reali degli ospiti dell'Appartamento Brufani su Booking.com",
+      verifiedOn: "Verificata su Booking.com",
     },
     booking: {
       eyebrow: "Disponibilità & Prenotazione",
@@ -259,11 +256,8 @@ const translations = {
       eyebrow: "Reviews",
       title: "Words from our guests",
       scoreBadge: "9.2 out of 10 · Excellent · 44 verified reviews on Booking.com",
-      items: [
-        { name: "Sophie M.", from: "France", text: "Lovely apartment, beautifully kept garden and a super convenient location for the Basilica. Direct booking was quick and easy." },
-        { name: "Hans K.", from: "Germany", text: "Perfect location, parking right in front of the house. The host recommended wonderful restaurants we would never have found on our own." },
-        { name: "María G.", from: "Spain", text: "Everything was perfect. The house is cosy and booking directly saved us a lot compared to the portals." },
-      ],
+      sourceNote: "Real reviews from Appartamento Brufani guests on Booking.com",
+      verifiedOn: "Verified on Booking.com",
     },
     booking: {
       eyebrow: "Availability & Booking",
@@ -419,11 +413,8 @@ const translations = {
       eyebrow: "Bewertungen",
       title: "Stimmen unserer Gäste",
       scoreBadge: "9,2 von 10 · Hervorragend · 44 verifizierte Bewertungen auf Booking.com",
-      items: [
-        { name: "Sophie M.", from: "Frankreich", text: "Wunderschöne Wohnung, sehr gepflegter Garten und super günstige Lage zur Basilika. Die Direktbuchung war schnell und einfach." },
-        { name: "Hans K.", from: "Deutschland", text: "Perfekte Lage, Parkplatz direkt vor dem Haus. Der Gastgeber empfahl uns wunderbare Restaurants, die wir allein nie gefunden hätten." },
-        { name: "María G.", from: "Spanien", text: "Alles war perfekt. Das Haus ist gemütlich und durch die Direktbuchung haben wir im Vergleich zu den Portalen viel gespart." },
-      ],
+      sourceNote: "Echte Bewertungen der Gäste des Appartamento Brufani auf Booking.com",
+      verifiedOn: "Verifiziert auf Booking.com",
     },
     booking: {
       eyebrow: "Verfügbarkeit & Buchung",
@@ -579,11 +570,8 @@ const translations = {
       eyebrow: "Opiniones",
       title: "Palabras de nuestros huéspedes",
       scoreBadge: "9,2 sobre 10 · Excelente · 44 opiniones verificadas en Booking.com",
-      items: [
-        { name: "Sophie M.", from: "Francia", text: "Apartamento precioso, jardín muy cuidado y ubicación comodísima para la Basílica. La reserva directa fue fácil y rápida." },
-        { name: "Hans K.", from: "Alemania", text: "Ubicación perfecta, aparcamiento delante de casa. El anfitrión nos recomendó restaurantes maravillosos que nunca habríamos encontrado solos." },
-        { name: "María G.", from: "España", text: "Todo perfecto. La casa es acogedora y reservando directamente ahorramos mucho en comparación con los portales." },
-      ],
+      sourceNote: "Opiniones reales de los huéspedes del Appartamento Brufani en Booking.com",
+      verifiedOn: "Verificada en Booking.com",
     },
     booking: {
       eyebrow: "Disponibilidad y Reserva",

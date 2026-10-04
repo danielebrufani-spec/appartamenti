@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
-import { Star, Quote } from "lucide-react";
+import { Star, BadgeCheck } from "lucide-react";
 import { useLanguage } from "@/i18n";
-import { REVIEW_AVATARS } from "@/data";
+import { REAL_REVIEWS } from "@/data";
 
 const EASE = [0.22, 1, 0.36, 1];
+const AVATAR_COLORS = ["bg-terracotta", "bg-olive", "bg-gold", "bg-terracotta-dark"];
 
 export default function Reviews() {
   const { t } = useLanguage();
@@ -25,32 +26,39 @@ export default function Reviews() {
             <Star size={15} className="fill-gold text-gold" />
             <span className="text-sm font-semibold text-olive">{r.scoreBadge}</span>
           </div>
+          <p className="mt-3 text-xs text-ink/45">{r.sourceNote}</p>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-6">
-          {r.items.map((rev, i) => (
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {REAL_REVIEWS.map((rev, i) => (
             <motion.figure
-              key={rev.name}
+              key={rev.name + rev.date}
               data-testid={`review-card-${i}`}
               initial={{ opacity: 0, y: 32 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.7, delay: i * 0.12, ease: EASE }}
-              className={`rounded-3xl p-8 bg-white border border-ink/5 flex flex-col gap-5 ${i === 1 ? "md:-translate-y-4 shadow-[0_24px_60px_-24px_rgba(28,33,30,0.25)]" : ""}`}
+              transition={{ duration: 0.7, delay: (i % 4) * 0.1, ease: EASE }}
+              className="rounded-3xl p-6 bg-white border border-ink/5 flex flex-col gap-4"
             >
-              <Quote size={26} className="text-gold" aria-hidden="true" />
-              <blockquote className="text-ink/75 leading-relaxed text-[15px]">{rev.text}</blockquote>
-              <figcaption className="mt-auto flex items-center gap-3.5 pt-2">
-                <img src={REVIEW_AVATARS[i]} alt={rev.name} className="w-11 h-11 rounded-full object-cover" loading="lazy" />
-                <div>
-                  <p className="text-sm font-semibold text-ink">{rev.name}</p>
-                  <p className="text-xs text-ink/50">{rev.from}</p>
+              <div className="flex items-center gap-3">
+                <span
+                  className={`w-10 h-10 rounded-full ${AVATAR_COLORS[i % AVATAR_COLORS.length]} text-cream font-serif font-semibold text-lg flex items-center justify-center shrink-0`}
+                  aria-hidden="true"
+                >
+                  {rev.name[0]}
+                </span>
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-ink truncate">{rev.name}</p>
+                  <p className="text-xs text-ink/50">{rev.country} · {rev.date}</p>
                 </div>
-                <div className="ml-auto flex gap-0.5" aria-label="5 stars">
-                  {[...Array(5)].map((_, s) => (
-                    <Star key={s} size={13} className="fill-gold text-gold" />
-                  ))}
-                </div>
+                <span data-testid={`review-score-${i}`} className="ml-auto rounded-lg bg-olive text-cream text-sm font-bold px-2.5 py-1 shrink-0">
+                  {rev.score.toFixed(1).replace(".", ",")}
+                </span>
+              </div>
+              <blockquote className="text-ink/75 leading-relaxed text-sm">{rev.text}</blockquote>
+              <figcaption className="mt-auto pt-1 flex items-center gap-1.5 text-[11px] text-ink/40">
+                <BadgeCheck size={13} className="text-olive shrink-0" />
+                {r.verifiedOn}
               </figcaption>
             </motion.figure>
           ))}
