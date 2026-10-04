@@ -10,7 +10,7 @@ export const LANGUAGES = [
 const translations = {
   it: {
     nav: { apartments: "Gli Appartamenti", why: "Prenota Diretto", gallery: "Galleria", location: "Dove Siamo", reviews: "Recensioni", book: "Prenota Ora" },
-    tabs: { brufani: "Brufani", brufanidue: "Brufani Due", perche: "Perché Diretto", galleria: "Galleria", posizione: "Posizione", recensioni: "Recensioni", prenota: "Prenota" },
+    tabs: { brufani: "Brufani", brufanidue: "Brufani Due", perche: "Perché Diretto", galleria: "Galleria", posizione: "Posizione", recensioni: "Recensioni", prenota: "Prenota", explore: "Esplora" },
     seo: {
       title: "Appartamenti a Santa Maria degli Angeli, Assisi | Appartamenti Brufani",
       desc: "Due appartamenti in affitto a Santa Maria degli Angeli, a 600 metri dalla Basilica: trilocale con giardino privato e monolocale con parcheggio. Prenota diretto: zero commissioni, miglior prezzo garantito.",
@@ -35,6 +35,7 @@ const translations = {
       title: "Due appartamenti, un'accoglienza di famiglia",
       sub: "A 600 metri dalla Basilica di Santa Maria degli Angeli, entrambi con parcheggio privato. Scegli l'appartamento perfetto per il tuo soggiorno.",
       guests: "ospiti",
+      alsoSee: "Guarda anche",
       night: "notte",
       from: "da",
       book: "Prenota questo appartamento",
@@ -230,7 +231,7 @@ const translations = {
   },
   en: {
     nav: { apartments: "The Apartments", why: "Book Direct", gallery: "Gallery", location: "Location", reviews: "Reviews", book: "Book Now" },
-    tabs: { brufani: "Brufani", brufanidue: "Brufani Due", perche: "Why Direct", galleria: "Gallery", posizione: "Location", recensioni: "Reviews", prenota: "Book" },
+    tabs: { brufani: "Brufani", brufanidue: "Brufani Due", perche: "Why Direct", galleria: "Gallery", posizione: "Location", recensioni: "Reviews", prenota: "Book", explore: "Explore" },
     seo: {
       title: "Apartments in Santa Maria degli Angeli, Assisi | Appartamenti Brufani",
       desc: "Two holiday apartments in Santa Maria degli Angeli, 600 m from the Basilica: three-room flat with private garden and studio with parking. Book direct: zero fees, best price guaranteed.",
@@ -255,6 +256,7 @@ const translations = {
       title: "Two apartments, a family welcome",
       sub: "600 meters from the Basilica of Saint Mary of the Angels, both with private parking. Choose the perfect apartment for your stay.",
       guests: "guests",
+      alsoSee: "Also see",
       night: "night",
       from: "from",
       book: "Book this apartment",
@@ -450,7 +452,7 @@ const translations = {
   },
   de: {
     nav: { apartments: "Die Wohnungen", why: "Direkt buchen", gallery: "Galerie", location: "Lage", reviews: "Bewertungen", book: "Jetzt buchen" },
-    tabs: { brufani: "Brufani", brufanidue: "Brufani Due", perche: "Direkt buchen", galleria: "Galerie", posizione: "Lage", recensioni: "Bewertungen", prenota: "Buchen" },
+    tabs: { brufani: "Brufani", brufanidue: "Brufani Due", perche: "Direkt buchen", galleria: "Galerie", posizione: "Lage", recensioni: "Bewertungen", prenota: "Buchen", explore: "Entdecken" },
     seo: {
       title: "Ferienwohnungen in Santa Maria degli Angeli, Assisi | Appartamenti Brufani",
       desc: "Zwei Ferienwohnungen in Santa Maria degli Angeli, 600 m von der Basilika: Dreizimmerwohnung mit privatem Garten und Studio mit Parkplatz. Direkt buchen: keine Provisionen, Bestpreis garantiert.",
@@ -475,6 +477,7 @@ const translations = {
       title: "Zwei Wohnungen, familiäre Gastfreundschaft",
       sub: "600 Meter von der Basilika Santa Maria degli Angeli entfernt, beide mit privatem Parkplatz. Wähle die perfekte Wohnung für deinen Aufenthalt.",
       guests: "Gäste",
+      alsoSee: "Siehe auch",
       night: "Nacht",
       from: "ab",
       book: "Diese Wohnung buchen",
@@ -670,7 +673,7 @@ const translations = {
   },
   es: {
     nav: { apartments: "Los Apartamentos", why: "Reserva Directa", gallery: "Galería", location: "Ubicación", reviews: "Opiniones", book: "Reservar" },
-    tabs: { brufani: "Brufani", brufanidue: "Brufani Due", perche: "Reserva Directa", galleria: "Galería", posizione: "Ubicación", recensioni: "Opiniones", prenota: "Reservar" },
+    tabs: { brufani: "Brufani", brufanidue: "Brufani Due", perche: "Reserva Directa", galleria: "Galería", posizione: "Ubicación", recensioni: "Opiniones", prenota: "Reservar", explore: "Explorar" },
     seo: {
       title: "Apartamentos en Santa Maria degli Angeli, Assisi | Appartamenti Brufani",
       desc: "Dos apartamentos vacacionales en Santa Maria degli Angeli, a 600 m de la Basílica: tres ambientes con jardín privado y estudio con aparcamiento. Reserva directa: cero comisiones, mejor precio garantizado.",
@@ -695,6 +698,7 @@ const translations = {
       title: "Dos apartamentos, una acogida familiar",
       sub: "A 600 metros de la Basílica de Santa María de los Ángeles, ambos con aparcamiento privado. Elige el apartamento perfecto para tu estancia.",
       guests: "huéspedes",
+      alsoSee: "Ver también",
       night: "noche",
       from: "desde",
       book: "Reservar este apartamento",

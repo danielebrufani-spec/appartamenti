@@ -83,8 +83,8 @@ export default function ApartmentPanel({ aptId }) {
   };
 
   return (
-    <div data-testid={`apartment-panel-${apt.id}`} className="py-12 sm:py-16">
-      <div className="max-w-7xl mx-auto px-5 sm:px-8">
+    <div data-testid={`apartment-panel-${apt.id}`} className="py-4 sm:py-6">
+      <div>
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           <div className="lg:col-span-7 relative">
             <div className="absolute -top-4 -left-4 w-full h-full rounded-3xl border-2 border-gold/50 -z-10 hidden sm:block" aria-hidden="true" />
@@ -153,6 +153,23 @@ export default function ApartmentPanel({ aptId }) {
             >
               {a.book} <ArrowRight size={16} />
             </motion.button>
+            {(() => {
+              const other = APARTMENTS.find((x) => x.id !== apt.id);
+              return (
+                <button
+                  data-testid={`apartment-switch-${apt.id}`}
+                  onClick={() => window.dispatchEvent(new CustomEvent("open-tab", { detail: other.key === "brufani" ? "brufani" : "brufanidue" }))}
+                  className="mt-5 flex items-center gap-2.5 rounded-2xl border border-ink/10 bg-white/80 hover:border-olive/40 p-3 w-full text-left transition-colors duration-200"
+                >
+                  <img src={other.main} alt={a[other.key].name} loading="lazy" className="w-12 h-12 rounded-xl object-cover shrink-0" />
+                  <span className="flex-1 min-w-0">
+                    <span className="block text-[11px] font-semibold tracking-wider uppercase text-ink/45">{a.alsoSee}</span>
+                    <span className="block font-serif font-semibold text-ink text-sm">{a[other.key].name} · {other.size} m² · {t.apartments.from} €{other.price}/{a.night}</span>
+                  </span>
+                  <ArrowRight size={16} className="text-olive shrink-0" />
+                </button>
+              );
+            })()}
           </div>
         </div>
       </div>
