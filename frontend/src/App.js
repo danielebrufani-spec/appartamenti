@@ -12,9 +12,15 @@ import Reviews from "@/components/Reviews";
 import BookingSection from "@/components/BookingSection";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import CheckInPage from "@/components/CheckInPage";
 
 export default function App() {
+  const params = new URLSearchParams(window.location.search);
+  const checkinId = params.get("checkin");
+  const checkinToken = params.get("token") || "";
+
   useEffect(() => {
+    if (checkinId) return;
     const lenis = new Lenis({ duration: 1.15, smoothWheel: true });
     let rafId;
     const raf = (time) => {
@@ -26,25 +32,29 @@ export default function App() {
       cancelAnimationFrame(rafId);
       lenis.destroy();
     };
-  }, []);
+  }, [checkinId]);
 
   return (
     <LanguageProvider>
-      <div className="min-h-screen bg-cream text-ink overflow-x-clip">
-        <Header />
-        <main>
-          <Hero />
-          <Marquee />
-          <Apartments />
-          <WhyDirect />
-          <Location />
-          <Reviews />
-          <BookingSection />
-        </main>
-        <Footer />
-        <WhatsAppButton />
-        <Toaster position="top-center" richColors />
-      </div>
+      {checkinId ? (
+        <CheckInPage bookingId={checkinId} token={checkinToken} />
+      ) : (
+        <div className="min-h-screen bg-cream text-ink overflow-x-clip">
+          <Header />
+          <main>
+            <Hero />
+            <Marquee />
+            <Apartments />
+            <WhyDirect />
+            <Location />
+            <Reviews />
+            <BookingSection />
+          </main>
+          <Footer />
+          <WhatsAppButton />
+        </div>
+      )}
+      <Toaster position="top-center" richColors />
     </LanguageProvider>
   );
 }

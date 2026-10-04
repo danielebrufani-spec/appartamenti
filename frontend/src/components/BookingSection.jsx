@@ -408,6 +408,18 @@ export default function BookingSection() {
               <p className="mt-1.5 font-semibold text-olive" data-testid="status-label">
                 {b.statuses[statusResult.status] || statusResult.status}
               </p>
+              {statusResult.checkin_booking_id && !statusResult.checkin_completed && (
+                <a
+                  data-testid="status-checkin-link"
+                  href={`${window.location.origin}/?checkin=${statusResult.checkin_booking_id}&token=${statusResult.checkin_token}`}
+                  className="mt-3 inline-flex items-center gap-2 rounded-full bg-terracotta hover:bg-terracotta-dark text-cream text-xs font-semibold px-5 py-2.5 transition-colors duration-200"
+                >
+                  {b.checkinCta}
+                </a>
+              )}
+              {statusResult.checkin_completed && (
+                <p className="mt-2 text-xs text-olive font-medium">{b.checkinDone}</p>
+              )}
             </div>
           )}
         </motion.div>

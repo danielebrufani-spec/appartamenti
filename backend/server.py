@@ -308,6 +308,9 @@ GUEST_TPL = {
         "apt": "Appartamento", "in": "Check-in", "out": "Check-out", "guests": "Ospiti",
         "paid": "Pagato online", "tax": "Tassa di soggiorno (da pagare all'arrivo)", "code": "Codice prenotazione", "addr": "Indirizzo",
         "footer": "Per qualsiasi necessità rispondi a questa email o scrivici su WhatsApp al +39 339 502 0625.",
+        "checkin_title": "Check-in online",
+        "checkin_text": "Prima dell'arrivo compila il check-in online con i dati e i documenti degli ospiti (serve per la registrazione obbligatoria in Questura):",
+        "checkin_cta": "Compila il check-in online",
     },
     "en": {
         "confirmed_subject": "Booking confirmed · {apt}",
@@ -319,6 +322,9 @@ GUEST_TPL = {
         "apt": "Apartment", "in": "Check-in", "out": "Check-out", "guests": "Guests",
         "paid": "Paid online", "tax": "City tax (payable on arrival)", "code": "Booking code", "addr": "Address",
         "footer": "For anything you need, reply to this email or message us on WhatsApp at +39 339 502 0625.",
+        "checkin_title": "Online check-in",
+        "checkin_text": "Before arrival, please complete the online check-in with the guests' details and ID documents (required for police registration):",
+        "checkin_cta": "Complete online check-in",
     },
     "de": {
         "confirmed_subject": "Buchung bestätigt · {apt}",
@@ -330,6 +336,9 @@ GUEST_TPL = {
         "apt": "Wohnung", "in": "Check-in", "out": "Check-out", "guests": "Gäste",
         "paid": "Online bezahlt", "tax": "Kurtaxe (bei Ankunft zu zahlen)", "code": "Buchungscode", "addr": "Adresse",
         "footer": "Bei Fragen antworte einfach auf diese E-Mail oder schreib uns auf WhatsApp: +39 339 502 0625.",
+        "checkin_title": "Online-Check-in",
+        "checkin_text": "Bitte fülle vor der Anreise den Online-Check-in mit den Daten und Ausweisdokumenten der Gäste aus (für die Pflichtanmeldung bei der Polizei erforderlich):",
+        "checkin_cta": "Online-Check-in ausfüllen",
     },
     "es": {
         "confirmed_subject": "Reserva confirmada · {apt}",
@@ -341,6 +350,9 @@ GUEST_TPL = {
         "apt": "Apartamento", "in": "Entrada", "out": "Salida", "guests": "Huéspedes",
         "paid": "Pagado online", "tax": "Tasa turística (a pagar a la llegada)", "code": "Código de reserva", "addr": "Dirección",
         "footer": "Para cualquier cosa, responde a este email o escríbenos por WhatsApp al +39 339 502 0625.",
+        "checkin_title": "Check-in online",
+        "checkin_text": "Antes de la llegada, completa el check-in online con los datos y documentos de los huéspedes (necesario para el registro policial obligatorio):",
+        "checkin_cta": "Completar el check-in online",
     },
 }
 
@@ -364,11 +376,21 @@ async def _send_guest_email(booking: dict, kind: str):
     ])
     title = tpl[f"{kind}_title"]
     intro = tpl[f"{kind}_intro"].format(name=escape(booking.get("name", "")))
+    checkin_html = ""
+    if kind == "confirmed" and booking.get("action_token"):
+        origin = (booking.get("origin_url") or "https://www.appartamentibrufani.it").rstrip("/")
+        checkin_url = f"{origin}/?checkin={booking['id']}&token={booking['action_token']}"
+        checkin_html = (
+            f"<h3 style='color:#2C4231;margin:20px 0 8px'>{tpl['checkin_title']}</h3>"
+            f"<p style='margin:0 0 12px'>{tpl['checkin_text']}</p>"
+            f"<p style='margin:0'><a href='{checkin_url}' style='background:#C85A32;color:#FAF7F2;padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:bold;display:inline-block'>{tpl['checkin_cta']}</a></p>"
+        )
     html = (
         "<table role='presentation' width='100%'><tr><td style='padding:24px;font-family:Arial,sans-serif'>"
         f"<h2 style='color:#2C4231;margin:0 0 12px'>{title}</h2>"
         f"<p style='margin:0 0 16px'>{intro}</p>"
         f"<table role='presentation' style='border-collapse:collapse'>{rows}</table>"
+        f"{checkin_html}"
         f"<p style='font-size:12px;color:#888;margin-top:24px'>{tpl['footer']}</p>"
         "</td></tr></table>"
     )
@@ -508,13 +530,14 @@ async def create_booking_request(payload: BookingRequestCreate):
         "status": "pending_payment",
         "payment_status": "pending",
         "action_token": str(uuid.uuid4()),
+        "origin_url": payload.origin_url,
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
 
     if not stripe.api_key:
         # Fallback senza pagamento online: vecchia logica (richiesta + email al proprietario)
         doc["status"] = "received"
-        doc.pop("action_token", None)
+        doc["origin_url"] = payload.origin_url
         await db.booking_requests.insert_one(doc)
         await db.blocked_dates.insert_many([
             {"apartment_id": payload.apartment_id, "source": "direct", "request_id": request_id, "date": d}
@@ -826,15 +849,172 @@ async def reject_booking(booking_id: str, token: str = ""):
     return Response(content=_owner_page("Prenotazione rifiutata", f"{b.get('code')} · rimborso completo avviato, le date sono di nuovo disponibili."), media_type="text/html")
 
 
-# ---------- Stato prenotazione per l'ospite ----------
+# ---------- Check-in online (dati ospiti + documenti per Alloggiati Web) ----------
+DOC_TYPES = {"carta_identita", "passaporto", "patente"}
+
+
+class GuestData(BaseModel):
+    first_name: str = Field(min_length=2, max_length=80)
+    last_name: str = Field(min_length=2, max_length=80)
+    sex: str = Field(pattern="^[MF]$")
+    birth_date: date
+    birth_place: str = Field(min_length=2, max_length=120)
+    birth_province: Optional[str] = Field(default=None, max_length=10)
+    citizenship: str = Field(min_length=2, max_length=80)
+    doc_type: str
+    doc_number: str = Field(min_length=4, max_length=30)
+    doc_issued_by: str = Field(min_length=2, max_length=120)
+
+
+class CheckinSubmit(BaseModel):
+    guests: list[GuestData] = Field(min_length=1, max_length=8)
+    consent: bool
+
+
+async def _get_booking_by_token(booking_id: str, token: str):
+    b = await db.booking_requests.find_one({"id": booking_id})
+    if not b or not b.get("action_token") or b["action_token"] != token:
+        raise HTTPException(status_code=403, detail="invalid_token")
+    return b
+
+
+@api_router.get("/checkin/{booking_id}/info")
+async def checkin_info(booking_id: str, token: str = ""):
+    b = await _get_booking_by_token(booking_id, token)
+    done = await db.checkins.find_one({"booking_id": booking_id}, {"_id": 0, "submitted_at": 1})
+    return {
+        "apartment_name": b["apartment_name"],
+        "guest_name": b["name"],
+        "check_in": b["check_in"],
+        "check_out": b["check_out"],
+        "guests": b["guests"],
+        "code": b.get("code"),
+        "status": b["status"],
+        "completed": bool(done),
+        "submitted_at": (done or {}).get("submitted_at"),
+    }
+
+
+@api_router.post("/checkin/{booking_id}/document")
+async def checkin_document(booking_id: str, request: Request, token: str = "", guest_index: int = 0):
+    b = await _get_booking_by_token(booking_id, token)
+    if guest_index < 0 or guest_index >= b["guests"]:
+        raise HTTPException(status_code=400, detail="invalid_guest_index")
+    form = await request.form()
+    file = form.get("file")
+    if file is None or not getattr(file, "filename", None):
+        raise HTTPException(status_code=400, detail="missing_file")
+    data = await file.read()
+    if len(data) > 8 * 1024 * 1024:
+        raise HTTPException(status_code=400, detail="file_too_large")
+    if not (file.content_type or "").startswith("image/"):
+        raise HTTPException(status_code=400, detail="invalid_content_type")
+    await db.checkin_documents.update_one(
+        {"booking_id": booking_id, "guest_index": guest_index},
+        {"$set": {
+            "booking_id": booking_id,
+            "guest_index": guest_index,
+            "content_type": file.content_type,
+            "data": data,
+            "size": len(data),
+            "created_at": datetime.now(timezone.utc).isoformat(),
+        }},
+        upsert=True,
+    )
+    return {"ok": True, "size": len(data)}
+
+
+@api_router.get("/checkin/{booking_id}/document/{guest_index}")
+async def checkin_document_download(booking_id: str, guest_index: int, token: str = ""):
+    await _get_booking_by_token(booking_id, token)
+    doc = await db.checkin_documents.find_one({"booking_id": booking_id, "guest_index": guest_index})
+    if not doc:
+        raise HTTPException(status_code=404, detail="not_found")
+    return Response(
+        content=bytes(doc["data"]),
+        media_type=doc.get("content_type", "image/jpeg"),
+        headers={"Cache-Control": "private, no-store"},
+    )
+
+
+@api_router.post("/checkin/{booking_id}/submit")
+async def checkin_submit(booking_id: str, payload: CheckinSubmit, request: Request, token: str = ""):
+    b = await _get_booking_by_token(booking_id, token)
+    if b["status"] not in ("paid", "confirmed", "received"):
+        raise HTTPException(status_code=409, detail="booking_not_active")
+    if not payload.consent:
+        raise HTTPException(status_code=400, detail="consent_required")
+    if len(payload.guests) != b["guests"]:
+        raise HTTPException(status_code=400, detail="guests_count_mismatch")
+    for g in payload.guests:
+        if g.doc_type not in DOC_TYPES:
+            raise HTTPException(status_code=400, detail="invalid_doc_type")
+    has_doc0 = await db.checkin_documents.find_one({"booking_id": booking_id, "guest_index": 0}, {"_id": 1})
+    if not has_doc0:
+        raise HTTPException(status_code=400, detail="document_required")
+
+    now = datetime.now(timezone.utc).isoformat()
+    await db.checkins.update_one(
+        {"booking_id": booking_id},
+        {"$set": {
+            "booking_id": booking_id,
+            "guests": [g.model_dump(mode="json") for g in payload.guests],
+            "consent": True,
+            "submitted_at": now,
+            "ip": request.client.host if request.client else None,
+        }},
+        upsert=True,
+    )
+    await db.booking_requests.update_one({"id": booking_id}, {"$set": {"checkin_completed": True, "checkin_at": now}})
+
+    if OWNER_EMAIL:
+        base = str(request.base_url)
+        sections = []
+        for i, g in enumerate(payload.guests):
+            doc_link = ""
+            doc = await db.checkin_documents.find_one({"booking_id": booking_id, "guest_index": i}, {"_id": 1})
+            if doc:
+                doc_link = (
+                    f"<tr><td style='padding:4px 12px;color:#6E7570'>Documento</td>"
+                    f"<td style='padding:4px 12px'><a href='{base}api/checkin/{booking_id}/document/{i}?token={b['action_token']}'>Vedi foto documento</a></td></tr>"
+                )
+            sections.append(
+                f"<h3 style='color:#2C4231;margin:18px 0 6px'>Ospite {i + 1}{' (capogruppo)' if i == 0 else ''}</h3>"
+                "<table role='presentation' style='border-collapse:collapse'>"
+                f"<tr><td style='padding:4px 12px;color:#6E7570'>Nome</td><td style='padding:4px 12px'><strong>{escape(g.first_name)} {escape(g.last_name)}</strong></td></tr>"
+                f"<tr><td style='padding:4px 12px;color:#6E7570'>Sesso</td><td style='padding:4px 12px'>{g.sex}</td></tr>"
+                f"<tr><td style='padding:4px 12px;color:#6E7570'>Nato/a il</td><td style='padding:4px 12px'>{g.birth_date.isoformat()} a {escape(g.birth_place)}{' (' + escape(g.birth_province) + ')' if g.birth_province else ''}</td></tr>"
+                f"<tr><td style='padding:4px 12px;color:#6E7570'>Cittadinanza</td><td style='padding:4px 12px'>{escape(g.citizenship)}</td></tr>"
+                f"<tr><td style='padding:4px 12px;color:#6E7570'>Documento</td><td style='padding:4px 12px'>{g.doc_type} n. {escape(g.doc_number)} · rilasciato da {escape(g.doc_issued_by)}</td></tr>"
+                f"{doc_link}</table>"
+            )
+        html = (
+            "<table role='presentation' width='100%'><tr><td style='padding:24px;font-family:Arial,sans-serif'>"
+            f"<h2 style='color:#2C4231;margin:0 0 8px'>Check-in online completato - {escape(b['apartment_name'])}</h2>"
+            f"<p style='color:#6E7570'>Prenotazione {b.get('code')} · {_fmt_data_it(date.fromisoformat(b['check_in']))} → {_fmt_data_it(date.fromisoformat(b['check_out']))}. "
+            "Dati pronti per la registrazione Alloggiati Web:</p>"
+            + "".join(sections)
+            + f"<p style='font-size:12px;color:#888;margin-top:24px'>Inviata dal sito {escape(EMAIL_FROM_NAME)}. "
+            "Non chiediamo mai password o dati di pagamento via email.</p></td></tr></table>"
+        )
+        email_id = await send_email(to=OWNER_EMAIL, subject=f"Check-in completato - {b['apartment_name']} ({b.get('code')})", html=html)
+        logger.info(f"Owner checkin email id: {email_id}")
+
+    return {"ok": True, "submitted_at": now}
 @api_router.get("/bookings/status/{code}")
 async def guest_booking_status(code: str, email: str = ""):
     b = await db.booking_requests.find_one(
         {"code": code.strip().upper(), "email": email.strip().lower()},
-        {"_id": 0, "code": 1, "status": 1, "payment_status": 1, "apartment_name": 1, "check_in": 1, "check_out": 1, "guests": 1, "stay_online": 1, "city_tax": 1, "created_at": 1},
+        {"_id": 0, "id": 1, "code": 1, "status": 1, "payment_status": 1, "apartment_name": 1, "check_in": 1, "check_out": 1, "guests": 1, "stay_online": 1, "city_tax": 1, "created_at": 1, "action_token": 1, "checkin_completed": 1},
     )
     if not b:
         raise HTTPException(status_code=404, detail="not_found")
+    if b.get("status") in ("paid", "confirmed") and b.get("action_token"):
+        b["checkin_booking_id"] = b.pop("id")
+        b["checkin_token"] = b.pop("action_token")
+    else:
+        b.pop("id", None)
+        b.pop("action_token", None)
     return b
 
 
