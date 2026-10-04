@@ -1,0 +1,59 @@
+{
+  "summary": "E2E testing of the new ONLINE CHECK-IN feature on preview. All backend endpoints (info/document/submit), all FE validations (empty fields, missing photo, missing consent), full success flow, re-open after completion, invalid-token error page, and booking-status-checker integration (link visible for confirmed, 'completato' for completed) PASS. Backend regression suite 19/19 green. One blocking BUG FOUND and FIXED (in Fix Scope): checkin/submit returned 500 because request.base_url is http:// behind the preview proxy and the email guard rejects non-https links. Added https coercion in /checkin/{id}/submit before building email HTML.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "POST /api/checkin/{booking_id}/submit", "issue": "request.base_url is 'http://...' in preview (behind TLS-terminating proxy); the Emergent email guard raises ValueError on non-https links, causing 500. Fixed by coercing http -> https on base URL. Same pattern exists in webhook/_mark_paid flows; those use origin_url (always https) so they work, but any future use of request.base_url should go through a helper. Consider adding _force_https() util or trusting X-Forwarded-Proto."}
+    ]
+  },
+  "frontend_issues": {"ui_bugs": [], "integration_issues": [], "design_issues": []},
+  "verification_details": {
+    "backend": {
+      "GET /checkin/{id}/info valid token": "200 with completed flag and submitted_at",
+      "GET /checkin/{id}/info WRONG token": "403",
+      "POST /checkin/{id}/document (image/jpeg)": "200 ok",
+      "GET /checkin/{id}/document/0 with token": "200 image/jpeg (3160 bytes test image)",
+      "GET /checkin/{id}/document/0 WITHOUT token": "403",
+      "POST /checkin/{id}/submit full payload": "200 submitted_at ISO",
+      "Owner email": "Log line 'Owner checkin email id: 01a1077d-...' present after submit",
+      "pytest test_booking_payment_flow.py": "19/19 passed"
+    },
+    "frontend_e2e": {
+      "checkin-page loads via ?checkin=&token=": true,
+      "checkin-summary shows code+dates+guest_name": true,
+      "2 guest blocks for 2 guests": true,
+      "Empty submit toast": "Completa tutti i campi obbligatori di ogni ospite",
+      "Submit without photo (all fields filled)": "Carica la foto del documento del capogruppo (Ospite 1)",
+      "Submit without consent (photo present)": "Devi autorizzare il trattamento dei dati per proseguire",
+      "Full happy path": "checkin-success visible, title 'Check-in completato!'",
+      "Reopen link after completion": "title 'Check-in già completato'",
+      "Invalid token": "AlertTriangle + 'Link non valido o scaduto...'",
+      "booking-status-checker (confirmed, not done)": "status-checkin-link visible, href contains checkin= and token=",
+      "booking-status-checker (completed)": "shows 'Check-in online già completato', no status-checkin-link",
+      "Home page regression": "loads normally, header + sections visible"
+    },
+    "i18n": "4 'checkin:' blocks present in /app/frontend/src/i18n.js (it/en/de/es) including successTitle, alreadyTitle, errorPhoto, errorConsent for each locale."
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_booking_payment_flow.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [
+    "OPTIONAL (not blocking): factor a _force_https(base_url) helper (or honor X-Forwarded-Proto via Uvicorn --proxy-headers) so request.base_url is always https. Current fix in checkin/submit is a targeted string replace.",
+    "OPTIONAL (minor UX): the 'birth_province' and 'doc_issued_by' inputs have no data-testid (only placeholder); fine for now, consider adding guest-{i}-birth-province / guest-{i}-doc-issued-by for stability."
+  ],
+  "critical_code_review_comments": [
+    "CheckInPage.jsx uploads one document at a time serially (OK, max 8 small blobs). It triggers compressImage on main thread; fine but consider a loading hint while uploading.",
+    "Submit flow performs document POST BEFORE submit POST but relies on the submit endpoint to re-check doc existence. If network interrupts between upload success and submit, the orphan doc stays. Low priority (upsert-based, no PII leak).",
+    "Server stores raw binary documents in MongoDB via motor (as expected per app design). No AV/mime enforcement besides content_type starts with image/*; max 8MB enforced server-side. Good.",
+    "status endpoint correctly only exposes checkin_booking_id/checkin_token when status in ('paid','confirmed') and action_token present."
+  ],
+  "updated_files": ["/app/backend/server.py (added http->https coercion in checkin_submit before email HTML build)"],
+  "success_rate": {"backend": "100%", "frontend": "100%"},
+  "test_credentials": "No login; test data created via mongo seed script /tmp/setup_checkin_test.py and cleaned up after.",
+  "seed_data_creation": "Two bookings created & then DELETED after the test run: BRF-ADA645 (2027-11-14→16, test.checkin@example.com) and BRF-5C9C2C (2027-11-20→22, test.checkin2@example.com). Both apartment-brufani-due. Blocked_dates, checkins, checkin_documents also cleaned up. Owner (danielebrufani@gmail.com) received ONE real 'Check-in completato' email from the successful run of BRF-ADA645.",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "The http->https coercion in /checkin/{id}/submit is required for the preview environment. If running on Render in production, the proxy sets X-Forwarded-Proto=https and uvicorn with --proxy-headers would already make request.base_url https — so the coercion is a harmless safety net. All DB test data was cleaned at the end of this run.",
+  "rca of the issue": "RCA: POST /api/checkin/{id}/submit returned 500 in preview. Backend builds owner-notification email HTML with doc links using str(request.base_url). In the Emergent preview, FastAPI/Uvicorn is not launched with --proxy-headers so request.base_url returns 'http://book-assisi-direct.cluster-12.preview.emergentcf.cloud/'. The emergentintegrations email client validates all links/assets must be absolute https (guard G3) and raises ValueError. The exception bubbles up before any HTTP response is returned, hence 500. Fix: force https on base before string-formatting into email HTML (minimal, targeted). Verified: subsequent submit returned 200, owner-email id logged, info/completed=true, document download returns image/jpeg."
+}

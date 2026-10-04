@@ -438,6 +438,7 @@ async def _mark_paid(session_id: str, base_url: str):
         {"$set": {"status": "completed", "payment_status": "paid", "stripe_payment_intent_id": pi, "updated_at": now}},
     )
     if OWNER_EMAIL:
+        base_url = base_url.replace("http://", "https://", 1)
         confirm_url = f"{base_url}api/bookings/{booking['id']}/confirm?token={booking['action_token']}"
         reject_url = f"{base_url}api/bookings/{booking['id']}/reject?token={booking['action_token']}"
         ci = _fmt_data_it(date.fromisoformat(booking["check_in"]))
@@ -969,6 +970,8 @@ async def checkin_submit(booking_id: str, payload: CheckinSubmit, request: Reque
 
     if OWNER_EMAIL:
         base = str(request.base_url)
+        if base.startswith("http://"):
+            base = "https://" + base[len("http://"):]
         sections = []
         for i, g in enumerate(payload.guests):
             doc_link = ""

@@ -179,7 +179,7 @@ export default function CheckInPage({ bookingId, token }) {
                       <input data-testid={`guest-${i}-birth-date`} type="date" max={today} className={inputCls} value={g.birth_date} onChange={(e) => setGuest(i, "birth_date", e.target.value)} />
                     </div>
                     <input data-testid={`guest-${i}-birth-place`} className={inputCls} placeholder={c.birthPlace} value={g.birth_place} onChange={(e) => setGuest(i, "birth_place", e.target.value)} />
-                    <input className={inputCls} placeholder={c.birthProvince} value={g.birth_province} onChange={(e) => setGuest(i, "birth_province", e.target.value)} />
+                    <input data-testid={`guest-${i}-birth-province`} className={inputCls} placeholder={c.birthProvince} value={g.birth_province} onChange={(e) => setGuest(i, "birth_province", e.target.value)} />
                     <input data-testid={`guest-${i}-citizenship`} className={inputCls} placeholder={c.citizenship} value={g.citizenship} onChange={(e) => setGuest(i, "citizenship", e.target.value)} />
                     <select data-testid={`guest-${i}-doc-type`} className={inputCls} value={g.doc_type} onChange={(e) => setGuest(i, "doc_type", e.target.value)}>
                       <option value="carta_identita">{c.docTypes.carta_identita}</option>
@@ -187,7 +187,7 @@ export default function CheckInPage({ bookingId, token }) {
                       <option value="patente">{c.docTypes.patente}</option>
                     </select>
                     <input data-testid={`guest-${i}-doc-number`} className={inputCls} placeholder={c.docNumber} value={g.doc_number} onChange={(e) => setGuest(i, "doc_number", e.target.value)} />
-                    <input className={inputCls} placeholder={c.docIssuedBy} value={g.doc_issued_by} onChange={(e) => setGuest(i, "doc_issued_by", e.target.value)} />
+                    <input data-testid={`guest-${i}-doc-issued-by`} className={inputCls} placeholder={c.docIssuedBy} value={g.doc_issued_by} onChange={(e) => setGuest(i, "doc_issued_by", e.target.value)} />
                   </div>
 
                   <div className="mt-5">
