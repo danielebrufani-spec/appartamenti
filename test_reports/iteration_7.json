@@ -1,0 +1,32 @@
+{
+  "summary": "Tested the new VERTICAL TabExplorer menu + regressions. Mobile 390: eyebrows 'I NOSTRI APPARTAMENTI' and 'ESPLORA' render; both apartment cards show photo + name + tagline + specs (Brufani 65m²/4/€110, Brufani Due 40m²/3/€90); Prenota button is clearly accented (terracotta border/bg-10, bold). Tap on tab-brufanidue auto-scrolls (scrollY 0->1546) and renders the correct panel. Desktop 1366: sidebar is a 320px left column (sticky after scroll), content on right; active apartment tab gets bg-terracotta, Esplora tabs get bg-olive when active. apartment-switch-appartamento-brufani -> opens Brufani Due panel; apartment-switch-appartamento-brufani-due -> opens Brufani panel. apartment-book-appartamento-brufani-due activates Prenota tab AND preselects Brufani Due in the booking section. Hero CTA hero-cta-availability and nav-apartments work. Language switch IT/EN/DE updates the whole TabExplorer correctly (OUR APARTMENTS/EXPLORE, UNSERE WOHNUNGEN/ENTDECKEN, apartment taglines translated). No console errors on main page. ONE REGRESSION FOUND: returning from Stripe with ?pagamento=annullato shows the toast and rewrites URL to /#prenota, but DOES NOT activate the Prenota tab (user remains on hero). Root cause identified below.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [
+      {
+        "flow": "Stripe cancel return (?pagamento=annullato)",
+        "issue": "Toast fires correctly but Prenota tab is NOT activated; user stays on hero. Regression caused by TabExplorer rewrite: BookingSection is now permanently mounted inside TabExplorer (via hidden div), and its useEffect calls window.history.replaceState('/#prenota') before TabExplorer's own useEffect reads window.location.search. Because child effects run before parent effects in React, by the time TabExplorer reads searchParams the 'pagamento' key is already gone, so setActive('prenota') never fires.",
+        "affected_selectors": ["[data-testid=tab-prenota]"]
+      }
+    ],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Fix ?pagamento=annullato regression. Simplest fix: in TabExplorer.jsx useEffect, read the query param synchronously inside useState initializer, e.g. const [active, setActive] = useState(() => new URLSearchParams(window.location.search).get('pagamento') ? 'prenota' : 'brufani'); This runs before any child effect strips the URL.",
+    "Alternatively, have BookingSection dispatch window.dispatchEvent(new CustomEvent('open-tab', { detail: 'prenota' })) BEFORE calling history.replaceState, since TabExplorer listens for 'open-tab'."
+  ],
+  "critical_code_review_comments": [
+    "Race condition between TabExplorer and BookingSection useEffects on ?pagamento=annullato (regression; see action_items).",
+    "TabExplorer open-tab listener still has no validation guard: unknown detail would blank the panel (pre-existing).",
+    "BookingSection is always mounted (via hidden div) so its heavy effects (polling, availability fetch) run even when the user never opens the Prenota tab; consider mounting lazily on first activation."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "n/a", "frontend": "90%"},
+  "seed_data_creation": "",
+  "retest_needed": true,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Vertical TabExplorer verified at 1366 and 390. All data-testid tabs work: tab-brufani, tab-brufanidue, tab-perche, tab-galleria, tab-posizione, tab-recensioni, tab-prenota, plus the new apartment-switch-{aptId}. i18n covers tabs.explore and apartments.alsoSee in IT/EN/DE (ES not re-checked but code path identical). Only open issue is ?pagamento=annullato not activating Prenota tab. Calendar day buttons do not use selector [data-testid^='cal-day-']; if a future test needs date selection, inspect calendar component for actual testids.",
+  "rca of the issue": "In the new TabExplorer, BookingSection is rendered inside a sibling div with className 'hidden' so it is mounted immediately. Its useEffect (BookingSection.jsx line 34-80) reads ?pagamento, fires toast, and calls window.history.replaceState('', '', pathname + '#prenota'), REMOVING the query string. React runs child effects before parent effects, so TabExplorer's own useEffect (which also reads window.location.search) sees an empty search and never calls setActive('prenota'). Reproduction: load /?pagamento=annullato -> toast appears, URL becomes /#prenota, Prenota tab button classes remain 'border-terracotta/40 bg-terracotta/10' (inactive state). Mitigation: initialise active state via lazy useState initializer that reads the param, OR dispatch open-tab event from BookingSection before replaceState."
+}

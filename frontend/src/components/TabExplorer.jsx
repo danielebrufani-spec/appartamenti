@@ -30,12 +30,13 @@ const ALL_IDS = [...APT_TABS.map((x) => x.id), ...INFO_TABS.map((x) => x.id), "p
 
 export default function TabExplorer() {
   const { t } = useLanguage();
-  const [active, setActive] = useState("brufani");
+  const [active, setActive] = useState(() =>
+    new URLSearchParams(window.location.search).get("pagamento") ? "prenota" : "brufani"
+  );
   const rootRef = useRef(null);
   const contentRef = useRef(null);
 
   useEffect(() => {
-    if (new URLSearchParams(window.location.search).get("pagamento")) setActive("prenota");
     const handler = (e) => {
       if (!ALL_IDS.includes(e.detail)) return;
       setActive(e.detail);

@@ -81,3 +81,13 @@ Sito web per trovare clienti per due appartamenti in affitto ad Assisi (Appartam
 - Consigliato all'utente di creare Google Business Profile (azione manuale sua) — istruzioni date in chat.
 - Backlog SEO: pagina guida "Dove dormire ad Assisi", backlink locali, GBP posts.
 
+
+
+## Aggiornamento 2026-10-04 (menu verticale)
+- Utente: barra tab orizzontale poco intuitiva, la maggior parte naviga da telefono; vuole tutto in verticale e che sia chiaro che ci sono DUE unità abitative diverse.
+- TabExplorer riscritto: menu verticale — sidebar sticky 320px su desktop, lista in colonna su mobile. Gruppo "I NOSTRI APPARTAMENTI" con 2 card (foto+nome+tagline+specs: Brufani trilocale 65m²/4osp/€110 vs Brufani Due monolocale 40m²/3osp/€90), gruppo "Esplora" (perche/galleria/posizione/recensioni), bottone Prenota evidenziato. Su mobile il tap scorre al contenuto.
+- ApartmentPanel: link "Guarda anche" (apartment-switch-*) verso l'altra unità; padding ridotto per la colonna.
+- i18n: aggiunti tabs.explore e apartments.alsoSee in IT/EN/DE/ES.
+- FIX regressione: ritorno Stripe ?pagamento=... — il parametro ora viene letto nel lazy initializer di useState in TabExplorer (BookingSection lo rimuoveva dall'URL prima che il padre lo leggesse).
+- Test: iteration_7.json (menu verticale OK desktop/mobile, i18n OK, switch appartamenti OK; unica regressione trovata = quella Stripe, ora fixata e verificata con screenshot).
+- DA FARE: "Save -> Save to GitHub" per aggiornare il live.
