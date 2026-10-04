@@ -58,4 +58,18 @@ Sito web per trovare clienti per due appartamenti in affitto ad Assisi (Appartam
 - Usare SEMPRE yarn (mai npm) nel frontend
 - Non toccare REACT_APP_BACKEND_URL in frontend/.env (gestito da Vercel)
 - Backend raggiungibile via REACT_APP_BACKEND_URL + /api
+
+## Aggiornamento 2026-10-04 (notte) — Redesign a TAB
+- Richiesta utente: sito "più moderno, più colorato, più consultabile", esplorazione a schede tab invece di lungo scroll verticale. Stile scelto: moderno luminoso (glassmorphism), contenuti invariati.
+- Blueprint design in /app/design_guidelines.json.
+- Nuova architettura frontend:
+  - TabExplorer.jsx: barra tab sticky in vetro sotto header (7 tab: brufani, brufanidue, perche, galleria, posizione, recensioni, prenota), pannelli con transizioni Framer Motion. BookingSection sempre montato (hidden se inattivo) per preservare stato/listener Stripe.
+  - ApartmentPanel.jsx: singolo appartamento (sostituisce Apartments.jsx, eliminato). CTA dispatcha 'select-apartment' + 'open-tab'.
+  - Header/Hero: navigazione via evento window 'open-tab' (niente più scroll ancore).
+  - i18n.js: nuovo blocco `tabs` in IT/EN/DE/ES.
+  - Ritorno da Stripe (?pagamento=...) attiva automaticamente il tab Prenota.
+  - Gallery.jsx (prima inutilizzata) ora nel tab Galleria.
+- Test: iteration_6.json — 100% pass (tutti i tab, preselezione appartamento, lingue, mobile 390px, check-in page non toccata, backend /api/availability OK).
+- DA FARE: utente deve cliccare "Save -> Save to GitHub" per aggiornare il sito live.
+
 - Rispondere sempre in italiano

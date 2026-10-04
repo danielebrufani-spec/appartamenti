@@ -31,6 +31,7 @@ export default function TabExplorer() {
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get("pagamento")) setActive("prenota");
     const handler = (e) => {
+      if (!TABS.some((tab) => tab.id === e.detail)) return;
       setActive(e.detail);
       requestAnimationFrame(() => rootRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
     };
