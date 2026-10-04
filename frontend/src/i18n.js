@@ -15,7 +15,7 @@ const translations = {
       line1: "La tua casa",
       line2: "ad Assisi,",
       line3: "senza intermediari.",
-      sub: "Due appartamenti con giardino e parcheggio a Santa Maria degli Angeli, a 5 minuti a piedi dalla Basilica e a 3 km dal centro di Assisi. Prenota direttamente con noi: zero commissioni e miglior prezzo garantito.",
+      sub: "Due appartamenti con parcheggio privato a Santa Maria degli Angeli, a 5 minuti a piedi dalla Basilica e a 3 km dal centro di Assisi. Prenota direttamente con noi: zero commissioni e miglior prezzo garantito.",
       ctaPrimary: "Verifica Disponibilità",
       ctaSecondary: "Scopri gli Appartamenti",
       widgetTitle: "Esempio · 3 notti all'Appartamento Brufani",
@@ -28,7 +28,7 @@ const translations = {
     apartments: {
       eyebrow: "I Nostri Appartamenti",
       title: "Due appartamenti, un'accoglienza di famiglia",
-      sub: "A 5 minuti a piedi dalla Basilica di Santa Maria degli Angeli, con giardino e parcheggio. Scegli l'appartamento perfetto per il tuo soggiorno.",
+      sub: "A 5 minuti a piedi dalla Basilica di Santa Maria degli Angeli, entrambi con parcheggio privato. Scegli l'appartamento perfetto per il tuo soggiorno.",
       guests: "ospiti",
       night: "notte",
       from: "da",
@@ -37,7 +37,7 @@ const translations = {
         name: "Appartamento Brufani",
         tagline: "Trilocale con giardino privato",
         badge: "Giardino Privato",
-        desc: "Trilocale di 65 m² al piano terra con due camere da letto, due bagni (di cui uno in camera) e soggiorno con angolo cottura. Giardino privato adiacente e posto auto gratuito.",
+        desc: "Trilocale di 65 m² al piano terra con due camere da letto, due bagni (di cui uno in camera) e soggiorno con angolo cottura. Giardino privato adiacente a uso esclusivo e posto auto gratuito.",
         amenities: ["2 camere da letto", "2 bagni (1 in camera)", "Giardino privato", "Parcheggio gratuito", "Wi-Fi e aria condizionata", "Animali benvenuti"],
       },
       brufanidue: {
@@ -53,7 +53,7 @@ const translations = {
       title: "Perché prenotare diretto conviene",
       cards: [
         { title: "Zero commissioni", desc: "Niente costi di servizio: il prezzo che vedi è quello che paghi. Lo stesso soggiorno sui portali costa circa il 15% in più." },
-        { title: "Vino umbro in omaggio", desc: "Ad accoglierti troverai una bottiglia di vino locale e i nostri consigli sui posti migliori di Assisi." },
+        { title: "Parcheggio gratuito", desc: "Posto auto privato incluso per entrambi gli appartamenti: arrivi, parcheggi davanti a casa e visiti Assisi senza pensieri." },
         { title: "Contatto diretto", desc: "Parli direttamente con noi, senza call center: risposte rapide e consigli da chi vive Assisi ogni giorno." },
         { title: "Check-in flessibile", desc: "Arrivi tardi? Parti presto? Con la prenotazione diretta ci organizziamo insieme, senza rigidità." },
       ],
@@ -113,7 +113,7 @@ const translations = {
       noPayment: "Nessun pagamento ora: confermiamo prima la disponibilità.",
     },
     footer: {
-      tagline: "Due appartamenti con giardino a Santa Maria degli Angeli. Prenota diretto, vivi autentico.",
+      tagline: "Due appartamenti con parcheggio privato a Santa Maria degli Angeli. Prenota diretto, vivi autentico.",
       contacts: "Contatti",
       address: "Via Risorgimento 27/A e 29, 06081 Santa Maria degli Angeli, Assisi (PG)",
       license: "Licenza IT054001C27A035224",
@@ -130,7 +130,7 @@ const translations = {
       line1: "Your home",
       line2: "in Assisi,",
       line3: "no middlemen.",
-      sub: "Two apartments with garden and parking in Santa Maria degli Angeli, a 5-minute walk from the Basilica and 3 km from the center of Assisi. Book directly with us: zero commissions, best price guaranteed.",
+      sub: "Two apartments with private parking in Santa Maria degli Angeli, a 5-minute walk from the Basilica and 3 km from the center of Assisi. Book directly with us: zero commissions, best price guaranteed.",
       ctaPrimary: "Check Availability",
       ctaSecondary: "Discover the Apartments",
       widgetTitle: "Example · 3 nights at Appartamento Brufani",
@@ -143,7 +143,7 @@ const translations = {
     apartments: {
       eyebrow: "Our Apartments",
       title: "Two apartments, a family welcome",
-      sub: "A 5-minute walk from the Basilica of Saint Mary of the Angels, with garden and parking. Choose the perfect apartment for your stay.",
+      sub: "A 5-minute walk from the Basilica of Saint Mary of the Angels, both with private parking. Choose the perfect apartment for your stay.",
       guests: "guests",
       night: "night",
       from: "from",
@@ -152,7 +152,7 @@ const translations = {
         name: "Appartamento Brufani",
         tagline: "Three-room apartment with private garden",
         badge: "Private Garden",
-        desc: "A 65 m² ground-floor three-room apartment with two bedrooms, two bathrooms (one en-suite) and a living room with kitchenette. Adjacent private garden and free parking space.",
+        desc: "A 65 m² ground-floor three-room apartment with two bedrooms, two bathrooms (one en-suite) and a living room with kitchenette. Adjacent private garden for your exclusive use and free parking space.",
         amenities: ["2 bedrooms", "2 bathrooms (1 en-suite)", "Private garden", "Free parking", "Wi-Fi & air conditioning", "Pets welcome"],
       },
       brufanidue: {
@@ -168,7 +168,7 @@ const translations = {
       title: "Why booking direct pays off",
       cards: [
         { title: "Zero commissions", desc: "No service fees: the price you see is the price you pay. The same stay costs around 15% more on the portals." },
-        { title: "Umbrian wine on us", desc: "A bottle of local wine and our tips on the best spots in Assisi will be waiting for you." },
+        { title: "Free parking", desc: "Private parking space included with both apartments: arrive, park in front of the house and explore Assisi without worries." },
         { title: "Direct contact", desc: "You talk directly with us, no call centers: fast replies and advice from people who live Assisi every day." },
         { title: "Flexible check-in", desc: "Arriving late? Leaving early? With direct booking we arrange it together, without rigidity." },
       ],
@@ -228,7 +228,7 @@ const translations = {
       noPayment: "No payment now: we confirm availability first.",
     },
     footer: {
-      tagline: "Two apartments with garden in Santa Maria degli Angeli. Book direct, live authentic.",
+      tagline: "Two apartments with private parking in Santa Maria degli Angeli. Book direct, live authentic.",
       contacts: "Contacts",
       address: "Via Risorgimento 27/A & 29, 06081 Santa Maria degli Angeli, Assisi (PG), Italy",
       license: "License IT054001C27A035224",
@@ -245,7 +245,7 @@ const translations = {
       line1: "Dein Zuhause",
       line2: "in Assisi,",
       line3: "ohne Zwischenhändler.",
-      sub: "Zwei Wohnungen mit Garten und Parkplatz in Santa Maria degli Angeli, 5 Gehminuten von der Basilika und 3 km vom Zentrum von Assisi entfernt. Buche direkt bei uns: keine Provisionen, bester Preis garantiert.",
+      sub: "Zwei Wohnungen mit privatem Parkplatz in Santa Maria degli Angeli, 5 Gehminuten von der Basilika und 3 km vom Zentrum von Assisi entfernt. Buche direkt bei uns: keine Provisionen, bester Preis garantiert.",
       ctaPrimary: "Verfügbarkeit prüfen",
       ctaSecondary: "Wohnungen entdecken",
       widgetTitle: "Beispiel · 3 Nächte im Appartamento Brufani",
@@ -258,7 +258,7 @@ const translations = {
     apartments: {
       eyebrow: "Unsere Wohnungen",
       title: "Zwei Wohnungen, familiäre Gastfreundschaft",
-      sub: "5 Gehminuten von der Basilika Santa Maria degli Angeli entfernt, mit Garten und Parkplatz. Wähle die perfekte Wohnung für deinen Aufenthalt.",
+      sub: "5 Gehminuten von der Basilika Santa Maria degli Angeli entfernt, beide mit privatem Parkplatz. Wähle die perfekte Wohnung für deinen Aufenthalt.",
       guests: "Gäste",
       night: "Nacht",
       from: "ab",
@@ -267,7 +267,7 @@ const translations = {
         name: "Appartamento Brufani",
         tagline: "Dreizimmerwohnung mit privatem Garten",
         badge: "Privater Garten",
-        desc: "65 m² große Dreizimmerwohnung im Erdgeschoss mit zwei Schlafzimmern, zwei Bädern (eines en-suite) und Wohnzimmer mit Kochnische. Angrenzender Privatgarten und kostenloser Parkplatz.",
+        desc: "65 m² große Dreizimmerwohnung im Erdgeschoss mit zwei Schlafzimmern, zwei Bädern (eines en-suite) und Wohnzimmer mit Kochnische. Angrenzender Privatgarten zur exklusiven Nutzung und kostenloser Parkplatz.",
         amenities: ["2 Schlafzimmer", "2 Bäder (1 en-suite)", "Privater Garten", "Kostenloser Parkplatz", "WLAN & Klimaanlage", "Haustiere willkommen"],
       },
       brufanidue: {
@@ -283,7 +283,7 @@ const translations = {
       title: "Warum sich Direktbuchung lohnt",
       cards: [
         { title: "Keine Provisionen", desc: "Keine Servicegebühren: Der Preis, den du siehst, ist der Preis, den du zahlst. Derselbe Aufenthalt kostet auf den Portalen etwa 15% mehr." },
-        { title: "Umbrischer Wein gratis", desc: "Eine Flasche lokalen Weins und unsere Tipps für die schönsten Orte in Assisi erwarten dich bei der Ankunft." },
+        { title: "Kostenloser Parkplatz", desc: "Privater Parkplatz bei beiden Wohnungen inklusive: ankommen, vor dem Haus parken und Assisi ohne Sorgen erkunden." },
         { title: "Direkter Kontakt", desc: "Du sprichst direkt mit uns, ohne Callcenter: schnelle Antworten und Ratschläge von Menschen, die Assisi jeden Tag leben." },
         { title: "Flexibler Check-in", desc: "Späte Ankunft? Frühe Abreise? Bei Direktbuchung stimmen wir das gemeinsam ab, ganz ohne Starrheit." },
       ],
@@ -343,7 +343,7 @@ const translations = {
       noPayment: "Jetzt keine Zahlung: Wir bestätigen zuerst die Verfügbarkeit.",
     },
     footer: {
-      tagline: "Zwei Wohnungen mit Garten in Santa Maria degli Angeli. Direkt buchen, authentisch leben.",
+      tagline: "Zwei Wohnungen mit privatem Parkplatz in Santa Maria degli Angeli. Direkt buchen, authentisch leben.",
       contacts: "Kontakt",
       address: "Via Risorgimento 27/A und 29, 06081 Santa Maria degli Angeli, Assisi (PG), Italien",
       license: "Lizenz IT054001C27A035224",
@@ -360,7 +360,7 @@ const translations = {
       line1: "Tu casa",
       line2: "en Assisi,",
       line3: "sin intermediarios.",
-      sub: "Dos apartamentos con jardín y aparcamiento en Santa Maria degli Angeli, a 5 minutos a pie de la Basílica y a 3 km del centro de Assisi. Reserva directamente con nosotros: cero comisiones y mejor precio garantizado.",
+      sub: "Dos apartamentos con aparcamiento privado en Santa Maria degli Angeli, a 5 minutos a pie de la Basílica y a 3 km del centro de Assisi. Reserva directamente con nosotros: cero comisiones y mejor precio garantizado.",
       ctaPrimary: "Ver Disponibilidad",
       ctaSecondary: "Descubrir los Apartamentos",
       widgetTitle: "Ejemplo · 3 noches en Appartamento Brufani",
@@ -373,7 +373,7 @@ const translations = {
     apartments: {
       eyebrow: "Nuestros Apartamentos",
       title: "Dos apartamentos, una acogida familiar",
-      sub: "A 5 minutos a pie de la Basílica de Santa María de los Ángeles, con jardín y aparcamiento. Elige el apartamento perfecto para tu estancia.",
+      sub: "A 5 minutos a pie de la Basílica de Santa María de los Ángeles, ambos con aparcamiento privado. Elige el apartamento perfecto para tu estancia.",
       guests: "huéspedes",
       night: "noche",
       from: "desde",
@@ -382,7 +382,7 @@ const translations = {
         name: "Appartamento Brufani",
         tagline: "Apartamento de tres ambientes con jardín privado",
         badge: "Jardín Privado",
-        desc: "Apartamento de 65 m² en planta baja con dos dormitorios, dos baños (uno en suite) y salón con cocina americana. Jardín privado adyacente y plaza de aparcamiento gratuita.",
+        desc: "Apartamento de 65 m² en planta baja con dos dormitorios, dos baños (uno en suite) y salón con cocina americana. Jardín privado adyacente de uso exclusivo y plaza de aparcamiento gratuita.",
         amenities: ["2 dormitorios", "2 baños (1 en suite)", "Jardín privado", "Aparcamiento gratuito", "Wi-Fi y aire acondicionado", "Mascotas bienvenidas"],
       },
       brufanidue: {
@@ -398,7 +398,7 @@ const translations = {
       title: "Por qué conviene reservar directo",
       cards: [
         { title: "Cero comisiones", desc: "Sin gastos de gestión: el precio que ves es el que pagas. La misma estancia cuesta alrededor de un 15% más en los portales." },
-        { title: "Vino umbro de regalo", desc: "A tu llegada te esperará una botella de vino local y nuestros consejos sobre los mejores lugares de Assisi." },
+        { title: "Aparcamiento gratuito", desc: "Plaza de aparcamiento privada incluida en ambos apartamentos: llegas, aparcas delante de casa y visitas Assisi sin preocupaciones." },
         { title: "Contacto directo", desc: "Hablas directamente con nosotros, sin call centers: respuestas rápidas y consejos de quien vive Assisi cada día." },
         { title: "Check-in flexible", desc: "¿Llegas tarde? ¿Te vas pronto? Con la reserva directa lo organizamos juntos, sin rigidez." },
       ],
@@ -458,7 +458,7 @@ const translations = {
       noPayment: "Ningún pago ahora: primero confirmamos la disponibilidad.",
     },
     footer: {
-      tagline: "Dos apartamentos con jardín en Santa Maria degli Angeli. Reserva directo, vive auténtico.",
+      tagline: "Dos apartamentos con aparcamiento privado en Santa Maria degli Angeli. Reserva directo, vive auténtico.",
       contacts: "Contacto",
       address: "Via Risorgimento 27/A y 29, 06081 Santa Maria degli Angeli, Assisi (PG), Italia",
       license: "Licencia IT054001C27A035224",

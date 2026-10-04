@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
-import { BadgePercent, Wine, MessagesSquare, CalendarClock } from "lucide-react";
+import { BadgePercent, Car, MessagesSquare, CalendarClock } from "lucide-react";
 import { useLanguage } from "@/i18n";
 
 const EASE = [0.22, 1, 0.36, 1];
-const ICONS = [BadgePercent, Wine, MessagesSquare, CalendarClock];
+const ICONS = [BadgePercent, Car, MessagesSquare, CalendarClock];
 
 export default function WhyDirect() {
   const { t } = useLanguage();
