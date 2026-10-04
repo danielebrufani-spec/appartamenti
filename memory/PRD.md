@@ -49,6 +49,12 @@ Sito web per trovare clienti per due appartamenti in affitto ad Assisi (Appartam
 - Verificato via screenshot a 375/768/1366px: header, sezione hosts e footer corretti.
 - DA FARE: l'utente deve cliccare "Save -> Save to GitHub" per aggiornare il sito live (Vercel).
 
+## Aggiornamento 2026-10-04 (sera) — Logo v2
+- L'utente ha scelto il monogramma "Essenziale" (lettere AB a tratto continuo, traversa dorata, underline terracotta su riquadro oliva, disegnato in SVG senza font).
+- Wordmark: la "A" di "Appartamenti" è terracotta e contiene "SSISI" in crema (si legge "ASSISI" dentro la A). Sottotitolo: "Holiday Apartments".
+- Classi logo: logo-name, logo-a, logo-assisi, logo-b, logo-subtitle. Footer usa override mirati ([&_.logo-name]:text-cream ecc.).
+- Rimosso file temporaneo public/logo-preview.html.
+
 - Usare SEMPRE yarn (mai npm) nel frontend
 - Non toccare REACT_APP_BACKEND_URL in frontend/.env (gestito da Vercel)
 - Backend raggiungibile via REACT_APP_BACKEND_URL + /api

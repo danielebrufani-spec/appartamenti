@@ -7,17 +7,25 @@ export function Logo({ compact = false }) {
   return (
     <a href="#top" data-testid="logo-link" className="flex items-center gap-2.5 group">
       <svg viewBox="0 0 64 64" className="w-10 h-10 rounded-xl transition-transform duration-300 group-hover:rotate-3" aria-hidden="true">
-        <rect width="64" height="64" rx="14" fill="#2C4231" />
-        <text x="32" y="38" textAnchor="middle" fontFamily="Georgia, 'Times New Roman', serif" fontWeight="700" fontSize="26" letterSpacing="1" fill="#FAF7F2">AB</text>
-        <rect x="19" y="45" width="26" height="3.5" rx="1.75" fill="#C85A32" />
+        <rect width="64" height="64" rx="16" fill="#2C4231" />
+        <path d="M13 45 L21 19 L29 45" fill="none" stroke="#FAF7F2" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M16.5 36 H25.5" stroke="#E6A15C" strokeWidth="4" strokeLinecap="round" />
+        <path d="M36 19 V45" fill="none" stroke="#FAF7F2" strokeWidth="4" strokeLinecap="round" />
+        <path d="M36 19 h6.5 a6.5 6.5 0 0 1 0 13 H36" fill="none" stroke="#FAF7F2" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M36 32 h8 a6.5 6.5 0 0 1 0 13 H36" fill="none" stroke="#FAF7F2" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M13 53 H51" stroke="#C85A32" strokeWidth="3.5" strokeLinecap="round" />
       </svg>
       {!compact && (
         <span className="flex flex-col leading-none">
-          <span className="font-serif text-xl font-semibold tracking-tight text-ink">
-            Appartamenti <span className="text-terracotta">Brufani</span>
+          <span className="logo-name font-serif text-xl font-semibold tracking-tight text-ink">
+            <span className="logo-a relative inline-block text-terracotta">
+              A
+              <span className="logo-assisi absolute left-1/2 top-[47%] -translate-x-1/2 -translate-y-1/2 font-sans font-bold text-[0.32em] tracking-[0.26em] indent-[0.26em] text-cream whitespace-nowrap">SSISI</span>
+            </span>
+            ppartamenti <span className="logo-b text-terracotta">Brufani</span>
           </span>
           <span className="logo-subtitle hidden sm:block text-[10px] font-semibold tracking-[0.22em] uppercase text-ink/45 mt-1.5">
-            Holiday Apartments · Assisi
+            Holiday Apartments
           </span>
         </span>
       )}
