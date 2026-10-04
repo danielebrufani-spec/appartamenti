@@ -115,3 +115,9 @@ Sito web per trovare clienti per due appartamenti in affitto ad Assisi (Appartam
 - Nuova scheda "Consigli" (Consigli.jsx) nel menu verticale: contiene i 4 servizi consigliati (Elide, Porcellino Divino, Emi, Angelucci) spostati fuori da Location.jsx. i18n: tabs.consigli in 4 lingue.
 - Posizione ora contiene SOLO posizione appartamento + distanze POI principali + mappa: Basilica SMA, Stazione, Basilica di San Francesco (aggiunta, 3,5 km), Centro storico, Aeroporto (rimosso Emi dall'elenco, è in Consigli).
 - FAQ spostate in fondo alla scheda "Perché Diretto" (visibili, JSON-LD invariato).
+
+## Aggiornamento 2026-10-04 (foto piatti Consigli)
+- Trattoria Da Elide: 5 foto piatti reali in /images/consigli/elide-1..5.webp (bistecca era screenshot TripAdvisor: ritagliata via UI telefono).
+- Porcellino Divino: 5 foto in /images/consigli/porcellino-1..5.webp (rimossi badge TripAdvisor dal tagliere, cuoricini decorativi dal tagliere salumi, scritta dalla Focaccia Linda).
+- Consigli.jsx: ServicePhotos carousel per card (frecce + contatore + zoom lightbox fullscreen via createPortal su document.body — necessario perché motion.article trasformato rompe position:fixed; NIENTE AnimatePresence attorno al portale, non traccia i portal).
+
