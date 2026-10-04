@@ -38,7 +38,9 @@ export default function Hero() {
             data-testid={i === bg ? "hero-image" : undefined}
           />
         ))}
-        <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/35 to-ink/20" />
+        <div className="absolute inset-0 bg-ink/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/45 to-ink/25" />
+        <div className="absolute inset-0 bg-gradient-to-r from-ink/55 via-ink/20 to-transparent" />
       </motion.div>
 
       <motion.div style={{ opacity: fade }} className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-8 pb-16 sm:pb-24 pt-36">
@@ -47,12 +49,12 @@ export default function Hero() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.7, ease: EASE }}
-          className="text-xs sm:text-sm font-semibold tracking-[0.25em] uppercase text-gold mb-6"
+          className="text-xs sm:text-sm font-semibold tracking-[0.25em] uppercase text-gold mb-6 [text-shadow:0_1px_10px_rgba(0,0,0,0.8)]"
         >
           {t.hero.eyebrow}
         </motion.p>
 
-        <h1 data-testid="hero-headline" className="font-serif text-cream text-5xl sm:text-6xl lg:text-[5.5rem] leading-[1.02] tracking-tight max-w-4xl [text-shadow:0_2px_30px_rgba(0,0,0,0.55)]">
+        <h1 data-testid="hero-headline" className="font-serif text-cream text-5xl sm:text-6xl lg:text-[5.5rem] leading-[1.02] tracking-tight max-w-4xl [text-shadow:0_2px_24px_rgba(0,0,0,0.75)]">
           {lines.map((line, i) => (
             <span key={i} className="block overflow-hidden pb-1">
               <motion.span
@@ -72,7 +74,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.9, duration: 0.8, ease: EASE }}
-          className="mt-6 max-w-xl text-base sm:text-lg text-cream/85 leading-relaxed"
+          className="mt-6 max-w-xl text-base sm:text-lg text-cream/90 leading-relaxed [text-shadow:0_1px_14px_rgba(0,0,0,0.75)]"
         >
           {t.hero.sub}
         </motion.p>
@@ -105,7 +107,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.25, duration: 0.9, ease: EASE }}
-          className="mt-12 max-w-md rounded-2xl bg-cream/10 backdrop-blur-md border border-cream/20 p-5"
+          className="mt-12 max-w-md rounded-2xl bg-ink/45 backdrop-blur-md border border-cream/25 p-5"
         >
           <div className="flex items-center gap-2 mb-3">
             <ShieldCheck size={16} className="text-gold" />
