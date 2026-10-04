@@ -127,6 +127,24 @@ export default function Location() {
             })}
           </div>
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.8, ease: EASE }}
+          className="mt-16"
+        >
+          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-gold mb-5">{l.mapTitle}</p>
+          <iframe
+            title="Mappa — Appartamenti Brufani, Via Risorgimento 27/A e 29, Santa Maria degli Angeli"
+            data-testid="google-map-embed"
+            src="https://maps.google.com/maps?q=Via%20Risorgimento%2027%2FA%2C%2006081%20Santa%20Maria%20degli%20Angeli%20PG%2C%20Italia&z=16&output=embed"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            className="w-full h-80 sm:h-96 rounded-3xl border border-cream/15 shadow-2xl"
+          />
+        </motion.div>
       </div>
     </section>
   );

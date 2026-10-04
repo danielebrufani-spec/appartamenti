@@ -21,6 +21,8 @@ Sito web per trovare clienti per due appartamenti in affitto ad Assisi (Appartam
 - 2026-10-04: Foto REALE della Basilica di Santa Maria degli Angeli da Wikimedia Commons (basilica-sma.webp, credito CC BY-SA in footer) — le foto stock Unsplash erano di San Giovanni Rotondo/San Francesco, scartate
 - 2026-10-04: Footer con doppia licenza: IT054001C27A035224 · IT054001C21A037467
 - 2026-10-04: Rimossa foto duplicata dalla galleria trilocale
+- 2026-10-04: SEO completo: title/description keyword-first ("appartamento Santa Maria degli Angeli"), meta keywords, Open Graph + Twitter card, JSON-LD LodgingBusiness con geo (43.0616, 12.5765); titolo e meta description cambiano dinamicamente con la lingua (chiave seo in i18n.js + LanguageProvider)
+- 2026-10-04: Mappa Google interattiva (iframe embed, senza API key) nella sezione zona con pin su Via Risorgimento 27/A — chiave i18n: location.mapTitle
 - Sessioni precedenti: deploy Vercel/Render/Atlas, fix dipendenze React 19 per npm/Vercel, logica prezzi (diretto = totale standard, OTA +15%), galleria trilocale con foto reali, testi aggiornati (giardino solo trilocale, parcheggio entrambi, rimosso vino omaggio)
 
 ## Backlog prioritizzato

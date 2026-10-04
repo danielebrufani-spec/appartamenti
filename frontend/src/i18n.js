@@ -10,6 +10,10 @@ export const LANGUAGES = [
 const translations = {
   it: {
     nav: { apartments: "Gli Appartamenti", why: "Prenota Diretto", gallery: "Galleria", location: "Dove Siamo", reviews: "Recensioni", book: "Prenota Ora" },
+    seo: {
+      title: "Appartamenti a Santa Maria degli Angeli, Assisi | Appartamenti Brufani",
+      desc: "Due appartamenti in affitto a Santa Maria degli Angeli, a 600 metri dalla Basilica: trilocale con giardino privato e monolocale con parcheggio. Prenota diretto: zero commissioni, miglior prezzo garantito.",
+    },
     hero: {
       eyebrow: "Santa Maria degli Angeli · Assisi · Umbria",
       line1: "La tua casa",
@@ -71,6 +75,7 @@ const translations = {
         { name: "Aeroporto di Perugia", dist: "12 km · 15 min in auto" },
       ],
       map: "Apri in Google Maps",
+      mapTitle: "Siamo qui",
       servicesEyebrow: "Consigliati da noi",
       servicesTitle: "I nostri indirizzi di fiducia in zona",
       services: [
@@ -144,6 +149,10 @@ const translations = {
   },
   en: {
     nav: { apartments: "The Apartments", why: "Book Direct", gallery: "Gallery", location: "Location", reviews: "Reviews", book: "Book Now" },
+    seo: {
+      title: "Apartments in Santa Maria degli Angeli, Assisi | Appartamenti Brufani",
+      desc: "Two holiday apartments in Santa Maria degli Angeli, 600 m from the Basilica: three-room flat with private garden and studio with parking. Book direct: zero fees, best price guaranteed.",
+    },
     hero: {
       eyebrow: "Santa Maria degli Angeli · Assisi · Umbria",
       line1: "Your home",
@@ -205,6 +214,7 @@ const translations = {
         { name: "Perugia Airport", dist: "12 km · 15 min by car" },
       ],
       map: "Open in Google Maps",
+      mapTitle: "Find us here",
       servicesEyebrow: "Recommended by us",
       servicesTitle: "Our trusted addresses nearby",
       services: [
@@ -278,6 +288,10 @@ const translations = {
   },
   de: {
     nav: { apartments: "Die Wohnungen", why: "Direkt buchen", gallery: "Galerie", location: "Lage", reviews: "Bewertungen", book: "Jetzt buchen" },
+    seo: {
+      title: "Ferienwohnungen in Santa Maria degli Angeli, Assisi | Appartamenti Brufani",
+      desc: "Zwei Ferienwohnungen in Santa Maria degli Angeli, 600 m von der Basilika: Dreizimmerwohnung mit privatem Garten und Studio mit Parkplatz. Direkt buchen: keine Provisionen, Bestpreis garantiert.",
+    },
     hero: {
       eyebrow: "Santa Maria degli Angeli · Assisi · Umbrien",
       line1: "Dein Zuhause",
@@ -339,6 +353,7 @@ const translations = {
         { name: "Flughafen Perugia", dist: "12 km · 15 Min. mit dem Auto" },
       ],
       map: "In Google Maps öffnen",
+      mapTitle: "Hier sind wir",
       servicesEyebrow: "Von uns empfohlen",
       servicesTitle: "Unsere Lieblingsadressen in der Nähe",
       services: [
@@ -412,6 +427,10 @@ const translations = {
   },
   es: {
     nav: { apartments: "Los Apartamentos", why: "Reserva Directa", gallery: "Galería", location: "Ubicación", reviews: "Opiniones", book: "Reservar" },
+    seo: {
+      title: "Apartamentos en Santa Maria degli Angeli, Assisi | Appartamenti Brufani",
+      desc: "Dos apartamentos vacacionales en Santa Maria degli Angeli, a 600 m de la Basílica: tres ambientes con jardín privado y estudio con aparcamiento. Reserva directa: cero comisiones, mejor precio garantizado.",
+    },
     hero: {
       eyebrow: "Santa Maria degli Angeli · Assisi · Umbría",
       line1: "Tu casa",
@@ -473,6 +492,7 @@ const translations = {
         { name: "Aeropuerto de Perugia", dist: "12 km · 15 min en coche" },
       ],
       map: "Abrir en Google Maps",
+      mapTitle: "Encuéntranos aquí",
       servicesEyebrow: "Recomendados por nosotros",
       servicesTitle: "Nuestras direcciones de confianza en la zona",
       services: [
@@ -554,6 +574,8 @@ export function LanguageProvider({ children }) {
   useEffect(() => {
     localStorage.setItem("ra-lang", lang);
     document.documentElement.lang = lang;
+    document.title = translations[lang].seo.title;
+    document.querySelector('meta[name="description"]')?.setAttribute("content", translations[lang].seo.desc);
   }, [lang]);
 
   const value = { lang, setLang, t: translations[lang] };
