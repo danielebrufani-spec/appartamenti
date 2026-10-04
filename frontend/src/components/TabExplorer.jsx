@@ -8,6 +8,7 @@ import WhyDirect from "@/components/WhyDirect";
 import Hosts from "@/components/Hosts";
 import Gallery from "@/components/Gallery";
 import Location from "@/components/Location";
+import Faq from "@/components/Faq";
 import Reviews from "@/components/Reviews";
 import BookingSection from "@/components/BookingSection";
 
@@ -54,7 +55,12 @@ export default function TabExplorer() {
       </>
     ),
     galleria: <Gallery />,
-    posizione: <Location />,
+    posizione: (
+      <>
+        <Location />
+        <Faq />
+      </>
+    ),
     recensioni: <Reviews />,
   };
 

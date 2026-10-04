@@ -73,3 +73,11 @@ Sito web per trovare clienti per due appartamenti in affitto ad Assisi (Appartam
 - DA FARE: utente deve cliccare "Save -> Save to GitHub" per aggiornare il sito live.
 
 - Rispondere sempre in italiano
+
+## Aggiornamento 2026-10-04 (SEO FAQ)
+- Utente: "quando cerca su google appartamento assisi non compaio" → verificato: il sito È indicizzato (www.appartamentibrufani.it trovato su Google), il problema è il posizionamento (chiave molto competitiva, dominio giovane).
+- Aggiunta sezione FAQ (Faq.jsx, accordion shadcn) in fondo al tab Posizione, 6 Q&A mirate a long-tail keyword ("dove dormire ad Assisi con parcheggio gratuito" ecc.), tradotte IT/EN/DE/ES (blocco `faq` in i18n.js).
+- Aggiunto JSON-LD FAQPage statico (IT) in public/index.html.
+- Consigliato all'utente di creare Google Business Profile (azione manuale sua) — istruzioni date in chat.
+- Backlog SEO: pagina guida "Dove dormire ad Assisi", backlink locali, GBP posts.
+
