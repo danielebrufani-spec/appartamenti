@@ -43,6 +43,13 @@ APARTMENTS = {
 CITY_TAX_PER_PERSON_NIGHT = 3
 CITY_TAX_MAX_NIGHTS = 3
 
+MESI_IT = ["gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno",
+           "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"]
+
+
+def _fmt_data_it(d: date) -> str:
+    return f"{d.day} {MESI_IT[d.month - 1]} {d.year}"
+
 # ---------- Email guardrail gate (G2/G3) ----------
 _SHORTENERS = ("bit.ly", "tinyurl.com", "t.co", "is.gd", "cutt.ly", "goo.gl", "rebrand.ly")
 _CRED_ASK = ("reply with your password", "reply with the code", "send your password", "cvv",
@@ -287,8 +294,8 @@ async def create_booking_request(payload: BookingRequestCreate):
         subject = f"Nuova richiesta di prenotazione - {apt['name']}"
         rows = "".join([
             f"<tr><td style='padding:6px 12px;color:#6E7570'>Appartamento</td><td style='padding:6px 12px'><strong>{escape(apt['name'])}</strong></td></tr>",
-            f"<tr><td style='padding:6px 12px;color:#6E7570'>Check-in</td><td style='padding:6px 12px'>{payload.check_in.isoformat()}</td></tr>",
-            f"<tr><td style='padding:6px 12px;color:#6E7570'>Check-out</td><td style='padding:6px 12px'>{payload.check_out.isoformat()}</td></tr>",
+            f"<tr><td style='padding:6px 12px;color:#6E7570'>Check-in</td><td style='padding:6px 12px'>{_fmt_data_it(payload.check_in)}</td></tr>",
+            f"<tr><td style='padding:6px 12px;color:#6E7570'>Check-out</td><td style='padding:6px 12px'>{_fmt_data_it(payload.check_out)}</td></tr>",
             f"<tr><td style='padding:6px 12px;color:#6E7570'>Ospiti</td><td style='padding:6px 12px'>{payload.guests}</td></tr>",
             f"<tr><td style='padding:6px 12px;color:#6E7570'>Nome</td><td style='padding:6px 12px'>{escape(payload.name)}</td></tr>",
             f"<tr><td style='padding:6px 12px;color:#6E7570'>Email</td><td style='padding:6px 12px'>{escape(payload.email)}</td></tr>",
@@ -296,8 +303,10 @@ async def create_booking_request(payload: BookingRequestCreate):
             f"<tr><td style='padding:6px 12px;color:#6E7570'>Messaggio</td><td style='padding:6px 12px'>{escape(payload.message or '-')}</td></tr>",
             f"<tr><td style='padding:6px 12px;color:#6E7570'>Notti</td><td style='padding:6px 12px'>{nights}</td></tr>",
             f"<tr><td style='padding:6px 12px;color:#6E7570'>Tariffa a notte</td><td style='padding:6px 12px'>&euro;{nightly}</td></tr>",
-            f"<tr><td style='padding:6px 12px;color:#6E7570'>Tassa di soggiorno</td><td style='padding:6px 12px'>&euro;{city_tax}</td></tr>",
-            f"<tr><td style='padding:6px 12px;color:#6E7570'>Totale diretto</td><td style='padding:6px 12px'><strong>&euro;{direct_total}</strong> (portali: &euro;{ota_total})</td></tr>",
+            f"<tr><td style='padding:6px 12px;color:#6E7570'>Soggiorno</td><td style='padding:6px 12px'>{nights} notti x &euro;{nightly} = &euro;{stay}</td></tr>",
+            f"<tr><td style='padding:6px 12px;color:#6E7570'>Sconto prenotazione diretta -15%</td><td style='padding:6px 12px'>- &euro;{stay - direct_stay}</td></tr>",
+            f"<tr><td style='padding:6px 12px;color:#6E7570'>Tassa di soggiorno</td><td style='padding:6px 12px'>&euro;{city_tax} (da versare al Comune)</td></tr>",
+            f"<tr><td style='padding:6px 12px;color:#6E7570'>Totale ospite</td><td style='padding:6px 12px'><strong>&euro;{direct_total}</strong> (sui portali: &euro;{ota_total})</td></tr>",
         ])
         html = (
             "<table role='presentation' width='100%'><tr><td style='padding:24px;font-family:Arial,sans-serif'>"
