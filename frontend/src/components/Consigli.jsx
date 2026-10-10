@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
-import { MapPin, Star, UtensilsCrossed, Bike, Sandwich, ShoppingCart, Footprints, Car, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { MapPin, Star, UtensilsCrossed, Bike, Sandwich, ShoppingCart, Footprints, Car, ChevronLeft, ChevronRight, X, Swords, Castle } from "lucide-react";
 import { useLanguage } from "@/i18n";
 import { AREA_IMAGES } from "@/data";
 
@@ -180,6 +180,65 @@ export default function Consigli() {
             );
           })}
         </div>
+
+        <motion.div
+          data-testid="medieval-section"
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.8, ease: EASE }}
+          className="mt-16 sm:mt-20 rounded-3xl border-2 border-gold/40 bg-cream/[0.05] backdrop-blur-sm p-7 sm:p-10"
+        >
+          <div className="flex flex-col sm:flex-row gap-7 sm:gap-10">
+            <div className="sm:w-64 shrink-0">
+              <img
+                src="/images/hosts/oliviero.webp"
+                alt="Oliviero"
+                data-testid="medieval-oliviero-photo"
+                loading="lazy"
+                className="w-28 h-28 sm:w-36 sm:h-36 rounded-full object-cover ring-4 ring-gold/30"
+              />
+              <p className="mt-5 inline-flex items-center gap-1.5 text-xs font-semibold tracking-[0.22em] uppercase text-gold">
+                <Swords size={14} /> {l.medieval.eyebrow}
+              </p>
+              <h3 className="mt-3 font-serif text-2xl sm:text-3xl text-cream">{l.medieval.title}</h3>
+              <p className="mt-3 text-sm text-cream/70 leading-relaxed">{l.medieval.desc}</p>
+            </div>
+            <div className="flex-1 grid sm:grid-cols-2 gap-4" data-testid="medieval-spots">
+              {l.medieval.spots.map((spot, i) => (
+                <div key={spot.name} data-testid={`medieval-spot-${i}`} className="rounded-2xl bg-cream/[0.06] border border-cream/10 p-5">
+                  <p className="font-serif text-lg font-semibold text-gold">{spot.name}</p>
+                  <p className="mt-1.5 text-sm text-cream/70 leading-relaxed">{spot.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.div
+          data-testid="nearby-section"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.8, ease: EASE }}
+          className="mt-16 sm:mt-20"
+        >
+          <p className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-[0.25em] uppercase text-gold mb-4">
+            <Castle size={14} /> {l.nearby.eyebrow}
+          </p>
+          <h3 className="font-serif text-3xl sm:text-4xl tracking-tight text-cream">{l.nearby.title}</h3>
+          <div className="mt-8 grid sm:grid-cols-2 gap-4" data-testid="nearby-towns">
+            {l.nearby.towns.map((town, i) => (
+              <div key={town.name} data-testid={`nearby-town-${i}`} className="rounded-2xl bg-cream/[0.06] border border-cream/15 p-5 flex flex-col gap-2">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="font-serif text-xl font-semibold text-cream">{town.name}</p>
+                  <span className="shrink-0 rounded-full bg-gold/15 text-gold text-[11px] font-semibold px-3 py-1.5">{town.dist}</span>
+                </div>
+                <p className="text-sm text-cream/70 leading-relaxed">{town.desc}</p>
+              </div>
+            ))}
+          </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -128,5 +128,10 @@ Sito web per trovare clienti per due appartamenti in affitto ad Assisi (Appartam
 ## Aggiornamento 2026-10-04 (distanza Basilica)
 - Corretta distanza Basilica Santa Maria degli Angeli: 400 metri (era 600) e 5 min a piedi (era 8), in tutti i testi IT/EN/DE/ES (hero, marquee, appartamenti, FAQ, posizione) e in index.html (meta description, og, JSON-LD).
 
+## Aggiornamento 2026-10-10 (itinerari medievali + borghi + favicon)
+- Consigli.jsx: aggiunta sezione "L'Angolo di Oliviero" (foto Oliviero + 4 spot medievali: Rocca Maggiore, Tempio di Minerva, Basilica San Francesco, Eremo delle Carceri) e sezione "Nei Dintorni" (Spello 10km, Collepino 14km, Bevagna 20km, Perugia 22km). i18n: blocchi location.medieval e location.nearby in IT/EN/DE/ES.
+- favicon.svg sostituita con il monogramma AB (era il vecchio logo ad arco).
+
+
 
 

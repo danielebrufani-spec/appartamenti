@@ -141,6 +141,27 @@ const translations = {
           desc: "A pochi passi da casa, sulla nostra stessa via: noleggio di bici ed e-bike con itinerari verso il Monte Subasio e la Valle Umbra. Il modo più bello per esplorare i dintorni di Assisi. Tel. 393 130 4680",
         },
       ],
+      medieval: {
+        eyebrow: "L'Angolo di Oliviero",
+        title: "Itinerari medievali e d'arte",
+        desc: "Oliviero — maestro d'armi e costruttore di armi medievali — conosce l'Assisi medievale come pochi. Al vostro arrivo chiedetegli un aneddoto: nel frattempo, ecco i suoi imperdibili.",
+        spots: [
+          { name: "Rocca Maggiore", desc: "La fortezza che domina Assisi: mura, torri e una vista sulla Valle Umbra che vale la salita." },
+          { name: "Tempio di Minerva", desc: "In Piazza del Comune: colonne romane e facciata rinascimentale, nel cuore della città medievale." },
+          { name: "Basilica di San Francesco", desc: "Giotto e Cimabue: il cantiere d'arte che ha cambiato per sempre la pittura medievale." },
+          { name: "Eremo delle Carceri", desc: "Nel bosco del Monte Subasio: l'eremo dove Francesco si ritirava, tra grotte e silenzio." },
+        ],
+      },
+      nearby: {
+        eyebrow: "Nei Dintorni",
+        title: "Borghi e città da vedere in giornata",
+        towns: [
+          { name: "Spello", dist: "10 km · 15 min in auto", desc: "Il borgo fiorito: vicoli lastricati, mura romane e le celebri Infiorate del Corpus Domini." },
+          { name: "Collepino", dist: "14 km · 25 min in auto", desc: "Castello medievale arroccato sul Monte Subasio, punto di partenza di sentieri panoramici." },
+          { name: "Bevagna", dist: "20 km · 25 min in auto", desc: "Una piazza medievale rimasta intatta e il Mercato delle Gaite a giugno, tra le più belle rievocazioni d'Italia." },
+          { name: "Perugia", dist: "22 km · 25 min in auto", desc: "Città etrusca e medievale: Rocca Paolina, Galleria Nazionale dell'Umbria e il centro storico tutto da vivere." },
+        ],
+      },
     },
     reviews: {
       eyebrow: "Recensioni",
@@ -384,6 +405,27 @@ const translations = {
           desc: "Just steps from home, on our very same street: bike and e-bike rental with routes towards Monte Subasio and the Umbrian Valley. The most beautiful way to explore the Assisi surroundings. Tel. +39 393 130 4680",
         },
       ],
+      medieval: {
+        eyebrow: "Oliviero's Corner",
+        title: "Medieval & art itineraries",
+        desc: "Oliviero — master-at-arms and builder of medieval weapons — knows medieval Assisi like few others. Ask him for a story when you arrive: in the meantime, here are his must-sees.",
+        spots: [
+          { name: "Rocca Maggiore", desc: "The fortress overlooking Assisi: walls, towers and a view over the Umbrian Valley worth the climb." },
+          { name: "Temple of Minerva", desc: "In Piazza del Comune: Roman columns and a Renaissance façade, in the heart of the medieval town." },
+          { name: "Basilica of Saint Francis", desc: "Giotto and Cimabue: the art site that changed medieval painting forever." },
+          { name: "Eremo delle Carceri", desc: "In the woods of Monte Subasio: the hermitage where Francis retreated, among caves and silence." },
+        ],
+      },
+      nearby: {
+        eyebrow: "Nearby",
+        title: "Villages and towns for a day trip",
+        towns: [
+          { name: "Spello", dist: "10 km · 15 min by car", desc: "The flower-filled village: paved alleys, Roman walls and the famous Infiorate flower festival." },
+          { name: "Collepino", dist: "14 km · 25 min by car", desc: "A medieval castle perched on Monte Subasio, starting point for scenic trails." },
+          { name: "Bevagna", dist: "20 km · 25 min by car", desc: "A perfectly intact medieval square and the Mercato delle Gaite in June, one of Italy's finest re-enactments." },
+          { name: "Perugia", dist: "22 km · 25 min by car", desc: "Etruscan and medieval city: Rocca Paolina, the National Gallery of Umbria and a lively historic centre." },
+        ],
+      },
     },
     reviews: {
       eyebrow: "Reviews",
@@ -627,6 +669,27 @@ const translations = {
           desc: "Nur wenige Schritte vom Haus entfernt, in derselben Straße: Fahrrad- und E-Bike-Verleih mit Touren zum Monte Subasio und ins Valle Umbra. Die schönste Art, die Umgebung von Assisi zu entdecken. Tel. +39 393 130 4680",
         },
       ],
+      medieval: {
+        eyebrow: "Olivieros Ecke",
+        title: "Mittelalter- & Kunst-Routen",
+        desc: "Oliviero — Fechtmeister und Erbauer mittelalterlicher Waffen — kennt das mittelalterliche Assisi wie kaum jemand. Fragt ihn bei eurer Ankunft nach einer Anekdote: bis dahin, hier seine Highlights.",
+        spots: [
+          { name: "Rocca Maggiore", desc: "Die Festung über Assisi: Mauern, Türme und ein Blick auf das Valle Umbra, der den Aufstieg lohnt." },
+          { name: "Minerva-Tempel", desc: "An der Piazza del Comune: römische Säulen und Renaissance-Fassade im Herzen der mittelalterlichen Stadt." },
+          { name: "Basilika San Francesco", desc: "Giotto und Cimabue: die Kunstbaustelle, die die mittelalterliche Malerei für immer verändert hat." },
+          { name: "Eremo delle Carceri", desc: "Im Wald des Monte Subasio: die Einsiedelei, in die sich Franziskus zurückzog, zwischen Grotten und Stille." },
+        ],
+      },
+      nearby: {
+        eyebrow: "In der Nähe",
+        title: "Dörfer und Städte für einen Tagesausflug",
+        towns: [
+          { name: "Spello", dist: "10 km · 15 Min. mit dem Auto", desc: "Das blumengeschmückte Dorf: gepflasterte Gassen, römische Mauern und die berühmten Infiorate-Blumenteppiche." },
+          { name: "Collepino", dist: "14 km · 25 Min. mit dem Auto", desc: "Mittelalterliche Burg auf dem Monte Subasio, Ausgangspunkt für Panoramawanderungen." },
+          { name: "Bevagna", dist: "20 km · 25 Min. mit dem Auto", desc: "Ein vollkommen erhaltener mittelalterlicher Platz und der Mercato delle Gaite im Juni, einer der schönsten Historienfeste Italiens." },
+          { name: "Perugia", dist: "22 km · 25 Min. mit dem Auto", desc: "Etruskische und mittelalterliche Stadt: Rocca Paolina, Nationalgalerie von Umbrien und eine lebendige Altstadt." },
+        ],
+      },
     },
     reviews: {
       eyebrow: "Bewertungen",
@@ -870,6 +933,27 @@ const translations = {
           desc: "A pocos pasos de casa, en nuestra misma calle: alquiler de bicis y e-bikes con rutas hacia el Monte Subasio y el Valle Umbra. La forma más bonita de explorar los alrededores de Assisi. Tel. +39 393 130 4680",
         },
       ],
+      medieval: {
+        eyebrow: "El Rincón de Oliviero",
+        title: "Itinerarios medievales y de arte",
+        desc: "Oliviero — maestro de armas y constructor de armas medievales — conoce la Assisi medieval como pocos. A vuestra llegada pedidle una anécdota: mientras tanto, aquí están sus imprescindibles.",
+        spots: [
+          { name: "Rocca Maggiore", desc: "La fortaleza que domina Assisi: murallas, torres y una vista del Valle Umbra que merece la subida." },
+          { name: "Templo de Minerva", desc: "En la Piazza del Comune: columnas romanas y fachada renacentista, en el corazón de la ciudad medieval." },
+          { name: "Basílica de San Francisco", desc: "Giotto y Cimabue: la obra de arte que cambió para siempre la pintura medieval." },
+          { name: "Eremo delle Carceri", desc: "En el bosque del Monte Subasio: la ermita donde Francisco se retiraba, entre grutas y silencio." },
+        ],
+      },
+      nearby: {
+        eyebrow: "En los Alrededores",
+        title: "Pueblos y ciudades para ver en un día",
+        towns: [
+          { name: "Spello", dist: "10 km · 15 min en coche", desc: "El pueblo florido: callejones empedrados, murallas romanas y las famosas Infiorate del Corpus Domini." },
+          { name: "Collepino", dist: "14 km · 25 min en coche", desc: "Castillo medieval encaramado en el Monte Subasio, punto de partida de senderos panorámicos." },
+          { name: "Bevagna", dist: "20 km · 25 min en coche", desc: "Una plaza medieval intacta y el Mercato delle Gaite en junio, una de las recreaciones más bellas de Italia." },
+          { name: "Perugia", dist: "22 km · 25 min en coche", desc: "Ciudad etrusca y medieval: Rocca Paolina, la Galería Nacional de Umbría y un centro histórico para vivir." },
+        ],
+      },
     },
     reviews: {
       eyebrow: "Opiniones",
