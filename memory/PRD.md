@@ -136,6 +136,10 @@ Sito web per trovare clienti per due appartamenti in affitto ad Assisi (Appartam
 - Foto reali da Wikimedia Commons (verificate a vista) in /images/borghi/: Spello (Panorama_di_Spello.jpg), Collepino (Collepino centro storico - panoramio.jpg), Bevagna (Piazza Silvestri), Perugia (Panorama Perugia). Card "Nei Dintorni" in Consigli.jsx ora con foto (TOWN_IMAGES). Footer: credit esteso ai borghi (CC BY-SA).
 
 
+## Aggiornamento 2026-10-10 (foto itinerari medievali)
+- Foto Wikimedia Commons (verificate a vista) in /images/medieval/: Rocca Maggiore, Tempio di Minerva (notturna illuminata), Basilica San Francesco (facciata con PAX), Eremo delle Carceri. Card spot in Consigli.jsx ora con foto (SPOT_IMAGES indicizzato per ordine, i nomi spot cambiano per lingua). Footer credit aggiornato.
+
+
 
 
 

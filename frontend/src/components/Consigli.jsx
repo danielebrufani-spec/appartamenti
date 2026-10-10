@@ -18,6 +18,12 @@ const TOWN_IMAGES = {
   Bevagna: "/images/borghi/bevagna.webp",
   Perugia: "/images/borghi/perugia.webp",
 };
+const SPOT_IMAGES = [
+  "/images/medieval/rocca.webp",
+  "/images/medieval/minerva.webp",
+  "/images/medieval/sanfrancesco.webp",
+  "/images/medieval/eremo.webp",
+];
 
 function ServicePhotos({ images, name, tag, Icon, sid }) {
   const [idx, setIdx] = useState(0);
@@ -212,9 +218,17 @@ export default function Consigli() {
             </div>
             <div className="flex-1 grid sm:grid-cols-2 gap-4" data-testid="medieval-spots">
               {l.medieval.spots.map((spot, i) => (
-                <div key={spot.name} data-testid={`medieval-spot-${i}`} className="rounded-2xl bg-cream/[0.06] border border-cream/10 p-5">
-                  <p className="font-serif text-lg font-semibold text-gold">{spot.name}</p>
-                  <p className="mt-1.5 text-sm text-cream/70 leading-relaxed">{spot.desc}</p>
+                <div key={spot.name} data-testid={`medieval-spot-${i}`} className="rounded-2xl bg-cream/[0.06] border border-cream/10 overflow-hidden">
+                  <img
+                    src={SPOT_IMAGES[i % SPOT_IMAGES.length]}
+                    alt={spot.name}
+                    loading="lazy"
+                    className="w-full h-32 object-cover"
+                  />
+                  <div className="p-5">
+                    <p className="font-serif text-lg font-semibold text-gold">{spot.name}</p>
+                    <p className="mt-1.5 text-sm text-cream/70 leading-relaxed">{spot.desc}</p>
+                  </div>
                 </div>
               ))}
             </div>
