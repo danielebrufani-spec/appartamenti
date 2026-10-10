@@ -132,6 +132,10 @@ Sito web per trovare clienti per due appartamenti in affitto ad Assisi (Appartam
 - Consigli.jsx: aggiunta sezione "L'Angolo di Oliviero" (foto Oliviero + 4 spot medievali: Rocca Maggiore, Tempio di Minerva, Basilica San Francesco, Eremo delle Carceri) e sezione "Nei Dintorni" (Spello 10km, Collepino 14km, Bevagna 20km, Perugia 22km). i18n: blocchi location.medieval e location.nearby in IT/EN/DE/ES.
 - favicon.svg sostituita con il monogramma AB (era il vecchio logo ad arco).
 
+## Aggiornamento 2026-10-10 (foto borghi)
+- Foto reali da Wikimedia Commons (verificate a vista) in /images/borghi/: Spello (Panorama_di_Spello.jpg), Collepino (Collepino centro storico - panoramio.jpg), Bevagna (Piazza Silvestri), Perugia (Panorama Perugia). Card "Nei Dintorni" in Consigli.jsx ora con foto (TOWN_IMAGES). Footer: credit esteso ai borghi (CC BY-SA).
+
+
 
 
 

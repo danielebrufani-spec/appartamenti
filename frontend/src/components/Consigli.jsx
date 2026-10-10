@@ -12,6 +12,12 @@ const PORCELLINO_PHOTOS = [1, 2, 3, 4, 5].map((n) => `/images/consigli/porcellin
 const SERVICE_MEDIA = [ELIDE_PHOTOS, PORCELLINO_PHOTOS, [], [AREA_IMAGES.bici]];
 const SERVICE_ICONS = [UtensilsCrossed, Sandwich, ShoppingCart, Bike];
 const SERVICE_IDS = ["elide", "porcellino", "emi", "angelucci"];
+const TOWN_IMAGES = {
+  Spello: "/images/borghi/spello.webp",
+  Collepino: "/images/borghi/collepino.webp",
+  Bevagna: "/images/borghi/bevagna.webp",
+  Perugia: "/images/borghi/perugia.webp",
+};
 
 function ServicePhotos({ images, name, tag, Icon, sid }) {
   const [idx, setIdx] = useState(0);
@@ -229,12 +235,20 @@ export default function Consigli() {
           <h3 className="font-serif text-3xl sm:text-4xl tracking-tight text-cream">{l.nearby.title}</h3>
           <div className="mt-8 grid sm:grid-cols-2 gap-4" data-testid="nearby-towns">
             {l.nearby.towns.map((town, i) => (
-              <div key={town.name} data-testid={`nearby-town-${i}`} className="rounded-2xl bg-cream/[0.06] border border-cream/15 p-5 flex flex-col gap-2">
-                <div className="flex items-center justify-between gap-3">
-                  <p className="font-serif text-xl font-semibold text-cream">{town.name}</p>
-                  <span className="shrink-0 rounded-full bg-gold/15 text-gold text-[11px] font-semibold px-3 py-1.5">{town.dist}</span>
+              <div key={town.name} data-testid={`nearby-town-${i}`} className="rounded-2xl bg-cream/[0.06] border border-cream/15 overflow-hidden flex flex-col">
+                <img
+                  src={TOWN_IMAGES[town.name]}
+                  alt={town.name}
+                  loading="lazy"
+                  className="w-full h-40 object-cover"
+                />
+                <div className="p-5 flex flex-col gap-2">
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="font-serif text-xl font-semibold text-cream">{town.name}</p>
+                    <span className="shrink-0 rounded-full bg-gold/15 text-gold text-[11px] font-semibold px-3 py-1.5">{town.dist}</span>
+                  </div>
+                  <p className="text-sm text-cream/70 leading-relaxed">{town.desc}</p>
                 </div>
-                <p className="text-sm text-cream/70 leading-relaxed">{town.desc}</p>
               </div>
             ))}
           </div>

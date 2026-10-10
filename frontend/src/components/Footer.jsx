@@ -39,7 +39,7 @@ export default function Footer() {
             {f.syncNote}
           </p>
           <p className="mt-4 text-xs text-cream/40">{f.license}</p>
-          <p className="mt-1.5 text-[11px] text-cream/30">Foto Basilica di Santa Maria degli Angeli: Wikimedia Commons (CC BY-SA)</p>
+          <p className="mt-1.5 text-[11px] text-cream/30">Foto Basilica di Santa Maria degli Angeli e borghi (Spello, Collepino, Bevagna, Perugia): Wikimedia Commons (CC BY-SA)</p>
         </div>
       </div>
       <div className="max-w-7xl mx-auto px-5 sm:px-8 mt-12 pt-7 border-t border-cream/10 flex flex-col sm:flex-row justify-between gap-3 text-xs text-cream/40">
