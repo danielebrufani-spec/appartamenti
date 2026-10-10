@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
-import { MapPin, Star, UtensilsCrossed, Bike, Sandwich, ShoppingCart, Footprints, Car, ChevronLeft, ChevronRight, X, Swords, Castle } from "lucide-react";
+import { MapPin, Star, UtensilsCrossed, Bike, Sandwich, ShoppingCart, Footprints, Car, ChevronLeft, ChevronRight, X, Swords, Castle, ExternalLink } from "lucide-react";
 import { useLanguage } from "@/i18n";
 import { AREA_IMAGES } from "@/data";
 
@@ -24,6 +24,8 @@ const SPOT_IMAGES = [
   "/images/medieval/sanfrancesco.webp",
   "/images/medieval/eremo.webp",
 ];
+
+const mapsUrl = (query) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 
 function ServicePhotos({ images, name, tag, Icon, sid }) {
   const [idx, setIdx] = useState(0);
@@ -187,6 +189,15 @@ export default function Consigli() {
                     )}
                   </div>
                   <p className="mt-3.5 text-sm text-cream/70 leading-relaxed">{s.desc}</p>
+                  <a
+                    data-testid={`service-maps-${sid}`}
+                    href={mapsUrl(`${s.name} ${s.addr} Santa Maria degli Angeli Assisi`)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-gold hover:text-cream transition-colors duration-200"
+                  >
+                    {l.mapOpen} <ExternalLink size={13} />
+                  </a>
                 </div>
               </motion.article>
             );
@@ -228,6 +239,15 @@ export default function Consigli() {
                   <div className="p-5">
                     <p className="font-serif text-lg font-semibold text-gold">{spot.name}</p>
                     <p className="mt-1.5 text-sm text-cream/70 leading-relaxed">{spot.desc}</p>
+                    <a
+                      data-testid={`medieval-maps-${i}`}
+                      href={mapsUrl(`${spot.name} Assisi`)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-gold hover:text-cream transition-colors duration-200"
+                    >
+                      {l.mapOpen} <ExternalLink size={12} />
+                    </a>
                   </div>
                 </div>
               ))}
@@ -262,6 +282,15 @@ export default function Consigli() {
                     <span className="shrink-0 rounded-full bg-gold/15 text-gold text-[11px] font-semibold px-3 py-1.5">{town.dist}</span>
                   </div>
                   <p className="text-sm text-cream/70 leading-relaxed">{town.desc}</p>
+                  <a
+                    data-testid={`nearby-maps-${i}`}
+                    href={mapsUrl(`${town.name} Umbria`)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-1 inline-flex items-center gap-1.5 text-xs font-semibold text-gold hover:text-cream transition-colors duration-200"
+                  >
+                    {l.mapOpen} <ExternalLink size={12} />
+                  </a>
                 </div>
               </div>
             ))}

@@ -139,6 +139,10 @@ Sito web per trovare clienti per due appartamenti in affitto ad Assisi (Appartam
 ## Aggiornamento 2026-10-10 (foto itinerari medievali)
 - Foto Wikimedia Commons (verificate a vista) in /images/medieval/: Rocca Maggiore, Tempio di Minerva (notturna illuminata), Basilica San Francesco (facciata con PAX), Eremo delle Carceri. Card spot in Consigli.jsx ora con foto (SPOT_IMAGES indicizzato per ordine, i nomi spot cambiano per lingua). Footer credit aggiornato.
 
+## Aggiornamento 2026-10-10 (card Consigli collegate a Google Maps)
+- Ogni card dei Consigli ha link "Apri in Google Maps" (helper mapsUrl con query nome+indirizzo): 4 servizi, 4 itinerari medievali, 4 borghi. Testid: service-maps-*, medieval-maps-*, nearby-maps-*.
+
+
 
 
 
